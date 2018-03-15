@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.Exception;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.sql.Blob;
@@ -1364,12 +1365,14 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 garansi = rs.getString("garansi");
                 lamaGaransi = String.valueOf(rs.getInt("lamagaransi"));
                 gambarRetrieve = rs.getBlob("gambar");
-                if (gambarRetrieve != null && dataGambarRetrieve.length > 0) {
-                    dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());   
+                if (gambarRetrieve != null && dataGambarRetrieve != null ) {
+                    if (dataGambarRetrieve.length > 0) {
+                        dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());
+                    }
                 }                
                 kategori = rs.getString("kategori");
             }
-        }catch(SQLException exception){
+        }catch(Exception exception){
             JOptionPane.showMessageDialog(null, "error dalam mengambil ulang data barang yang akan diupdate karena "+exception, "peringatan", JOptionPane.WARNING_MESSAGE);
        }      
         hideUnusableButton();
@@ -1405,12 +1408,16 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         jsBulan.setValue(month);
         jsHari.setValue(day);
         
-        if(dataGambarRetrieve != null && dataGambarRetrieve.length > 0) {
-            iconRetrieve=new ImageIcon(dataGambarRetrieve);
-            Image img = iconRetrieve.getImage();
-            Image newImg = img.getScaledInstance(150, 150, img.SCALE_FAST);
-            iconRetrieve = new ImageIcon(newImg);
-            LblImage.setIcon(iconRetrieve);
+        if(dataGambarRetrieve != null) {
+            if (dataGambarRetrieve.length > 0) {
+                iconRetrieve=new ImageIcon(dataGambarRetrieve);
+                Image img = iconRetrieve.getImage();
+                Image newImg = img.getScaledInstance(150, 150, img.SCALE_FAST);
+                iconRetrieve = new ImageIcon(newImg);
+                LblImage.setIcon(iconRetrieve);
+            }
+        }else {
+            LblImage.setIcon(null);
         }
         int x = (screenSize.width - this.WIDTH) / 4;
         int y = (screenSize.height - this.HEIGHT) /5;                   

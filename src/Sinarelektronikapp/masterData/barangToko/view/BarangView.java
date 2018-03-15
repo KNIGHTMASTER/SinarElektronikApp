@@ -1265,7 +1265,11 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 garansi = rs.getString("garansi");
                 lamaGaransi = String.valueOf(rs.getInt("lamagaransi"));
                 gambarRetrieve = rs.getBlob("gambar");
-                dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());               
+                if (gambarRetrieve != null) {
+                    if (gambarRetrieve.length() > 0) {
+                        dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());
+                    }
+                }
             }
         }catch(SQLException exception){
             JOptionPane.showMessageDialog(null, "error dalam mengambil ulang data barang yang akan diupdate karena "+exception, "peringatan", JOptionPane.WARNING_MESSAGE);
@@ -1301,11 +1305,16 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         jsBulan.setValue(month);
         jsHari.setValue(day);
         
-        iconRetrieve=new ImageIcon(dataGambarRetrieve);
-        Image img = iconRetrieve.getImage();
-        Image newImg = img.getScaledInstance(150, 150, img.SCALE_FAST);
-        iconRetrieve = new ImageIcon(newImg);
-        LblImage.setIcon(iconRetrieve);
+        if (dataGambarRetrieve != null) {
+            if (dataGambarRetrieve.length > 0) {
+                iconRetrieve = new ImageIcon(dataGambarRetrieve);
+                Image img = iconRetrieve.getImage();
+                Image newImg = img.getScaledInstance(150, 150, img.SCALE_FAST);
+                iconRetrieve = new ImageIcon(newImg);
+                LblImage.setIcon(iconRetrieve);
+            }
+        }
+        
         int x = (screenSize.width - this.WIDTH) / 4;
         int y = (screenSize.height - this.HEIGHT) /5;                   
         dialogUpdate.setSize(900, 600);
