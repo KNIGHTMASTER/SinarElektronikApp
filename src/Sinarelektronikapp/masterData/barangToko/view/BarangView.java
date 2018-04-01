@@ -23,7 +23,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -1131,7 +1130,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }        
         setIdBarang();
@@ -1266,9 +1265,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 lamaGaransi = String.valueOf(rs.getInt("lamagaransi"));
                 gambarRetrieve = rs.getBlob("gambar");
                 if (gambarRetrieve != null) {
-                    if (gambarRetrieve.length() > 0) {
-                        dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());
-                    }
+                    dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());
                 }
             }
         }catch(SQLException exception){
@@ -1511,7 +1508,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }        
     }//GEN-LAST:event_txtHargaEceranActionPerformed

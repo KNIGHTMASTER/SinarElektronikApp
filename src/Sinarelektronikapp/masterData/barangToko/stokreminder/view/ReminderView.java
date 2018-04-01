@@ -1208,7 +1208,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }
     }//GEN-LAST:event_txtHargaEceranActionPerformed
@@ -1229,7 +1229,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }
         setIdBarang();

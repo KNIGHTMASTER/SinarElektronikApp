@@ -102,7 +102,9 @@ public class tambahBarangController {
             model.setStokMinimum(stokMinimum);
             model.setSupplier(supplier);
             model.setKeterangan(keterangan);
-            model.setGambar(gambar);
+            if (gambar != null) {
+                model.setGambar(gambar);
+            }
             model.setGaransi(garansi);
             model.setLamaGaransi(lamaGaransi);            
             model.setKategori(kategori);

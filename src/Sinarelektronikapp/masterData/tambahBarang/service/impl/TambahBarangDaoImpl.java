@@ -51,7 +51,11 @@ public class TambahBarangDaoImpl implements TambahBarangDao{
             statement.setString(13, barang.getSupplier());
             statement.setString(14, barang.getKeterangan());
             try {
-                statement.setBlob(15, new FileInputStream(barang.getGambar()));
+                if (barang.getGambar() != null) {
+                    statement.setBlob(15, new FileInputStream(barang.getGambar()));
+                }else {
+                    statement.setNull(15, java.sql.Types.BLOB);
+                }
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(TambahBarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }

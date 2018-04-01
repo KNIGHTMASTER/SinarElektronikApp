@@ -915,7 +915,9 @@ public class tambahBarangView extends javax.swing.JPanel implements tambahBarang
             txtHargaEceran.getText();
             return;                                    
         }else if(pathGambar!=null || pathGambar!=""){
-        gambar = new File(pathGambar);                            
+        if (pathGambar.length() > 0) {
+            gambar = new File(pathGambar);
+        }
         controller.insertBarang(this);
         resetManual();
         txtIdBarang.requestFocus();                    
@@ -971,7 +973,7 @@ public class tambahBarangView extends javax.swing.JPanel implements tambahBarang
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }     
     }//GEN-LAST:event_txtHargaEceranFocusLost
@@ -1014,7 +1016,7 @@ public class tambahBarangView extends javax.swing.JPanel implements tambahBarang
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }     
     }//GEN-LAST:event_txtHargaEceranActionPerformed

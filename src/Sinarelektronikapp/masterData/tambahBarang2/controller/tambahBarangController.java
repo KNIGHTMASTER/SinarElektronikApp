@@ -8,6 +8,7 @@ import Sinarelektronikapp.masterData.tambahBarang2.error.TambahBarangException;
 import Sinarelektronikapp.masterData.tambahBarang2.model.tambahBarangModel;
 import Sinarelektronikapp.masterData.tambahBarang2.view.TambahBarangView2;
 import java.io.File;
+import java.lang.Exception;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,15 +97,15 @@ public class tambahBarangController {
             model.setStokMinimum(stokMinimum);
             model.setSupplier(supplier);
             model.setKeterangan(keterangan);
-            model.setGambar(gambar);
+            if (gambar != null) {
+                model.setGambar(gambar);
+            }
             model.setGaransi(garansi);
             model.setLamaGaransi(lamaGaransi);            
             try {
                 model.insertBarang();
                 JOptionPane.showMessageDialog(null, "Insert Barang Besar Berhasil");
-            } catch (SQLException ex) {
-                Logger.getLogger(tambahBarangController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TambahBarangException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(tambahBarangController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

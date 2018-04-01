@@ -1229,7 +1229,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }
     }//GEN-LAST:event_txtHargaEceranActionPerformed
@@ -1250,7 +1250,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }
         setIdBarang();
@@ -1376,9 +1376,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                 lamaGaransi = String.valueOf(rs.getInt("lamagaransi"));
                 gambarRetrieve = rs.getBlob("gambar");
                 if (gambarRetrieve != null) {
-                    if (dataGambarRetrieve.length > 0) {
-                        dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());
-                    }
+                    dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());
                 }
             }
         }catch(SQLException exception){

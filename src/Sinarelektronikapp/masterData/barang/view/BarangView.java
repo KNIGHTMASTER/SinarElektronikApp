@@ -1223,7 +1223,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }        
         setIdBarang();
@@ -1366,9 +1366,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 lamaGaransi = String.valueOf(rs.getInt("lamagaransi"));
                 gambarRetrieve = rs.getBlob("gambar");
                 if (gambarRetrieve != null && dataGambarRetrieve != null ) {
-                    if (dataGambarRetrieve.length > 0) {
-                        dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());
-                    }
+                    dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());
                 }                
                 kategori = rs.getString("kategori");
             }
@@ -1615,7 +1613,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }        
     }//GEN-LAST:event_txtHargaEceranActionPerformed

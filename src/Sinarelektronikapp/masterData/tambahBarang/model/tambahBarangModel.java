@@ -237,7 +237,9 @@ public class tambahBarangModel {
         barang.setStokMinimum(stokMinimum);
         barang.setSupplier(supplier);
         barang.setKeterangan(keterangan);
-        barang.setGambar(gambar);
+        if (gambar != null) {
+            barang.setGambar(gambar);   
+        }     
         barang.setGaransi(garansi);        
         barang.setLamaGaransi(lamaGaransi);
         barang.setKategori(kategori);

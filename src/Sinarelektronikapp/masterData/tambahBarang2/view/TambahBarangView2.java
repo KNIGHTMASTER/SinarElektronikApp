@@ -832,7 +832,9 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
             txtHargaEceran.getText();
             return;                                    
         }else if(pathGambar!=null || pathGambar!=""){
-        gambar = new File(pathGambar);                            
+        if (pathGambar.length() > 0) {
+            gambar = new File(pathGambar);
+        }
         controller.insertBarang(this);
         resetManual();
         txtIdBarang.requestFocus();                    
@@ -872,7 +874,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
 
     private void txtHargaEceranFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaEceranFocusLost
         // TODO add your handling code here:
- int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
+        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
         int hargaEceran = Integer.valueOf(txtHargaEceran.getText());
         
         if(!txtHargaEceran.getText().matches("[0-9]*")){
@@ -881,7 +883,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }     
     }//GEN-LAST:event_txtHargaEceranFocusLost
@@ -924,7 +926,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
             txtHargaEceran.requestFocus();
         }else if(hargaEceran<=hargaGrosir){
             JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir)+1);
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
             txtHargaEceran.requestFocus();
         }     
     }//GEN-LAST:event_txtHargaEceranActionPerformed
