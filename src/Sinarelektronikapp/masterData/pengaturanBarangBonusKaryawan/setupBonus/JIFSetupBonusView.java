@@ -48,7 +48,7 @@ public class JIFSetupBonusView extends javax.swing.JInternalFrame {
             Logger.getLogger(JIFSetupBonusView.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
         } catch (SQLException ex) {
             Logger.getLogger(JIFSetupBonusView.class.getName()).log(Level.SEVERE, null, ex);
         }

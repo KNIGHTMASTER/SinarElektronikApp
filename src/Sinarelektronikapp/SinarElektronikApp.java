@@ -9,6 +9,7 @@ import Sinarelektronikapp.view.TestSplahScreen;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 
@@ -29,10 +30,9 @@ public class SinarElektronikApp {
             public void run() {
                 try {
                     UIManager.setLookAndFeel(new NimbusLookAndFeel());                    
-                    //new MainFrame().setVisible(true);
-                    TestSplahScreen tss = new TestSplahScreen();
-                    tss.main(args);
-                } catch (Exception ex) {
+                    //new MainFrame().setVisible(true);                    
+                    TestSplahScreen.main(args);
+                } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                     JOptionPane.showMessageDialog(null, ex);
                 }
 

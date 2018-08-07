@@ -113,7 +113,7 @@ public class tambahBarangView extends javax.swing.JPanel implements tambahBarang
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Driver not Found");
         }        

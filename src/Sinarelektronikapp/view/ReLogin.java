@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.ActiveUser;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.config.UserLevel;
@@ -12,7 +13,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  *
@@ -137,7 +141,7 @@ public class ReLogin extends javax.swing.JFrame {
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            connection = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada jaringan karena = "+ex, "Peringatan", JOptionPane.WARNING_MESSAGE);
         }        
@@ -158,60 +162,82 @@ public class ReLogin extends javax.swing.JFrame {
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
         // TODO add your handling code here:               
         koneksi();
-        String userNameF = txtUserName.getText();
-        String passwordF = txtPassword.getText();        
+        String userNameF = txtUserName.getText().trim();
+        String passwordF = txtPassword.getText().trim();        
+        
+        BasicTextEncryptor basicTextEncryptor = new BasicTextEncryptor();
+        basicTextEncryptor.setPassword(AppConstant.CONFIG_PASSWORD);
+
         activeUser.setUserName(userNameF);
-        activeUser.Filling();                     
-        try{
-            Statement statement = connection.createStatement();
-            ResultSet rs=statement.executeQuery("SELECT nama, password, level FROM USER WHERE nama='"+userNameF+"' AND password='"+passwordF+"'");
-            if(rs.next()){
-                //insertUser(rs.getString("nama"));
-                String levelLogin = "";
-                levelLogin = rs.getString("level");
-                userLevel.setUserLevel(levelLogin);
-                userLevel.Filling();                
-                //insertUser(rs.getString("nama"));
-                mainFrame = new MainFrame();
-                mainFrame.setVisible(true);
-                mainFrame.setAfterLoadAwal();
-                switch(levelLogin){
-                    case "Pemilik Toko":
-                        mainFrame.setBtUser(true);
-                        mainFrame.setBesar(true);
-                        mainFrame.setTransaksiBk(true);
-                        mainFrame.setTransaksiBb(true);                        
-                        mainFrame.setReportBk(true);
-                        mainFrame.setReportBb(true);
-                        mainFrame.setMaintenance(true);
-                        break;
-                    case "Administrator":
-                        mainFrame.setBtUser(false);
-                        mainFrame.setBesar(false);
-                        mainFrame.setTransaksiBk(true);
-                        mainFrame.setTransaksiBb(false);                        
-                        mainFrame.setReportBk(true);
-                        mainFrame.setReportBb(false);
-                        mainFrame.setMaintenance(true);
-                        break;
-                    case "Karyawan":
-                        mainFrame.setBtUser(false);
-                        mainFrame.setBesar(false);
-                        mainFrame.setTransaksiBk(false);
-                        mainFrame.setTransaksiBb(false);                        
-                        mainFrame.setReportBk(false);
-                        mainFrame.setReportBb(false);
-                        mainFrame.setMaintenance(false);
-                        break;
-                    default:;
+        activeUser.Filling();
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT nama, password, level FROM user WHERE nama='" + userNameF + "'");
+
+            String decryptedPassword = null;
+
+            if (rs.next()) {
+                decryptedPassword = basicTextEncryptor.decrypt(rs.getString("password"));
+                if (decryptedPassword.equals(passwordF)) {
+
+                    //insertUser(rs.getString("nama"));
+                    String levelLogin = "";
+                    levelLogin = rs.getString("level");
+                    userLevel.setUserLevel(levelLogin);
+                    userLevel.Filling();
+                    //insertUser(rs.getString("nama"));
+                    mainFrame = new MainFrame();
+                    mainFrame.setVisible(true);
+                    mainFrame.setAfterLoadAwal();
+                    switch (levelLogin) {
+                        case "Pemilik Toko":
+                            mainFrame.setBtUser(true);
+                            mainFrame.setBesar(true);
+                            mainFrame.setTransaksiBk(true);
+                            mainFrame.setTransaksiBb(true);
+                            mainFrame.setReportBk(true);
+                            mainFrame.setReportBb(true);
+                            mainFrame.setMaintenance(true);
+                            break;
+                        case "Administrator":
+                            mainFrame.setBtUser(false);
+                            mainFrame.setBesar(false);
+                            mainFrame.setTransaksiBk(true);
+                            mainFrame.setTransaksiBb(false);
+                            mainFrame.setReportBk(true);
+                            mainFrame.setReportBb(false);
+                            mainFrame.setMaintenance(true);
+                            break;
+                        case "Karyawan":
+                            mainFrame.setBtUser(false);
+                            mainFrame.setBesar(false);
+                            mainFrame.setTransaksiBk(false);
+                            mainFrame.setTransaksiBb(false);
+                            mainFrame.setReportBk(false);
+                            mainFrame.setReportBb(false);
+                            mainFrame.setMaintenance(false);
+                            break;
+                        default:;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "salah password");
+                    resetLogin();
                 }
-            }else{
-                JOptionPane.showMessageDialog(null, "salah username || password");
+            } else {
+                JOptionPane.showMessageDialog(null, "salah username");
                 resetLogin();
-            }            
-        }catch(SQLException exception){
-            JOptionPane.showMessageDialog(null, "terjadi kesalahan pada "+exception);
-        }finally{
+            }
+        } catch (SQLException exception) {
+            JOptionPane.showMessageDialog(null, "terjadi kesalahan pada " + exception);
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ReLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             this.dispose();
         }
     }//GEN-LAST:event_btLoginActionPerformed

@@ -48,7 +48,7 @@ public class JIFUpdateGlobalBK extends javax.swing.JInternalFrame {
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error koneksi pada barang view karena = "+ex);
         }

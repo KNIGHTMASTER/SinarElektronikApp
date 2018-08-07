@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterData.user.controller;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.masterData.user.error.userException;
 import Sinarelektronikapp.masterData.user.model.usermodel;
 import Sinarelektronikapp.masterData.user.view.userView;
@@ -11,15 +12,19 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  *
  * @author Fauzi
  */
 public class usercontroller {
+    private BasicTextEncryptor basicTextEncryptor = null;
     private usermodel model;
 
     public usercontroller(usermodel model) {
+        basicTextEncryptor = new BasicTextEncryptor();
+        basicTextEncryptor.setPassword(AppConstant.CONFIG_PASSWORD);
         this.model = model;
     }
 
@@ -33,10 +38,14 @@ public class usercontroller {
     
     public void insertUser(userView view) throws SQLException{
         //String idUser=view.getTxtIdUser().getText();
-        String nama=view.getTxtNamaUSer().getText();
-        String password = view.getTxtPassword().getText();
+        String nama=view.getTxtNamaUSer().getText().trim();
+        String password = view.getTxtPassword().getText().trim();
         String level=view.getCmbLevel().getSelectedItem().toString();
         String keterangan=view.getTxtKet().getText();
+        
+        if (password != null) {
+            password = basicTextEncryptor.encrypt(password);
+        }
         /*if(idUser.trim().equals("")){
             JOptionPane.showMessageDialog(view, "ID masih kosong");
             view.getTxtIdUser().setText("masukkan id");
@@ -68,28 +77,32 @@ public class usercontroller {
         }
     }
     
-    public void updateUser(userView view) throws SQLException{
-        if(view.getTabelUser().getSelectedRowCount() == 0){
+    public void updateUser(userView view) throws SQLException {
+        if (view.getTabelUser().getSelectedRowCount() == 0) {
             JOptionPane.showMessageDialog(view, "pilih data yang akan diupdate");
-        }
-        else{            
-            String idUser=view.getTxtIdUser().getText();
-            String nama=view.getTxtNamaUSer().getText();
-            String password = view.getTxtPassword().getText();
-            String level=view.getCmbLevel().getSelectedItem().toString();
-            String keterangan=view.getTxtKet().getText();
-                model.setIdUser(idUser);
-                model.setNama(nama);
-                model.setPassword(password);
-                model.setLevel(level);
-                model.setKeterangan(keterangan);
+        } else {
+            String idUser = view.getTxtIdUser().getText().trim();
+            String nama = view.getTxtNamaUSer().getText().trim();
+            String password = view.getTxtPassword().getText().trim();
+            String level = view.getCmbLevel().getSelectedItem().toString();
+            String keterangan = view.getTxtKet().getText();
+            
+            if (password != null) {
+                password = basicTextEncryptor.encrypt(password);
+            }
+            
+            model.setIdUser(idUser);
+            model.setNama(nama);
+            model.setPassword(password);
+            model.setLevel(level);
+            model.setKeterangan(keterangan);
             try {
                 model.updateUser();
             } catch (userException ex) {
                 Logger.getLogger(usercontroller.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }        
-    }        
+        }
+    } 
     
     public void deleteUser(userView view) throws SQLException{
         if(view.getTabelUser().getSelectedRowCount() == 0){

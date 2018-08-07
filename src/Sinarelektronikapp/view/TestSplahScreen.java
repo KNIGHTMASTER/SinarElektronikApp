@@ -71,7 +71,6 @@ public class TestSplahScreen {
         dialog = new JDialog((Frame) null);
         dialog.setModal(false);
         dialog.setUndecorated(true);
-        //JLabel background = new JLabel(new ImageIcon(new URL("http://blogs.dirteam.com/photos/sanderberkouwer/images/2157/original.aspx")));
         JLabel background = new JLabel(new ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/SplashSEApp.png")));
         background.setLayout(new BorderLayout());
         dialog.add(background);
@@ -87,16 +86,15 @@ public class TestSplahScreen {
     }
 
     protected void showFrame() {
-        try {                    
+        try {
             UIManager.setLookAndFeel(new NimbusLookAndFeel());
             new MainFrame().setVisible(true);
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(TestSplahScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
-            UnsupportedLookAndFeelException {
+    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -105,7 +103,6 @@ public class TestSplahScreen {
                 try {
                     new TestSplahScreen().initUI();
                 } catch (MalformedURLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }

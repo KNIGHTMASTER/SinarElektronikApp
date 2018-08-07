@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.Class.loading;
 import Sinarelektronikapp.ManajemenPenjualan.BarangBesar.View.JIFTransaksiPenjualanBB;
 import Sinarelektronikapp.ManajemenPenjualan.BarangKecil.View.JIFManajemenTransaksiPenjualan;
@@ -13,6 +14,7 @@ import Sinarelektronikapp.ReturBarangBesar.transaksi.view.JIFReturViewBarangBesa
 import Sinarelektronikapp.TransferBarangBesar.view.JIFTransferBB;
 import Sinarelektronikapp.chart.view.JIFChartView;
 import Sinarelektronikapp.config.ActiveUser;
+import Sinarelektronikapp.config.ApplicationMode;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.inventory.view.JIFInventory;
@@ -78,34 +80,35 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-
+import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  *
  * @author Fauzi
  */
-public class MainFrame extends javax.swing.JFrame{
+public class MainFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
      */
-    
     InternetProtocol ip;
-    
+    ApplicationMode applicationMode;
+
     public MainFrame() {
+        applicationMode = new ApplicationMode();
         ip = new InternetProtocol();
         initComponents();
-        this.setExtendedState(MAXIMIZED_BOTH);        
+        this.setExtendedState(MAXIMIZED_BOTH);
         //truncateActiveUser();
         Properties props = new Properties();
-        props.put("logoString", "brand new");        
+        props.put("logoString", "brand new");
         setLoadAwal();
         //activeUser.deleteUserConfig();
         setIconFrame();
-        setCursorButton();
+        setCursorButton();        
     }
-        
-    public void setCursorButton(){
+
+    public void setCursorButton() {
         Cursor c = new Cursor(Cursor.HAND_CURSOR);
         //left panel
         btDashboard.setCursor(c);
@@ -113,7 +116,7 @@ public class MainFrame extends javax.swing.JFrame{
         btTransaksi.setCursor(c);
         btReport.setCursor(c);
         btMaintenance.setCursor(c);
-        
+
         //master
         //jpanel1
         btPenjualBB.setCursor(c);
@@ -134,7 +137,7 @@ public class MainFrame extends javax.swing.JFrame{
         btPelanggan.setCursor(c);
         btSupplier.setCursor(c);
         btUser.setCursor(c);
-        
+
         //transaksi
         //jpanel4
         btKasir.setCursor(c);
@@ -150,7 +153,7 @@ public class MainFrame extends javax.swing.JFrame{
         btProsesReturBarangBesar.setCursor(c);
         btInventoryBarangBesar.setCursor(c);
         btTransferBarangBesar.setCursor(c);
-        
+
         //laporan
         //jpanel7
         btChart.setCursor(c);
@@ -168,131 +171,132 @@ public class MainFrame extends javax.swing.JFrame{
         btReportInventoryBB.setCursor(c);
         btReportProfitBB.setCursor(c);
         btReportTransferBB.setCursor(c);
-        
+
         //maintenance
         btBackUp.setCursor(c);
     }
-    public void setIconFrame(){
+
+    public void setIconFrame() {
         Toolkit kit = Toolkit.getDefaultToolkit();
         Image frameIcon = kit.getImage(getClass().getResource("/Sinarelektronikapp/imageResource/jframeIcon.png"));
         this.setIconImage(frameIcon);
     }
     //JOptionPane.showMessageDialog(null, "Active USer = "+activeUser.getUserName());    
-    private Connection connection;            
-    
-    public void koneksi(){        
+    private Connection connection;
+
+    public void koneksi() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            connection = DriverManager.getConnection("jdbc:mysql://" + ip.getIpServer() + "/sinarelektronik?;", "root", "P@ssw0rd");
         } catch (ClassNotFoundException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada jaringan karena = "+ex, "Peringatan", JOptionPane.WARNING_MESSAGE);
-        }        
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada jaringan karena = " + ex, "Peringatan", JOptionPane.WARNING_MESSAGE);
+        }
     }
-    
-    public void setLoadAwal(){
+
+    public void setLoadAwal() {
         Main.setVisible(false);
         menuLogout.setVisible(false);
         menuLogin.setVisible(true);
         setting.setVisible(true);
     }
-    
-    public void setAfterLoadAwal(){
+
+    public void setAfterLoadAwal() {
         Login.setText("Log Out");
         Main.setVisible(true);
         menuLogout.setVisible(true);
         menuLogin.setVisible(false);
     }
-    
-    public void loadDialogPassword(){
+
+    public void loadDialogPassword() {
         int y = 250;
         int x = 500;
         dialogLogin.setModal(true);
         dialogLogin.setLocation(x, y);
         dialogLogin.setSize(300, 150);
-        dialogLogin.show();        
+        dialogLogin.show();
     }
-    
+
     final Toolkit toolkit = Toolkit.getDefaultToolkit();
     final Dimension screenSize = toolkit.getScreenSize();
 
-
     private JIFKasirView2 fKasirView2 = null;
-            
+
     private JIFBarangBesar jIFBarangBesar = null;
-    
+
     private JIFBarangView jIFBarangView = null;
-    
+
     private JIFMerekView jIFMerekView = null;
-    
+
     private JIFSatuanVIew jIFSatuanVIew = null;
-    
+
     private JIFNamaBarang jIFNamaBarang = null;
-    
+
     private JIFPelangganView jIFPelangganView = null;
-    
+
     private JIFSupplierView jIFSupplierView = null;
-    
+
     private JIFTipeView jIFTipeView = null;
-    
+
     private JIFUserView jIFUserView = null;
-    
-    private  JIFKasirView jIFKasirView = null;    
-    
+
+    private JIFKasirView jIFKasirView = null;
+
     private JIFReturView2 jifReturView = null;
-    
+
     private JIFReturViewBarangBesar jIFReturViewBB = null;
-    
+
     private JIFInventoryBB jIFInventory = null;
-    
+
     private JIFInventory jIFInventory1 = null;
-    
+
     private JIFReminderView jIFReminderView = null;
-    
-    private JIFReminderView2 jIFReminderView2 = null;            
+
+    private JIFReminderView2 jIFReminderView2 = null;
 
     private JIFPRosesRetur2 jIFPRosesRetur = null;
-    
+
     private JIFPRosesReturBB jIFPRosesReturBB = null;
-    
-    private JIFPriceListReport jIFPriceListReport = null;            
-    
+
+    private JIFPriceListReport jIFPriceListReport = null;
+
     private JIFReportTransaksiBarangBesar jIFReportTransaksiBarangBesar = null;
-    
+
     private JIFPenjualBarangBesarView jIFPenjualBBView = null;
-    
+
     private JIFPenjualBKView jIFPenjualBKView = null;
-    
+
     private JIFBarangToko jIFBarangToko = null;
-    
+
     private JIFTransferBB jIFTransferBB = null;
-    
+
     private JIFREportTransferBB jIFREportTransferBB = null;
-    
+
     private JIFManajemenTransaksiPenjualan jifmtp = null;
-    
+
     private JIFTransaksiPenjualanBB jiftpbb = null;
-    
+
     private JIFChartView jIFChartView = null;
-    
+
     private JIFReportPengembalianBarangKecilSupplier jIFReportPengembalianBarangKecilSupplier = null;
-    
+
     private JIFReportPengembalianBarangBesar jIFReportPengembalianBarangBesar = null;
-    
+
     private JIFUpdateGlobalBK jIFUpdateGlobalBK = null;
-    
+
     private JIFHistoryBarang jIFHistoryBarang = null;
-    
+
     private JIFUpdateGlobalBB jIFUpdateGlobalBB = null;
-    
+
     private JIFHistoryBarangBesar jIFHistoryBarangBesar = null;
-    
+
     private JIFBarangBonusKaryawanBKView jIFBarangBonusKaryawanBKView = null;
-    
+
     private JIFReportInsentifBarangKecil jIFReportInsentifBarangKecil = null;
-    
+
     private JIFBarangBonusKaryawanBBView jIFBarangBonusKaryawanBBView = null;
-    
+
     private JIFSetupBonusView jIFSetupBonusView = null;
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1233,50 +1237,50 @@ public class MainFrame extends javax.swing.JFrame{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void callMenuBarang(){
+    public void callMenuBarang() {
         jIFBarangView = null;
         try {
             jIFBarangView = new JIFBarangView();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFBarangView);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jIFBarangView.setLocation(x, y);
-        jIFBarangView.setVisible(true);        
+        jIFBarangView.setVisible(true);
     }
-    
-    public void callMenuBarangBesar(){
+
+    public void callMenuBarangBesar() {
         jIFBarangBesar = null;
         try {
             jIFBarangBesar = new JIFBarangBesar();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFBarangBesar);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jIFBarangBesar.setLocation(x, y);
-        jIFBarangBesar.setVisible(true);        
+        jIFBarangBesar.setVisible(true);
     }
-    
+
     private void menuLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLoginActionPerformed
         // TODO add your handling code here:               
         resetLogin();
         loadDialogPassword();
     }//GEN-LAST:event_menuLoginActionPerformed
 
-    public void inOut(){
+    public void inOut() {
         menuLogin.setVisible(false);
         menuLogout.setVisible(true);
-    }    
-    
-    public String getUsername(){
+    }
+
+    public String getUsername() {
         return txtUserName.getText();
     }
-    
-    public ActiveUser activeUser=new ActiveUser();
+
+    public ActiveUser activeUser = new ActiveUser();
 
     public ActiveUser getActiveUser() {
         return activeUser;
@@ -1284,8 +1288,8 @@ public class MainFrame extends javax.swing.JFrame{
 
     public void setActiveUser(ActiveUser activeUser) {
         this.activeUser = activeUser;
-    }   
-    
+    }
+
     public UserLevel userLevel = new UserLevel();
 
     public UserLevel getUserLevel() {
@@ -1296,17 +1300,15 @@ public class MainFrame extends javax.swing.JFrame{
         this.userLevel = userLevel;
     }
 
-    public void setBtUser(Boolean b){
+    public void setBtUser(Boolean b) {
         btUser.setEnabled(b);
     }
 
-    public void setBtUpdateGlobal(Boolean b){
+    public void setBtUpdateGlobal(Boolean b) {
         btUpdateGlobalBK.setEnabled(b);
     }
-    
-    
-    
-    public void setBesar(Boolean b){
+
+    public void setBesar(Boolean b) {
         btBarangBesar.setEnabled(b);
         StokUlangBarangBesar.setEnabled(b);
         btBarangToko.setEnabled(b);
@@ -1318,11 +1320,11 @@ public class MainFrame extends javax.swing.JFrame{
         btBarangKecilExclude.setEnabled(b);
         btReportMaster.setEnabled(b);
         btInsentifBK.setEnabled(b);
-        btSetupBonus.setEnabled(b);        
+        btSetupBonus.setEnabled(b);
         btReportMaster.setEnabled(b);
     }
-    
-    public void setTransaksiBk(Boolean b){
+
+    public void setTransaksiBk(Boolean b) {
         btTransaksi.setEnabled(b);
         btKasir.setEnabled(b);
         btRetur.setEnabled(b);
@@ -1330,26 +1332,26 @@ public class MainFrame extends javax.swing.JFrame{
         btInventory.setEnabled(b);
         btManajemenTransaksiBarangKecil.setEnabled(b);
     }
-    
-    public void setTransaksiBb(Boolean b){
+
+    public void setTransaksiBb(Boolean b) {
         btKasirBarangBesar.setEnabled(b);
         btReturBarangBesar.setEnabled(b);
         btProsesReturBarangBesar.setEnabled(b);
         btInventoryBarangBesar.setEnabled(b);
         btTransferBarangBesar.setEnabled(b);
         btManajemenTransaksiBB.setEnabled(b);
-    }    
-    
-    public void setReportBk(Boolean b){
-        btReport.setEnabled(b);        
-        btReportPriceList.setEnabled(b);        
+    }
+
+    public void setReportBk(Boolean b) {
+        btReport.setEnabled(b);
+        btReportPriceList.setEnabled(b);
         btReportTransaksi.setEnabled(b);
         btReportRetur.setEnabled(b);
         btReportTransaksi.setEnabled(b);
         btReportInventory.setEnabled(b);
     }
-    
-    public void setReportBb(Boolean b){
+
+    public void setReportBb(Boolean b) {
         btReportInsentif.setEnabled(b);
         btReportProfit.setEnabled(b);
         btReportProfitBB.setEnabled(b);
@@ -1358,227 +1360,245 @@ public class MainFrame extends javax.swing.JFrame{
         btReportReturBB.setEnabled(b);
         btReportTransferBB.setEnabled(b);
     }
-    
-    public void setMaintenance(Boolean b){
+
+    public void setMaintenance(Boolean b) {
         btMaintenance.setEnabled(b);
         btBackUp.setEnabled(b);
     }
-    
-    public void doLogin(){
+
+    public void doLogin() {
         koneksi();
-        String userNameF = txtUserName.getText();
-        String passwordF = txtPassword.getText();        
+        String userNameF = txtUserName.getText().trim();
+        String passwordF = txtPassword.getText().trim();
+
+        BasicTextEncryptor basicTextEncryptor = new BasicTextEncryptor();
+        basicTextEncryptor.setPassword(AppConstant.CONFIG_PASSWORD);
+
         activeUser.setUserName(userNameF);
         activeUser.Filling();
-        try{
-            Statement statement = connection.createStatement();
-            ResultSet rs=statement.executeQuery("SELECT nama, password, level FROM user WHERE nama='"+userNameF+"' AND password='"+passwordF+"'");
-            if(rs.next()){
-                Login.setText("Logout");
-                //insertUser(rs.getString("nama"));
-                String levelLogin = "";
-                levelLogin = rs.getString("level");
-                userLevel.setUserLevel(levelLogin);
-                userLevel.Filling();                
-                setAfterLoadAwal();
-                switch(levelLogin){
-                    case "Pemilik Toko":
-                        setBtUser(true);
-                        setBesar(true);
-                        setTransaksiBk(true);
-                        setTransaksiBb(true);
-                        setReportBk(true);
-                        setReportBb(true);
-                        setMaintenance(true);
-                        break;
-                    case "Administrator":
-                        setBtUser(false);
-                        setBesar(false);
-                        setTransaksiBk(true);
-                        setTransaksiBb(false);
-                        setReportBk(true);
-                        setReportBb(false);
-                        setMaintenance(true);
-                        break;
-                    case "Karyawan":
-                        setBtUpdateGlobal(false);
-                        setBtUser(false);
-                        setBesar(false);
-                        setTransaksiBk(false);
-                        setTransaksiBb(false);                        
-                        setReportBk(false);
-                        setReportBb(false);
-                        setMaintenance(false);
-                        break;                        
-                    default:;
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT nama, password, level FROM user WHERE nama='" + userNameF + "'");
+
+            String decryptedPassword = null;
+
+            if (rs.next()) {
+                decryptedPassword = basicTextEncryptor.decrypt(rs.getString("password"));
+                if (decryptedPassword.equals(passwordF)) {
+                    Login.setText("Logout");
+                    String levelLogin = "";
+                    levelLogin = rs.getString("level");
+                    userLevel.setUserLevel(levelLogin);
+                    userLevel.Filling();
+                    setAfterLoadAwal();
+                    if (applicationMode.getApplicationMode().equals("3")) {
+                        callMenuBarang();
+                    } else {
+                        switch (levelLogin) {
+                            case "Pemilik Toko":
+                                setBtUser(true);
+                                setBesar(true);
+                                setTransaksiBk(true);
+                                setTransaksiBb(true);
+                                setReportBk(true);
+                                setReportBb(true);
+                                setMaintenance(true);
+                                break;
+                            case "Administrator":
+                                setBtUser(false);
+                                setBesar(false);
+                                setTransaksiBk(true);
+                                setTransaksiBb(false);
+                                setReportBk(true);
+                                setReportBb(false);
+                                setMaintenance(true);
+                                break;
+                            case "Karyawan":
+                                setBtUpdateGlobal(false);
+                                setBtUser(false);
+                                setBesar(false);
+                                setTransaksiBk(false);
+                                setTransaksiBb(false);
+                                setReportBk(false);
+                                setReportBb(false);
+                                setMaintenance(false);
+                                break;
+                            default:;
+                        }                        
+                    }    
+                    dialogLogin.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "salah password");
+                    resetLogin();
                 }
-                dialogLogin.dispose();
-            }else{
-                JOptionPane.showMessageDialog(null, "salah username || password");
+            } else {
+                JOptionPane.showMessageDialog(null, "salah username");
                 resetLogin();
-            }            
-        }catch(SQLException exception){
-            JOptionPane.showMessageDialog(null, "terjadi kesalahan pada "+exception);
-        }        
+            }
+        } catch (SQLException exception) {
+            JOptionPane.showMessageDialog(null, "terjadi kesalahan pada " + exception);
+        }
     }
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
                 doLogin();
                 return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                        
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btLoginActionPerformed
 
-    public void resetLogin(){
+    public void resetLogin() {
         txtUserName.setText("");
-        txtPassword.setText("");        
+        txtPassword.setText("");
         txtUserName.requestFocus();
     }
-    
+
     private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
         // TODO add your handling code here:
         resetLogin();
     }//GEN-LAST:event_btResetActionPerformed
 
-    public void callMenuMerek(){
+    public void callMenuMerek() {
         jIFMerekView = null;
         try {
             jIFMerekView = new JIFMerekView();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu merek action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu merek action performed karena " + ex);
+        }
         JSPutama.add(jIFMerekView);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /3;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 3;
         jIFMerekView.setLocation(x, y);
-        jIFMerekView.setVisible(true);                
+        jIFMerekView.setVisible(true);
     }
-    
-    public void callMenuNamaBarang(){
+
+    public void callMenuNamaBarang() {
         jIFNamaBarang = null;
         try {
             jIFNamaBarang = new JIFNamaBarang();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu nama barang action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu nama barang action performed karena " + ex);
+        }
         JSPutama.add(jIFNamaBarang);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /3;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 3;
         jIFNamaBarang.setLocation(x, y);
-        jIFNamaBarang.setVisible(true);                
-    }    
-    
-    public void callMenuTipe(){
-    int x = (screenSize.width - MainFrame.WIDTH) / 3;
-    int y = (screenSize.height - MainFrame.HEIGHT) /3;        
+        jIFNamaBarang.setVisible(true);
+    }
+
+    public void callMenuTipe() {
+        int x = (screenSize.width - MainFrame.WIDTH) / 3;
+        int y = (screenSize.height - MainFrame.HEIGHT) / 3;
         jIFTipeView = null;
         try {
             jIFTipeView = new JIFTipeView();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFTipeView);
         jIFTipeView.setLocation(x, y);
-        jIFTipeView.setVisible(true);                        
+        jIFTipeView.setVisible(true);
     }
-    
-    public void callMenuSatuan(){
-    int x = (screenSize.width - MainFrame.WIDTH) / 3;
-    int y = (screenSize.height - MainFrame.HEIGHT) /3;        
+
+    public void callMenuSatuan() {
+        int x = (screenSize.width - MainFrame.WIDTH) / 3;
+        int y = (screenSize.height - MainFrame.HEIGHT) / 3;
         jIFSatuanVIew = null;
         try {
             jIFSatuanVIew = new JIFSatuanVIew();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFSatuanVIew);
         jIFSatuanVIew.setLocation(x, y);
-        jIFSatuanVIew.setVisible(true);                        
+        jIFSatuanVIew.setVisible(true);
     }
-    
-    public void callMenuPelanggan(){
+
+    public void callMenuPelanggan() {
         jIFPelangganView = null;
         try {
             jIFPelangganView = new JIFPelangganView();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFPelangganView);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         jIFPelangganView.setLocation(x, y);
-        jIFPelangganView.setVisible(true);                                
+        jIFPelangganView.setVisible(true);
     }
-    
-    public void callMenuSupplier(){
-    int x = (screenSize.width - MainFrame.WIDTH) / 4;
-    int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+
+    public void callMenuSupplier() {
+        int x = (screenSize.width - MainFrame.WIDTH) / 4;
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jIFSupplierView = null;
         try {
             jIFSupplierView = new JIFSupplierView();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFSupplierView);
         jIFSupplierView.setLocation(x, y);
-        jIFSupplierView.setVisible(true);                                
+        jIFSupplierView.setVisible(true);
     }
-    
-    public void callMenuStokUlang(){
-    int x = (screenSize.width - MainFrame.WIDTH) / 4;
-    int y = (screenSize.height - MainFrame.HEIGHT) /5;                
+
+    public void callMenuStokUlang() {
+        int x = (screenSize.width - MainFrame.WIDTH) / 4;
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         try {
             jIFReminderView = new JIFReminderView();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFReminderView);
         jIFReminderView.setLocation(x, y);
-        jIFReminderView.setVisible(true);                                
-    }        
-    
-    public void callMenuStokUlangBB(){
-    int x = (screenSize.width - MainFrame.WIDTH) / 4;
-    int y = (screenSize.height - MainFrame.HEIGHT) /5;                
+        jIFReminderView.setVisible(true);
+    }
+
+    public void callMenuStokUlangBB() {
+        int x = (screenSize.width - MainFrame.WIDTH) / 4;
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         try {
             jIFReminderView2 = new JIFReminderView2();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFReminderView2);
         jIFReminderView2.setLocation(x, y);
         jIFReminderView2.setVisible(true);
-    }        
-    
-    public void callMenuUser(){
+    }
+
+    public void callMenuUser() {
         jIFUserView = null;
         try {
             jIFUserView = new JIFUserView();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFUserView);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jIFUserView.setLocation(x, y);
-        jIFUserView.setVisible(true);        
+        jIFUserView.setVisible(true);
     }
-    
-    public void callMenuKasir(){
+
+    public void callMenuKasir() {
         jIFKasirView = null;
         try {
             jIFKasirView = new JIFKasirView();
@@ -1587,13 +1607,12 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(jIFKasirView);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         jIFKasirView.setLocation(x, y);
-        jIFKasirView.setVisible(true);        
+        jIFKasirView.setVisible(true);
     }
-    
-    
-    public void callMenuKasir2(){
+
+    public void callMenuKasir2() {
         JIFKasirView2 fKasirView2 = null;
         try {
             fKasirView2 = new JIFKasirView2();
@@ -1602,12 +1621,12 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fKasirView2);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fKasirView2.setLocation(x, y);
-        fKasirView2.setVisible(true);        
+        fKasirView2.setVisible(true);
     }
-    
-    
+
+
     private void txtUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserNameActionPerformed
         // TODO add your handling code here:
         txtPassword.requestFocus();
@@ -1621,18 +1640,17 @@ public class MainFrame extends javax.swing.JFrame{
     private void menuLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLogoutActionPerformed
         // TODO add your handling code here:
         /*setLoadAwal();
-        MenuBarLogin.setText("Login");*/
-        if(JOptionPane.showConfirmDialog(null, "Apakah anda yakin logOut ?") == JOptionPane.YES_OPTION){
+         MenuBarLogin.setText("Login");*/
+        if (JOptionPane.showConfirmDialog(null, "Apakah anda yakin logout ?") == JOptionPane.YES_OPTION) {
             //activeUser.deleteUserConfig();
             this.dispose();
-            new ReLogin().setVisible(true);            
-        }else{
+            new ReLogin().setVisible(true);
+        } else {
             return;
         }
     }//GEN-LAST:event_menuLogoutActionPerformed
 
-    
-    
+
     private void SetTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SetTemaActionPerformed
         // TODO add your handling code here:
         int y = 250;
@@ -1640,9 +1658,9 @@ public class MainFrame extends javax.swing.JFrame{
         dialogSetTema.setModal(true);
         dialogSetTema.setLocation(x, y);
         dialogSetTema.setSize(300, 80);
-        dialogSetTema.show();                
+        dialogSetTema.show();
     }//GEN-LAST:event_SetTemaActionPerformed
-    
+
     private void jaringanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jaringanActionPerformed
         // TODO add your handling code here:         
         int y = 250;
@@ -1650,50 +1668,50 @@ public class MainFrame extends javax.swing.JFrame{
         dialogSetNetwork.setModal(true);
         dialogSetNetwork.setLocation(x, y);
         dialogSetNetwork.setSize(300, 150);
-        dialogSetNetwork.show();                
+        dialogSetNetwork.show();
     }//GEN-LAST:event_jaringanActionPerformed
-    
+
     String hasilTes = "";
-    
-    
-    public void tes(){
+
+    public void tes() {
         ip.setIp(txtIP.getText());
-        hasilTes =  ip.tes();
-        if(hasilTes.equals("Sukses")){
+        hasilTes = ip.tes();
+        if (hasilTes.equals("Sukses")) {
             JOptionPane.showMessageDialog(null, hasilTes, "Informasi", JOptionPane.INFORMATION_MESSAGE);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, hasilTes, "Informasi", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
+
     private void btTesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTesActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
                 tes();
                 return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btTesActionPerformed
 
     private void btSambungkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSambungkanActionPerformed
         // TODO add your handling code here:
-        if(hasilTes.equals("Sukses")){
-            JOptionPane.showMessageDialog(null, "Terkoneksi Dengan Server pada IP "+ip.getIpServer(), "Informasi", JOptionPane.INFORMATION_MESSAGE);
+        if (hasilTes.equals("Sukses")) {
+            JOptionPane.showMessageDialog(null, "Terkoneksi Dengan Server pada IP " + ip.getIpServer(), "Informasi", JOptionPane.INFORMATION_MESSAGE);
             dialogSetNetwork.dispose();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Gagal Koneksi Dengan Server, silahkan cek konfigurasi dan lakukan tes jaringan", "Informasi", JOptionPane.WARNING_MESSAGE);
             txtIP.setText("");
             txtIP.requestFocus();
@@ -1703,17 +1721,17 @@ public class MainFrame extends javax.swing.JFrame{
     private void cmbTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTemaActionPerformed
         // TODO add your handling code here:
         String theme = "Default";
-        try{
-        Properties props = new Properties();
-        props.put("logoString", "Sinar Elektronik");            
-            switch(cmbTema.getSelectedIndex()){
+        try {
+            Properties props = new Properties();
+            props.put("logoString", "Sinar Elektronik");
+            switch (cmbTema.getSelectedIndex()) {
                 case 0:
                     UIManager.setLookAndFeel(new NimbusLookAndFeel());
                     break;
                 case 1:
                     UIManager.setLookAndFeel(new WindowsClassicLookAndFeel());
                     break;
-                case 2:                    
+                case 2:
                     UIManager.setLookAndFeel(new WindowsLookAndFeel());
                     break;
                 case 3:
@@ -1749,8 +1767,8 @@ public class MainFrame extends javax.swing.JFrame{
                 case 9:
                     com.jtattoo.plaf.hifi.HiFiLookAndFeel.setTheme(theme);
                     com.jtattoo.plaf.hifi.HiFiLookAndFeel.setCurrentTheme(props);
-                    UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");                    
-                    break; 
+                    UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+                    break;
                 case 10:
                     com.jtattoo.plaf.luna.LunaLookAndFeel.setTheme(theme);
                     com.jtattoo.plaf.luna.LunaLookAndFeel.setCurrentTheme(props);
@@ -1773,21 +1791,21 @@ public class MainFrame extends javax.swing.JFrame{
                     com.jtattoo.plaf.noire.NoireLookAndFeel.setTheme(theme);
                     com.jtattoo.plaf.noire.NoireLookAndFeel.setCurrentTheme(props);
                     UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
-                    break;                    
+                    break;
                 case 15:
                     com.jtattoo.plaf.smart.SmartLookAndFeel.setTheme(theme);
                     com.jtattoo.plaf.smart.SmartLookAndFeel.setCurrentTheme(props);
-                    UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");                    
+                    UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
                     break;
-                case 16: 
+                case 16:
                     com.jtattoo.plaf.texture.TextureLookAndFeel.setTheme(theme);
                     com.jtattoo.plaf.texture.TextureLookAndFeel.setCurrentTheme(props);
-                    UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");                    
+                    UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
                     break;
-        }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error dalam mengganti tema karena "+e);
-        }finally{
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error dalam mengganti tema karena " + e);
+        } finally {
             javax.swing.SwingUtilities.updateComponentTreeUI(this);
         }
     }//GEN-LAST:event_cmbTemaActionPerformed
@@ -1801,7 +1819,7 @@ public class MainFrame extends javax.swing.JFrame{
         // TODO add your handling code here:
         JSPutama.add(JIFDashBoard);
         int x = (screenSize.width - MainFrame.WIDTH) / 6;
-        int y = (screenSize.height - MainFrame.HEIGHT) /10;
+        int y = (screenSize.height - MainFrame.HEIGHT) / 10;
         JIFDashBoard.setSize(900, 550);
         JIFDashBoard.setLocation(x, y);
         JIFDashBoard.setVisible(true);
@@ -1809,188 +1827,195 @@ public class MainFrame extends javax.swing.JFrame{
 
     private void btDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDashboardActionPerformed
         // TODO add your handling code here:
-        CardLayout cl=(CardLayout) Center.getLayout();
+        CardLayout cl = (CardLayout) Center.getLayout();
         cl.show(Center, "dashboard");
     }//GEN-LAST:event_btDashboardActionPerformed
 
     private void btMasterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMasterActionPerformed
         // TODO add your handling code here:
-        CardLayout cl=(CardLayout) Center.getLayout();
+        CardLayout cl = (CardLayout) Center.getLayout();
         cl.show(Center, "master");
     }//GEN-LAST:event_btMasterActionPerformed
 
     private void btTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTransaksiActionPerformed
         // TODO add your handling code here:
-        CardLayout cl=(CardLayout) Center.getLayout();
+        CardLayout cl = (CardLayout) Center.getLayout();
         cl.show(Center, "transaksi");
     }//GEN-LAST:event_btTransaksiActionPerformed
 
     private void btReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportActionPerformed
         // TODO add your handling code here:
-        CardLayout cl=(CardLayout) Center.getLayout();
+        CardLayout cl = (CardLayout) Center.getLayout();
         cl.show(Center, "laporan");
     }//GEN-LAST:event_btReportActionPerformed
 
     private void btMaintenanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMaintenanceActionPerformed
         // TODO add your handling code here:
-        CardLayout cl=(CardLayout) Center.getLayout();
+        CardLayout cl = (CardLayout) Center.getLayout();
         cl.show(Center, "maintenance");
     }//GEN-LAST:event_btMaintenanceActionPerformed
 
     private void btBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBarangActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuBarang(); 
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuBarang();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btBarangActionPerformed
 
     private void btMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMerekActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
                 callMenuMerek();
                 return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                        
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btMerekActionPerformed
 
     private void btPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPelangganActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuPelanggan(); 
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuPelanggan();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btPelangganActionPerformed
 
     private void btStokUlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStokUlangActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuStokUlang(); 
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuStokUlang();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btStokUlangActionPerformed
 
     private void btSatuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSatuanActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
                 callMenuSatuan();
                 return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);        
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btSatuanActionPerformed
 
     private void btTipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTipeActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
                 callMenuTipe();
                 return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);        
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btTipeActionPerformed
 
     private void btKasirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btKasirActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuKasir();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuKasir();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btKasirActionPerformed
-/**/
+    /**/
     private void btBackUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBackUpActionPerformed
         // TODO add your handling code here:
         int y = 250;
@@ -1999,32 +2024,33 @@ public class MainFrame extends javax.swing.JFrame{
         DialogMaintenance.setLocation(x, y);
         DialogMaintenance.setSize(400, 150);
         DialogMaintenance.setTitle("Back Up Database");
-        DialogMaintenance.show();        
+        DialogMaintenance.show();
     }//GEN-LAST:event_btBackUpActionPerformed
 
     private void btSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSupplierActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuSupplier(); 
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuSupplier();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btSupplierActionPerformed
 
-    public void callMenuProfit(){
+    public void callMenuProfit() {
         JIFReportProfit fReportProfit = null;
         try {
             fReportProfit = new JIFReportProfit();
@@ -2033,14 +2059,13 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReportProfit);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fReportProfit.setLocation(x, y);
         fReportProfit.setSize(400, 200);
-        fReportProfit.setVisible(true);                                
+        fReportProfit.setVisible(true);
     }
-    
 
-    public void callMenuProfitBarangBesar(){
+    public void callMenuProfitBarangBesar() {
         JIFReportProfitBarangBesar fReportProfit = null;
         try {
             fReportProfit = new JIFReportProfitBarangBesar();
@@ -2049,12 +2074,12 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReportProfit);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fReportProfit.setLocation(x, y);
         fReportProfit.setSize(400, 200);
-        fReportProfit.setVisible(true);                                
+        fReportProfit.setVisible(true);
     }
-    
+
     private void btReportProfitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportProfitActionPerformed
         // TODO add your handling code here:
         callMenuProfit();
@@ -2062,24 +2087,25 @@ public class MainFrame extends javax.swing.JFrame{
 
     private void btUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUserActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuUser();     
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                    
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuUser();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btUserActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -2089,7 +2115,7 @@ public class MainFrame extends javax.swing.JFrame{
         DialogAbout.setModal(true);
         DialogAbout.setLocation(x, y);
         DialogAbout.setSize(300, 300);
-        DialogAbout.show();           
+        DialogAbout.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -2099,183 +2125,187 @@ public class MainFrame extends javax.swing.JFrame{
         DialogLisensi.setModal(true);
         DialogLisensi.setLocation(x, y);
         DialogLisensi.setSize(400, 380);
-        DialogLisensi.show();            
+        DialogLisensi.show();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNamaBarangActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuNamaBarang();
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuNamaBarang();
                 return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btNamaBarangActionPerformed
 
-    public void callMenuTransaksiReturBB(){
+    public void callMenuTransaksiReturBB() {
         jIFReturViewBB = null;
         try {
             jIFReturViewBB = new JIFReturViewBarangBesar();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu retur barang besar view action performed karena "+ex, "peringatan", JOptionPane.ERROR_MESSAGE);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu retur barang besar view action performed karena " + ex, "peringatan", JOptionPane.ERROR_MESSAGE);
+        }
         JSPutama.add(jIFReturViewBB);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /8;
+        int y = (screenSize.height - MainFrame.HEIGHT) / 8;
         jIFReturViewBB.setLocation(x, y);
-        jIFReturViewBB.setVisible(true);            
+        jIFReturViewBB.setVisible(true);
     }
-    
-    public void callMenuTransaksiRetur(){
+
+    public void callMenuTransaksiRetur() {
         jifReturView = null;
         try {
             jifReturView = new JIFReturView2();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu inventory view action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu inventory view action performed karena " + ex);
+        }
         JSPutama.add(jifReturView);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /8;
+        int y = (screenSize.height - MainFrame.HEIGHT) / 8;
         jifReturView.setLocation(x, y);
         jifReturView.setVisible(true);
     }
-    
-    public void callMenuTransaksiInventory(){
+
+    public void callMenuTransaksiInventory() {
         jIFInventory1 = null;
         try {
             jIFInventory1 = new JIFInventory();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu inventory view action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu inventory view action performed karena " + ex);
+        }
         JSPutama.add(jIFInventory1);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /8;
+        int y = (screenSize.height - MainFrame.HEIGHT) / 8;
         jIFInventory1.setLocation(x, y);
-        jIFInventory1.setVisible(true);            
-    }    
-    
-    public void callMenuTransaksiInventoryBB(){
+        jIFInventory1.setVisible(true);
+    }
+
+    public void callMenuTransaksiInventoryBB() {
         jIFInventory = null;
         try {
             jIFInventory = new JIFInventoryBB();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu inventory view action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu inventory view action performed karena " + ex);
+        }
         JSPutama.add(jIFInventory);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /8;
+        int y = (screenSize.height - MainFrame.HEIGHT) / 8;
         jIFInventory.setLocation(x, y);
-        jIFInventory.setVisible(true);            
-    }        
-    
-    public void callMenuProsesRetur(){
+        jIFInventory.setVisible(true);
+    }
+
+    public void callMenuProsesRetur() {
         jIFPRosesRetur = null;
         try {
             jIFPRosesRetur = new JIFPRosesRetur2();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu proses retur action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu proses retur action performed karena " + ex);
+        }
         JSPutama.add(jIFPRosesRetur);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /7;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 7;
         jIFPRosesRetur.setLocation(x, y);
         jIFPRosesRetur.setVisible(true);
-    }    
-    
-    public void callMenuProsesReturBB(){
+    }
+
+    public void callMenuProsesReturBB() {
         jIFPRosesReturBB = null;
         try {
             jIFPRosesReturBB = new JIFPRosesReturBB();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu proses retur action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu proses retur action performed karena " + ex);
+        }
         JSPutama.add(jIFPRosesReturBB);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /7;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 7;
         jIFPRosesReturBB.setLocation(x, y);
         jIFPRosesReturBB.setVisible(true);
-    }        
-    
+    }
+
     private void btProsesReturActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btProsesReturActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuProsesRetur();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuProsesRetur();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btProsesReturActionPerformed
 
     private void btReturActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReturActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuTransaksiRetur();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuTransaksiRetur();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btReturActionPerformed
 
     private void btInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInventoryActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuTransaksiInventory();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuTransaksiInventory();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btInventoryActionPerformed
-/**/
-    
-    public void callMenuReportRetur(){
+    /**/
+
+    public void callMenuReportRetur() {
         JIFReportRetur fReportretur = null;
         try {
             fReportretur = new JIFReportRetur();
@@ -2284,13 +2314,13 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReportretur);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fReportretur.setLocation(x, y);
         fReportretur.setSize(440, 270);
-        fReportretur.setVisible(true);                        
+        fReportretur.setVisible(true);
     }
-    
-    public void callMenuReportReturPengembalianBK(){
+
+    public void callMenuReportReturPengembalianBK() {
         JIFReportPengembalianBarangKecilSupplier jIFReportPengembalianBarangKecilSupplier = null;
         try {
             jIFReportPengembalianBarangKecilSupplier = new JIFReportPengembalianBarangKecilSupplier();
@@ -2299,13 +2329,13 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(jIFReportPengembalianBarangKecilSupplier);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         jIFReportPengembalianBarangKecilSupplier.setLocation(x, y);
         jIFReportPengembalianBarangKecilSupplier.setSize(400, 200);
-        jIFReportPengembalianBarangKecilSupplier.setVisible(true);                        
-    }    
-    
-    public void callMenuReportReturPengembalianBB(){
+        jIFReportPengembalianBarangKecilSupplier.setVisible(true);
+    }
+
+    public void callMenuReportReturPengembalianBB() {
         JIFReportPengembalianBarangBesar jIFReportPengembalianBarangBesar = null;
         try {
             jIFReportPengembalianBarangBesar = new JIFReportPengembalianBarangBesar();
@@ -2314,37 +2344,37 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(jIFReportPengembalianBarangBesar);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         jIFReportPengembalianBarangBesar.setLocation(x, y);
         jIFReportPengembalianBarangBesar.setSize(400, 200);
-        jIFReportPengembalianBarangBesar.setVisible(true);                        
-    }        
-    
-    public void callDialogReturBK(){
+        jIFReportPengembalianBarangBesar.setVisible(true);
+    }
+
+    public void callDialogReturBK() {
         int y = 250;
         int x = 500;
         DialogReturBK.setModal(true);
         DialogReturBK.setLocation(x, y);
         DialogReturBK.setSize(400, 250);
-        DialogReturBK.show();                
+        DialogReturBK.show();
     }
-    
-    public void callDialogReturBB(){
+
+    public void callDialogReturBB() {
         int y = 250;
         int x = 500;
         DialogReturBB.setModal(true);
         DialogReturBB.setLocation(x, y);
         DialogReturBB.setSize(400, 250);
-        DialogReturBB.show();                
-    }    
-    
+        DialogReturBB.show();
+    }
+
     private void btReportReturActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportReturActionPerformed
         // TODO add your handling code here:
         callDialogReturBK();
     }//GEN-LAST:event_btReportReturActionPerformed
 
-    public void callMenuPriceList(){
-        JIFPriceListReport jIFPriceListReport = null;        
+    public void callMenuPriceList() {
+        JIFPriceListReport jIFPriceListReport = null;
         try {
             jIFPriceListReport = new JIFPriceListReport();
         } catch (Exception ex) {
@@ -2352,59 +2382,61 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(jIFPriceListReport);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         jIFPriceListReport.setLocation(x, y);
         jIFPriceListReport.setSize(400, 200);
-        jIFPriceListReport.setVisible(true);                                             
+        jIFPriceListReport.setVisible(true);
     }
-    
+
     private void btPriceListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPriceListActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuPriceList();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuPriceList();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btPriceListActionPerformed
 
     private void btBarangBesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBarangBesarActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-		callMenuBarangBesar();
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuBarangBesar();
                 return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btBarangBesarActionPerformed
-/*
+    /*
     private void btStokUlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StokUlangActionPerformed
         // TODO add your handling code here:
-        callMenuStokUlangBB();
+     callMenuStokUlangBB();
     }//GEN-LAST:event_StokUlangActionPerformed
 
     private void btMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTipe1ActionPerformed
@@ -2433,26 +2465,27 @@ public class MainFrame extends javax.swing.JFrame{
 */
     private void StokUlangBarangBesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StokUlangBarangBesarActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuStokUlangBB();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuStokUlangBB();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_StokUlangBarangBesarActionPerformed
-/*
+    /*
     private void btKasirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StokUlangBarangKecil1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_StokUlangBarangKecil1ActionPerformed
@@ -2505,9 +2538,9 @@ public class MainFrame extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_btReportTransaksi1ActionPerformed
 */
-    
-    public void callMenuInventory(){
-       JIFReportInventory fReportInvent = null;
+
+    public void callMenuInventory() {
+        JIFReportInventory fReportInvent = null;
         try {
             fReportInvent = new JIFReportInventory();
         } catch (Exception ex) {
@@ -2515,20 +2548,20 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReportInvent);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fReportInvent.setLocation(x, y);
         fReportInvent.setSize(400, 200);
-        fReportInvent.setVisible(true);                  
+        fReportInvent.setVisible(true);
     }
-    
+
     private void btReportInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportInventoryActionPerformed
         // TODO add your handling code here:        
         callMenuInventory();
-        
+
     }//GEN-LAST:event_btReportInventoryActionPerformed
 
-    public void callMenuReportMaster(){
-       JIFReportMaster fReportmaster = null;
+    public void callMenuReportMaster() {
+        JIFReportMaster fReportmaster = null;
         try {
             fReportmaster = new JIFReportMaster();
         } catch (Exception ex) {
@@ -2536,19 +2569,18 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReportmaster);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
-        fReportmaster.setLocation(x, y);        
-        fReportmaster.setVisible(true);                  
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
+        fReportmaster.setLocation(x, y);
+        fReportmaster.setVisible(true);
     }
-    
+
     private void btReportMasterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportMasterActionPerformed
         // TODO add your handling code here:
-        callMenuReportMaster();    
+        callMenuReportMaster();
     }//GEN-LAST:event_btReportMasterActionPerformed
 
-    
-    public void callMenuReportTransaksi(){
-    JIFReportTransaksi fReporttrans = null;
+    public void callMenuReportTransaksi() {
+        JIFReportTransaksi fReporttrans = null;
         try {
             fReporttrans = new JIFReportTransaksi();
         } catch (Exception ex) {
@@ -2556,15 +2588,15 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReporttrans);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fReporttrans.setLocation(x, y);
         fReporttrans.setSize(400, 200);
-        fReporttrans.setVisible(true);          
-                        
+        fReporttrans.setVisible(true);
+
     }
-    
-    public void callMenuReportTransaksiBarangBesar(){
-    JIFReportTransaksiBarangBesar fReporttrans = null;
+
+    public void callMenuReportTransaksiBarangBesar() {
+        JIFReportTransaksiBarangBesar fReporttrans = null;
         try {
             fReporttrans = new JIFReportTransaksiBarangBesar();
         } catch (Exception ex) {
@@ -2572,13 +2604,13 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReporttrans);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fReporttrans.setLocation(x, y);
         fReporttrans.setSize(400, 200);
-        fReporttrans.setVisible(true);          
-                        
-    }    
-    
+        fReporttrans.setVisible(true);
+
+    }
+
     private void btReportTransaksiBBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportTransaksiBBActionPerformed
         // TODO add your handling code here:
         callMenuReportTransaksiBarangBesar();
@@ -2586,28 +2618,29 @@ public class MainFrame extends javax.swing.JFrame{
 
     private void btKasirBarangBesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btKasirBarangBesarActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuKasir2();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuKasir2();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btKasirBarangBesarActionPerformed
 
-    public void callMenuReportPriceList(){
-     JIFPriceListReport fReporttrans = null;
+    public void callMenuReportPriceList() {
+        JIFPriceListReport fReporttrans = null;
         try {
             fReporttrans = new JIFPriceListReport();
         } catch (Exception ex) {
@@ -2616,120 +2649,125 @@ public class MainFrame extends javax.swing.JFrame{
         JSPutama.add(fReporttrans);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
         int y = 50;
-        fReporttrans.setLocation(x, y);        
-        fReporttrans.setVisible(true);                         
+        fReporttrans.setLocation(x, y);
+        fReporttrans.setVisible(true);
     }
     private void btReportPriceListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportPriceListActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuReportPriceList();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuReportPriceList();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btReportPriceListActionPerformed
 
     private void btProsesReturBarangBesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btProsesReturBarangBesarActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuProsesReturBB();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuProsesReturBB();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btProsesReturBarangBesarActionPerformed
 
     private void btReturBarangBesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReturBarangBesarActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-		callMenuTransaksiReturBB();        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuTransaksiReturBB();
                 return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btReturBarangBesarActionPerformed
 
     private void btInventoryBarangBesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInventoryBarangBesarActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuTransaksiInventoryBB();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuTransaksiInventoryBB();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btInventoryBarangBesarActionPerformed
 
     private void btReportTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportTransaksiActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuReportTransaksi();        
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuReportTransaksi();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btReportTransaksiActionPerformed
 
-    public void callMenuReportReturBarangBesar(){
+    public void callMenuReportReturBarangBesar() {
         JIFReportReturBarangBesar fReportretur = null;
         try {
             fReportretur = new JIFReportReturBarangBesar();
@@ -2738,19 +2776,19 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReportretur);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fReportretur.setLocation(x, y);
         fReportretur.setSize(440, 270);
-        fReportretur.setVisible(true);                                
+        fReportretur.setVisible(true);
     }
-    
+
     private void btReportReturBBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportReturBBActionPerformed
         // TODO add your handling code here:
         callDialogReturBB();
     }//GEN-LAST:event_btReportReturBBActionPerformed
 
-    public void callMenuInventoryBarangBesar(){
-       JIFReportInventoryBarangBesar fReportInvent = null;
+    public void callMenuInventoryBarangBesar() {
+        JIFReportInventoryBarangBesar fReportInvent = null;
         try {
             fReportInvent = new JIFReportInventoryBarangBesar();
         } catch (Exception ex) {
@@ -2758,35 +2796,36 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReportInvent);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fReportInvent.setLocation(x, y);
         fReportInvent.setSize(400, 200);
-        fReportInvent.setVisible(true);                          
+        fReportInvent.setVisible(true);
     }
-    
+
     private void btReportInventoryBBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportInventoryBBActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuInventoryBarangBesar();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuInventoryBarangBesar();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btReportInventoryBBActionPerformed
 
-    public void callMenuTransferBarangBesar(){
+    public void callMenuTransferBarangBesar() {
         JIFTransferBB fReportProfit = null;
         try {
             fReportProfit = new JIFTransferBB();
@@ -2795,35 +2834,36 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReportProfit);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fReportProfit.setLocation(x, y);
-        fReportProfit.setVisible(true);                                
+        fReportProfit.setVisible(true);
     }
-    
-    
+
+
     private void btReportTransferBBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportTransferBBActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuReportTransferBarangBesar();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuReportTransferBarangBesar();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btReportTransferBBActionPerformed
 
-    public void callMenuInsentifBK(){    
+    public void callMenuInsentifBK() {
         JIFReportInsentifBarangKecil jIFReportInsentifBarangKecil = null;
         try {
             jIFReportInsentifBarangKecil = new JIFReportInsentifBarangKecil();
@@ -2832,13 +2872,13 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(jIFReportInsentifBarangKecil);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         jIFReportInsentifBarangKecil.setLocation(x, y);
         jIFReportInsentifBarangKecil.setSize(400, 220);
-        jIFReportInsentifBarangKecil.setVisible(true);                                            
+        jIFReportInsentifBarangKecil.setVisible(true);
     }
-    
-    public void callMenuInsentif(){    
+
+    public void callMenuInsentif() {
         JIFReportInsentif fReportProfit = null;
         try {
             fReportProfit = new JIFReportInsentif();
@@ -2847,261 +2887,268 @@ public class MainFrame extends javax.swing.JFrame{
         }
         JSPutama.add(fReportProfit);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /6;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 6;
         fReportProfit.setLocation(x, y);
         fReportProfit.setSize(400, 220);
-        fReportProfit.setVisible(true);                                            
+        fReportProfit.setVisible(true);
     }
     private void btReportInsentifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportInsentifActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuInsentif();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuInsentif();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btReportInsentifActionPerformed
 
-    public void callMenuPenjualBB(){
+    public void callMenuPenjualBB() {
         jIFPenjualBBView = null;
         try {
             jIFPenjualBBView = new JIFPenjualBarangBesarView();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu merek action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu merek action performed karena " + ex);
+        }
         JSPutama.add(jIFPenjualBBView);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /3;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 3;
         jIFPenjualBBView.setLocation(x, y);
         jIFPenjualBBView.setVisible(true);
-    }    
-    
-    public void callMenuBarangBonusKaryawan(){       
+    }
+
+    public void callMenuBarangBonusKaryawan() {
         jIFBarangBonusKaryawanBKView = null;
         try {
             jIFBarangBonusKaryawanBKView = new JIFBarangBonusKaryawanBKView();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu Barang Bonus Karyawan action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu Barang Bonus Karyawan action performed karena " + ex);
+        }
         JSPutama.add(jIFBarangBonusKaryawanBKView);
         int x = (screenSize.width - MainFrame.WIDTH) / 2;
-        int y = (screenSize.height - MainFrame.HEIGHT) /2;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 2;
         jIFBarangBonusKaryawanBKView.setLocation(x, y);
-        jIFBarangBonusKaryawanBKView.setVisible(true);        
-    }        
-    
-    public void callMenuSetupBonus(){
+        jIFBarangBonusKaryawanBKView.setVisible(true);
+    }
+
+    public void callMenuSetupBonus() {
         jIFSetupBonusView = null;
         try {
             jIFSetupBonusView = new JIFSetupBonusView();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu Barang Bonus Karyawan action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu Barang Bonus Karyawan action performed karena " + ex);
+        }
         JSPutama.add(jIFSetupBonusView);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /3;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 3;
         jIFSetupBonusView.setLocation(x, y);
         jIFSetupBonusView.setVisible(true);
-    }            
-    
-    public void callMenuBarangBonusKaryawanBB(){
+    }
+
+    public void callMenuBarangBonusKaryawanBB() {
         jIFBarangBonusKaryawanBBView = null;
         try {
             jIFBarangBonusKaryawanBBView = new JIFBarangBonusKaryawanBBView();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu Barang Bonus Karyawan action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu Barang Bonus Karyawan action performed karena " + ex);
+        }
         JSPutama.add(jIFBarangBonusKaryawanBBView);
         int x = (screenSize.width - MainFrame.WIDTH) / 2;
-        int y = (screenSize.height - MainFrame.HEIGHT) /2;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 2;
         jIFBarangBonusKaryawanBBView.setLocation(x, y);
         jIFBarangBonusKaryawanBBView.setVisible(true);
-    }            
-    
-    public void callMenuPenjualBK(){
+    }
+
+    public void callMenuPenjualBK() {
         jIFPenjualBKView = null;
         try {
             jIFPenjualBKView = new JIFPenjualBKView();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu merek action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu merek action performed karena " + ex);
+        }
         JSPutama.add(jIFPenjualBKView);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /3;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 3;
         jIFPenjualBKView.setLocation(x, y);
         jIFPenjualBKView.setVisible(true);
-    }        
-    
+    }
+
     private void btPenjualBBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPenjualBBActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-                callMenuPenjualBB(); 
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuPenjualBB();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btPenjualBBActionPerformed
 
-    public void callMenuBarangToko(){
+    public void callMenuBarangToko() {
         jIFBarangToko = null;
         try {
             jIFBarangToko = new JIFBarangToko();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFBarangToko);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jIFBarangToko.setLocation(x, y);
-        jIFBarangToko.setVisible(true);        
+        jIFBarangToko.setVisible(true);
     }
-        
+
     private void btBarangTokoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBarangTokoActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuBarangToko(); 
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuBarangToko();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btBarangTokoActionPerformed
 
-    public void callMenuReportTransferBarangBesar(){
+    public void callMenuReportTransferBarangBesar() {
         jIFREportTransferBB = null;
         try {
             jIFREportTransferBB = new JIFREportTransferBB();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFREportTransferBB);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jIFREportTransferBB.setLocation(x, y);
-        jIFREportTransferBB.setSize(400, 200);        
-        jIFREportTransferBB.setVisible(true);        
-    }    
-    
+        jIFREportTransferBB.setSize(400, 200);
+        jIFREportTransferBB.setVisible(true);
+    }
+
     private void btTransferBarangBesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTransferBarangBesarActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
                 callMenuTransferBarangBesar();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btTransferBarangBesarActionPerformed
 
     private void btReportProfitBBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportProfitBBActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-				callMenuProfitBarangBesar();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuProfitBarangBesar();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btReportProfitBBActionPerformed
 
     private void btManajemenTransaksiBarangKecilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btManajemenTransaksiBarangKecilActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-        callMenuManajemenTransaksiBk();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuManajemenTransaksiBk();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btManajemenTransaksiBarangKecilActionPerformed
 
     private void btManajemenTransaksiBBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btManajemenTransaksiBBActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuManajemenTransaksiBB();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuManajemenTransaksiBB();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
         d.setVisible(true);
     }//GEN-LAST:event_btManajemenTransaksiBBActionPerformed
 
@@ -3110,21 +3157,21 @@ public class MainFrame extends javax.swing.JFrame{
         callMenuPenjualBK();
     }//GEN-LAST:event_btPenjualBKActionPerformed
 
-    public void callMenuChart(){
+    public void callMenuChart() {
         jIFChartView = null;
         try {
             jIFChartView = new JIFChartView();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu chart view action performed karena "+ex);
-        }        
+            JOptionPane.showMessageDialog(null, "Error di menu chart view action performed karena " + ex);
+        }
         JSPutama.add(jIFChartView);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
-        int y = (screenSize.height - MainFrame.HEIGHT) /3;                
+        int y = (screenSize.height - MainFrame.HEIGHT) / 3;
         jIFChartView.setSize(300, 150);
         jIFChartView.setLocation(x, y);
-        jIFChartView.setVisible(true);        
+        jIFChartView.setVisible(true);
     }
-    
+
     private void btChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btChartActionPerformed
         // TODO add your handling code here:
         callMenuChart();
@@ -3133,326 +3180,337 @@ public class MainFrame extends javax.swing.JFrame{
     private void btReturCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReturCustomerActionPerformed
         // TODO add your handling code here:
         DialogReturBK.dispose();
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuReportRetur();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuReportRetur();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btReturCustomerActionPerformed
 
     private void btReturSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReturSupplierActionPerformed
         // TODO add your handling code here:
         DialogReturBK.dispose();
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuReportReturPengembalianBK();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuReportReturPengembalianBK();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btReturSupplierActionPerformed
 
     private void btReturCustomer1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReturCustomer1ActionPerformed
         // TODO add your handling code here:
         DialogReturBB.dispose();
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuReportReturBarangBesar();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuReportReturBarangBesar();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btReturCustomer1ActionPerformed
 
     private void btReturSupplier1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReturSupplier1ActionPerformed
         // TODO add your handling code here:
         DialogReturBB.dispose();
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuReportReturPengembalianBB();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuReportReturPengembalianBB();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btReturSupplier1ActionPerformed
 
-    private void callMenuUpdateGlobal(){
+    private void callMenuUpdateGlobal() {
         jIFUpdateGlobalBK = null;
         try {
             jIFUpdateGlobalBK = new JIFUpdateGlobalBK();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFUpdateGlobalBK);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jIFUpdateGlobalBK.setLocation(x, y);
         jIFUpdateGlobalBK.setVisible(true);
     }
-    
-    private void callMenuUpdateGlobalBB(){
+
+    private void callMenuUpdateGlobalBB() {
         jIFUpdateGlobalBB = null;
         try {
             jIFUpdateGlobalBB = new JIFUpdateGlobalBB();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFUpdateGlobalBB);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jIFUpdateGlobalBB.setLocation(x, y);
         jIFUpdateGlobalBB.setVisible(true);
-    }    
-    
-    
-    private void callMenuHistoryBarang(){
+    }
+
+    private void callMenuHistoryBarang() {
         jIFHistoryBarang = null;
         try {
             jIFHistoryBarang = new JIFHistoryBarang();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFHistoryBarang);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jIFHistoryBarang.setLocation(x, y);
         jIFHistoryBarang.setVisible(true);
-    }    
-    
-    private void callMenuHistoryBarangBesar(){
+    }
+
+    private void callMenuHistoryBarangBesar() {
         jIFHistoryBarangBesar = null;
         try {
             jIFHistoryBarangBesar = new JIFHistoryBarangBesar();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jIFHistoryBarangBesar);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jIFHistoryBarangBesar.setLocation(x, y);
         jIFHistoryBarangBesar.setVisible(true);
-    }        
-    
+    }
+
     private void btUpdateGlobalBKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateGlobalBKActionPerformed
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuUpdateGlobal();
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuUpdateGlobal();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btUpdateGlobalBKActionPerformed
 
     private void btHistoryBarangBKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHistoryBarangBKActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuHistoryBarang();
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuHistoryBarang();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btHistoryBarangBKActionPerformed
 
     private void btUpdateGlobalBBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateGlobalBBActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuUpdateGlobalBB();
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuUpdateGlobalBB();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btUpdateGlobalBBActionPerformed
 
     private void btHistoryBarangBBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHistoryBarangBBActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-               callMenuHistoryBarangBesar();
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                                
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuHistoryBarangBesar();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btHistoryBarangBBActionPerformed
 
     private void btBarangKecilExcludeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBarangKecilExcludeActionPerformed
         // TODO add your handling code here:
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
                 callMenuBarangBonusKaryawan();
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btBarangKecilExcludeActionPerformed
 
     private void btInsentifBKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInsentifBKActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
-			callMenuInsentifBK();
-				return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);        
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
+                callMenuInsentifBK();
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btInsentifBKActionPerformed
 
     private void btBarangBesarExcludeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBarangBesarExcludeActionPerformed
         // TODO add your handling code here:
- final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
                 callMenuBarangBonusKaryawanBB();
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);         
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btBarangBesarExcludeActionPerformed
 
     private void btSetupBonusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSetupBonusActionPerformed
         // TODO add your handling code here:
-        final loading d = new loading(this, true);        
-        SwingWorker<?,?> worker = new SwingWorker<Void,Integer>(){  
-           @Override
-           protected Void doInBackground() throws InterruptedException{ 
+        final loading d = new loading(this, true);
+        SwingWorker<?, ?> worker = new SwingWorker<Void, Integer>() {
+            @Override
+            protected Void doInBackground() throws InterruptedException {
                 callMenuSetupBonus();
-               return null;
-           }  
-           
-           @Override
-           protected void process(List<Integer> chunks){}  
-           
-           @Override
-           protected void done(){  
-               d.dispose(); 
-           }  
-        };  
-        worker.execute();  
-        d.setVisible(true);                        
+                return null;
+            }
+
+            @Override
+            protected void process(List<Integer> chunks) {
+            }
+
+            @Override
+            protected void done() {
+                d.dispose();
+            }
+        };
+        worker.execute();
+        d.setVisible(true);
     }//GEN-LAST:event_btSetupBonusActionPerformed
 
     private void callMenuManajemenTransaksiBk() {
@@ -3461,63 +3519,63 @@ public class MainFrame extends javax.swing.JFrame{
             jifmtp = new JIFManajemenTransaksiPenjualan();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jifmtp);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jifmtp.setLocation(x, y);
-        jifmtp.setVisible(true);        
+        jifmtp.setVisible(true);
     }
-    
+
     private void callMenuManajemenTransaksiBB() {
         jiftpbb = null;
         try {
             jiftpbb = new JIFTransaksiPenjualanBB();
         } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         JSPutama.add(jiftpbb);
         int x = (screenSize.width - MainFrame.WIDTH) / 4;
-        int y = (screenSize.height - MainFrame.HEIGHT) /5;        
+        int y = (screenSize.height - MainFrame.HEIGHT) / 5;
         jiftpbb.setLocation(x, y);
-        jiftpbb.setVisible(true);        
+        jiftpbb.setVisible(true);
     }
-    
+
     /**
      * @param args the command line arguments
      */
-/*    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+    /*    public static void main(String args[]) {
+     /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-/*        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+     * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+     */
+    /*        try {
+     for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+     if ("Nimbus".equals(info.getName())) {
+     javax.swing.UIManager.setLookAndFeel(info.getClassName());
+     break;
+     }
+     }
+     } catch (ClassNotFoundException ex) {
+     java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     } catch (InstantiationException ex) {
+     java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     } catch (IllegalAccessException ex) {
+     java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+     java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     }
+     //</editor-fold>
 
-        /* Create and display the form */
-        /*java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                MainFrame x = new MainFrame();                
-                x.setVisible(true);
-            }
-        });
-    }*/
+     /* Create and display the form */
+    /*java.awt.EventQueue.invokeLater(new Runnable() {
+     public void run() {
+     MainFrame x = new MainFrame();                
+     x.setVisible(true);
+     }
+     });
+     }*/
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Center;
     private javax.swing.JDialog DialogAbout;

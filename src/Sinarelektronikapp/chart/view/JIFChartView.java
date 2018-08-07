@@ -159,7 +159,7 @@ public class JIFChartView extends javax.swing.JInternalFrame {
     
     public void koneksi(){
         String url = "jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;";
-        String pass = "5430trisin9";
+        String pass = "P@ssw0rd";
         String user = "root";
         try {
             Class.forName("com.mysql.jdbc.Driver");            

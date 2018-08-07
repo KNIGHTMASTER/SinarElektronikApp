@@ -47,7 +47,7 @@ public class TransaksiPenjualanController {
             JOptionPane.showMessageDialog(null, "error karena = "+ex);
         }
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "error karena = "+ex);
         }    

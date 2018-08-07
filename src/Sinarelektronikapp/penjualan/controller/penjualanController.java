@@ -40,7 +40,7 @@ public class penjualanController {
         try {
             Class.forName("com.mysql.jdbc.Driver");    
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+                connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
             } catch (SQLException ex) {
                 Logger.getLogger(penjualanController.class.getName()).log(Level.SEVERE, null, ex);
             }

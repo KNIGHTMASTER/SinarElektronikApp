@@ -14,6 +14,11 @@ import javax.swing.table.AbstractTableModel;
  * @author Fauzi
  */
 public class TabelModelTransaksiPenjualan extends AbstractTableModel{
+    /**
+     * 
+     * 
+     */
+    private static final long serialVersionUID = -6498605268873668017L;
 
     private List<TransaksiPenjualan> list = new ArrayList<TransaksiPenjualan>();
 

@@ -924,7 +924,7 @@ public class JIFReturView2 extends javax.swing.JInternalFrame implements ReturLi
             Logger.getLogger(JIFKasirView2.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
         } catch (SQLException ex) {
             Logger.getLogger(JIFReturView2.class.getName()).log(Level.SEVERE, null, ex);
         }

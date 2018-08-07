@@ -28,7 +28,7 @@ public class supplierDatabase {
             MysqlDataSource dataSource = new MysqlDataSource();
             dataSource.setUrl("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik");
             dataSource.setUser("root");
-            dataSource.setPassword("5430trisin9");
+            dataSource.setPassword("P@ssw0rd");
             
             connection = dataSource.getConnection();
         }

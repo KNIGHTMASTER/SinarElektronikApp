@@ -25,7 +25,7 @@ public class SetGrosir2 {
     public static void update(String id, int hasil){        
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/sinarelektronik?;", "root", "5430trisin9");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/sinarelektronik?;", "root", "P@ssw0rd");
             PreparedStatement ps = c.prepareStatement("update barang set grosir2=? where idbarang=?");
             ps.setInt(1, hasil);
             ps.setString(2, id);
@@ -38,7 +38,7 @@ public class SetGrosir2 {
     public static void main(String [] args){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://localhost/sinarelektronik?;", "root", "5430trisin9");
+            c = DriverManager.getConnection("jdbc:mysql://localhost/sinarelektronik?;", "root", "P@ssw0rd");
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery("select idbarang, grosir, eceran from barang");
             int hasil = 0;
