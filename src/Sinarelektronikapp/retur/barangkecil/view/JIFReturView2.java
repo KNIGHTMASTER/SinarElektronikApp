@@ -9,7 +9,7 @@ import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.util.Waktu;
 import Sinarelektronikapp.penjualan.barangbesar.view.JIFKasirView2;
 import Sinarelektronikapp.config.ActiveUser;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.barangkecil.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangkecil.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangkecil.entity.barang;
@@ -916,7 +916,7 @@ public class JIFReturView2 extends javax.swing.JInternalFrame implements ReturLi
     }              
 
     Connection c;
-    InternetProtocol ip = new InternetProtocol();
+    HostName ip = new HostName();
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");

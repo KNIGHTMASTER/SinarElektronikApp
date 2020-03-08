@@ -11,7 +11,7 @@ import Sinarelektronikapp.transfer.barangbesar.view.JIFTransferBB;
 import Sinarelektronikapp.chart.view.JIFChartView;
 import Sinarelektronikapp.config.ActiveUser;
 import Sinarelektronikapp.config.ApplicationMode;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.inventory.barangkecil.view.JIFInventory;
 import Sinarelektronikapp.inventory.barangbesar.view.JIFInventoryBB;
@@ -88,12 +88,12 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    InternetProtocol ip;
+    HostName ip;
     ApplicationMode applicationMode;
 
     public MainFrame() {
         applicationMode = new ApplicationMode();
-        ip = new InternetProtocol();
+        ip = new HostName();
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         //truncateActiveUser();

@@ -4,8 +4,6 @@
  */
 package Sinarelektronikapp.maintenance;
 
-import Sinarelektronikapp.config.InternetProtocol;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFileChooser;

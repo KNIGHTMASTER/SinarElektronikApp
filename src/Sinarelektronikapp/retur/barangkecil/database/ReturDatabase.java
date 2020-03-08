@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.retur.barangkecil.database;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.retur.barangkecil.service.ReturDao;
 import Sinarelektronikapp.retur.barangkecil.service.ReturDaoImpl;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -23,7 +23,7 @@ public class ReturDatabase {
     
     private static ReturDao dao;    
     
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     
     public static Connection getConnection() {
         if(connection==null){

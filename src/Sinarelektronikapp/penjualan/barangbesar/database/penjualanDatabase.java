@@ -6,7 +6,7 @@ package Sinarelektronikapp.penjualan.barangbesar.database;
 
 import Sinarelektronikapp.penjualan.barangbesar.service.impl.penjualanDaoImpl;
 import Sinarelektronikapp.penjualan.barangbesar.service.penjualanDao;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ public class penjualanDatabase {
     
     private static penjualanDao dao;    
     
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     
     public static Connection getConnection() {
         if(connection==null){

@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.supplier.view;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.supplier.entity.supplier;
 import Sinarelektronikapp.masterdata.supplier.controller.supplierController;
@@ -799,7 +799,7 @@ public class supplierView extends javax.swing.JPanel implements supplierListener
     }
     private Connection conn;
 	    
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
 	
     public void koneksi(){
         try {

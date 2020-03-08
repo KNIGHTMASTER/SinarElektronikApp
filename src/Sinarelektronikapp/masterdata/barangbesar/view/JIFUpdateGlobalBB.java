@@ -5,7 +5,7 @@
 package Sinarelektronikapp.masterdata.barangbesar.view;
 
 import Sinarelektronikapp.masterdata.barangkecil.view.*;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -44,7 +44,7 @@ public class JIFUpdateGlobalBB extends javax.swing.JInternalFrame {
 
     private Connection conn = null;
     
-    InternetProtocol ip = new InternetProtocol();    
+    HostName ip = new HostName();
     
     public void koneksi(){
         try {

@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.report.view;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.report.core.ReportParam;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,7 +31,7 @@ public class JIFReportPengembalianBarangBesar extends javax.swing.JInternalFrame
     }
 
     public Connection conn = null;
-    InternetProtocol ip1 = new InternetProtocol();    
+    HostName ip1 = new HostName();
     
     public void koneksi(){
         String url = "jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;";

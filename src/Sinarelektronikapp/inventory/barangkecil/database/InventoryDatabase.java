@@ -1,6 +1,6 @@
 package Sinarelektronikapp.inventory.barangkecil.database;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.inventory.barangkecil.service.InventoryDao;
 import Sinarelektronikapp.inventory.barangkecil.service.InventoryDaoImpl;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -19,7 +19,7 @@ public class InventoryDatabase {
     
     private static InventoryDao dao;    
     
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     
     public static Connection getConnection() {
         if(connection==null){

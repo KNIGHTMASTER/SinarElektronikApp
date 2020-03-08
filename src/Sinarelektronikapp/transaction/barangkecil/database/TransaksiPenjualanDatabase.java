@@ -2,8 +2,7 @@ package Sinarelektronikapp.transaction.barangkecil.database;
 
 import Sinarelektronikapp.transaction.barangkecil.service.TransaksiPenjualanDao;
 import Sinarelektronikapp.transaction.barangkecil.service.TransaksiPenjualanDaoImpl;
-import Sinarelektronikapp.config.InternetProtocol;
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import Sinarelektronikapp.config.HostNameql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -20,9 +19,7 @@ public class TransaksiPenjualanDatabase {
     
     private static TransaksiPenjualanDao dao;    
     
-    static InternetProtocol ip1 = new InternetProtocol();
-    
-    public static Connection getConnection() {
+    static HostNameHostNameHostNameameic ConneHostNameion() {
         if(connection==null){
             MysqlDataSource dataSource=new MysqlDataSource();
             dataSource.setUrl("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik");

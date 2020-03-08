@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.tambahbarang.besar.view;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
 import Sinarelektronikapp.masterdata.barangbesar.model.event.tambahBarangListener;
@@ -49,7 +49,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
     tambahBarangModel model;
     
     
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     
         
     public TambahBarangView2(){        

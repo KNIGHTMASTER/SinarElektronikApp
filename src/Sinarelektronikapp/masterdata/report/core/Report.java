@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.report.core;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
@@ -33,7 +33,7 @@ public class Report {
     public Connection conn = null;
         
     
-    InternetProtocol ip = new InternetProtocol();
+    HostName ip = new HostName();
     
     public Report() {
         koneksi();

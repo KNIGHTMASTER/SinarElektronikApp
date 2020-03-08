@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.report.core;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,7 +27,7 @@ public class Validation {
     public Validation() {
     }    
      
-    InternetProtocol ip = new InternetProtocol();
+    HostName ip = new HostName();
     
     public void koneksi(){
         try{

@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.report.view;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.report.core.ReportParam;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,7 +28,7 @@ public class JIFReportInsentifBarangKecil extends javax.swing.JInternalFrame {
     }
 
     private Connection conn;
-    InternetProtocol ip = new InternetProtocol();    
+    HostName ip = new HostName();
     
     public void koneksi(){
         try {

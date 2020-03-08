@@ -2,7 +2,7 @@ package Sinarelektronikapp.transaction.barangbesar.controller;
 
 import Sinarelektronikapp.transaction.barangbesar.model.TransaksiPenjualanBBModel;
 import Sinarelektronikapp.transaction.barangbesar.view.JIFTransaksiPenjualanBB;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -34,7 +34,7 @@ public class TransaksiPenjualanBBController {
     private Connection connection;
             
 	
-    static InternetProtocol ip1 = new InternetProtocol();    
+    static HostName ip1 = new HostName();    
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");

@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.pelanggan.database;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.pelanggan.service.impl.pelangganDaoImpl;
 import Sinarelektronikapp.masterdata.pelanggan.service.pelangganDao;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -20,7 +20,7 @@ public class pelangganDatabase {
     
     private static pelangganDao dao;    
     
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     
     public static Connection getConnection() throws SQLException {
         if(connection == null){

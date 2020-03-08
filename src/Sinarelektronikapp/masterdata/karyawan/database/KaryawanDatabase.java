@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.karyawan.database;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.karyawan.service.KaryawanDao;
 import Sinarelektronikapp.masterdata.karyawan.service.KaryawanDaoImpl;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -26,7 +26,7 @@ public class KaryawanDatabase {
     public KaryawanDatabase() {
     }
 
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     
     public static Connection getConnection(){
         if(connection == null){

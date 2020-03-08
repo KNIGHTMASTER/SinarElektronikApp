@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.report.view;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.report.core.Report;
 import Sinarelektronikapp.masterdata.report.core.ReportParam;
 import java.sql.Connection;
@@ -389,7 +389,7 @@ public class PriceListReport extends javax.swing.JPanel {
 
     Connection conn = null;
 
-    InternetProtocol ip = new InternetProtocol();    
+    HostName ip = new HostName();
     
     public void koneksi(){
         try {

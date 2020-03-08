@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.karyawan.view;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.karyawan.Error.KaryawanException;
 import Sinarelektronikapp.masterdata.karyawan.controller.KaryawanController;
 import Sinarelektronikapp.masterdata.karyawan.database.KaryawanDatabase;
@@ -75,7 +75,7 @@ public class KaryawanView extends javax.swing.JPanel implements KaryawanListener
         loadDatabase();
     }
 
-    InternetProtocol ip = new InternetProtocol();
+    HostName ip = new HostName();
     Connection connection =null;
     public void koneksi(){
         try {

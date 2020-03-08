@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Sinarelektronikapp.config;
 
 import Sinarelektronikapp.AppConstant;
@@ -26,10 +22,10 @@ import javax.swing.JOptionPane;
  *
  * @author Fauzi
  */
-public class InternetProtocol {
+public class HostName {
     String ip;
 
-    public InternetProtocol() {
+    public HostName() {
     }
 
     public String getIp() {
@@ -68,7 +64,7 @@ public class InternetProtocol {
             try {
                 ipServer = AES.decrypt(ipServer, AppConstant.CONFIG_PASSWORD);
             } catch (IllegalBlockSizeException | BadPaddingException ex) {
-                Logger.getLogger(InternetProtocol.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(HostName.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else {
             ipServer = null;
@@ -97,7 +93,7 @@ public class InternetProtocol {
                 try {
                     bw.close();
                 } catch (IOException ex) {
-                    Logger.getLogger(InternetProtocol.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(HostName.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

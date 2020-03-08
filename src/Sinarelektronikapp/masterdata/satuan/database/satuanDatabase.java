@@ -5,7 +5,7 @@
 
 package Sinarelektronikapp.masterdata.satuan.database;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import Sinarelektronikapp.masterdata.satuan.service.impl.satuanDaoImpl;
 import Sinarelektronikapp.masterdata.satuan.service.satuanDao;
@@ -21,7 +21,7 @@ public class satuanDatabase {
     
     private static satuanDao dao;
     
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     
     public static Connection getConnection() throws SQLException {
         

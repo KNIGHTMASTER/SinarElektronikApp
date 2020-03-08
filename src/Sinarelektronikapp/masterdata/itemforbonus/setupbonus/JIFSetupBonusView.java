@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.itemforbonus.setupbonus;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -40,7 +40,7 @@ public class JIFSetupBonusView extends javax.swing.JInternalFrame {
     private Connection connection;
             
 	
-    static InternetProtocol ip1 = new InternetProtocol();    
+    static HostName ip1 = new HostName();
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");

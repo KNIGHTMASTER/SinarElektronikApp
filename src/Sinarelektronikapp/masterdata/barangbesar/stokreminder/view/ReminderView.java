@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.barangbesar.stokreminder.view;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
@@ -63,7 +63,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
     
     ReminderModel model;
     
-    InternetProtocol ip = new InternetProtocol();    
+    HostName ip = new HostName();
     
     ReminderDatabase database = new ReminderDatabase();
         

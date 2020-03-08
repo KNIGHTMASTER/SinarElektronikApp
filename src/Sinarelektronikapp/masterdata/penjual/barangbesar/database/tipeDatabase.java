@@ -5,7 +5,7 @@
 
 package Sinarelektronikapp.masterdata.penjual.barangbesar.database;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.penjual.barangbesar.service.impl.TipeDaoImpl;
 import Sinarelektronikapp.masterdata.penjual.barangbesar.service.tipeDao;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -24,7 +24,7 @@ public class tipeDatabase {
     private static String ip;
     
     
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     
     public static Connection getConnection() throws SQLException {
         if(connection == null){

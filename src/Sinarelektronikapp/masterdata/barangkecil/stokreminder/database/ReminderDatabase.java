@@ -1,6 +1,6 @@
 package Sinarelektronikapp.masterdata.barangkecil.stokreminder.database;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.barangkecil.stokreminder.service.ReminderDao;
 import Sinarelektronikapp.masterdata.barangkecil.stokreminder.service.impl.ReminderDaoImpl;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -16,7 +16,7 @@ public class ReminderDatabase {
     
     private static ReminderDao dao;    
     
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
             
     public static Connection getConnection() throws SQLException {
         if(connection == null){

@@ -1,5 +1,5 @@
 package Sinarelektronikapp.masterdata.itemforbonus.barangbesar.view;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
@@ -537,7 +537,7 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
         tambah();
     }//GEN-LAST:event_btTambahActionPerformed
 
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
         if(tabelTipe.getSelectedRowCount()<=0){
             JOptionPane.showMessageDialog(null, "Pilih data terlebih dahulu", "peringatan", JOptionPane.WARNING_MESSAGE);

@@ -4,7 +4,7 @@ import Sinarelektronikapp.util.FormatRupiah;
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.util.Waktu;
 import Sinarelektronikapp.config.ActiveUser;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.inventory.barangkecil.controller.InventoryController;
 import Sinarelektronikapp.inventory.barangkecil.entity.Inventory;
 import Sinarelektronikapp.inventory.barangkecil.model.Event.InventoryListener;
@@ -1504,7 +1504,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
     }     
 
     Connection c;
-    InternetProtocol ip = new InternetProtocol();
+    HostName ip = new HostName();
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");

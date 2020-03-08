@@ -8,7 +8,7 @@ import Sinarelektronikapp.util.FormatRupiah;
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.util.Waktu;
 import Sinarelektronikapp.config.ActiveUser;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
@@ -1280,7 +1280,7 @@ public class ReturView extends javax.swing.JPanel implements ReturListener, bara
     }              
 
     Connection c;
-    InternetProtocol ip = new InternetProtocol();
+    HostName ip = new HostName();
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");

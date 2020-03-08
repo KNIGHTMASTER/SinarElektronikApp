@@ -7,7 +7,7 @@ import Sinarelektronikapp.transaction.barangbesar.model.event.TransaksiPenjualan
 import Sinarelektronikapp.transaction.barangbesar.model.TabelModelTransaksiPenjualanBB;
 import Sinarelektronikapp.transaction.barangbesar.model.TransaksiPenjualanBBModel;
 import Sinarelektronikapp.transaction.barangbesar.service.TransaksiPenjualanBBDao;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -312,7 +312,7 @@ public class JIFTransaksiPenjualanBB extends javax.swing.JInternalFrame implemen
         // TODO add your handling code here:
         controller.deleteTransaksi(this);
     }//GEN-LAST:event_btHapusActionPerformed
-    InternetProtocol ip1 = new InternetProtocol();
+    HostName ip1 = new HostName();
     Connection c =null;
     public void koneksi(){
         try {

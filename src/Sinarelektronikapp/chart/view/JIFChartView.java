@@ -1,7 +1,7 @@
 package Sinarelektronikapp.chart.view;
 
 import Sinarelektronikapp.chart.core.Core;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -151,7 +151,7 @@ public class JIFChartView extends javax.swing.JInternalFrame {
     public Connection c = null;
     
     Core core = new Core();
-    InternetProtocol ip1 = new InternetProtocol();    
+    HostName ip1 = new HostName();
     
     public void koneksi(){
         String url = "jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;";

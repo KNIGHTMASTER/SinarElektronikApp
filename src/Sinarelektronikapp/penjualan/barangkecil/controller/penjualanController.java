@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.penjualan.barangkecil.controller;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.penjualan.barangkecil.error.penjualanException;
 import Sinarelektronikapp.penjualan.barangkecil.model.PenjualanModel;
 import Sinarelektronikapp.penjualan.barangkecil.model.TabelModelPenjualan;
@@ -34,7 +34,7 @@ public class penjualanController {
     
     private Connection connection;
     
-    InternetProtocol ip1 = new InternetProtocol();    
+    HostName ip1 = new HostName();
     
     public void koneksi(){
         try {

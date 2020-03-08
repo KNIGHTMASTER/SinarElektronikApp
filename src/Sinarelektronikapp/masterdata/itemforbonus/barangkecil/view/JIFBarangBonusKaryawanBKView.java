@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package Sinarelektronikapp.masterdata.itemforbonus.barangkecil.view;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.barangkecil.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangkecil.database.barangDatabase;
@@ -516,7 +516,7 @@ public class JIFBarangBonusKaryawanBKView extends javax.swing.JInternalFrame imp
         tambah();
     }//GEN-LAST:event_btTambahActionPerformed
 
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
         if(tabelTipe.getSelectedRowCount()<=0){
             JOptionPane.showMessageDialog(null, "Pilih data terlebih dahulu", "peringatan", JOptionPane.WARNING_MESSAGE);

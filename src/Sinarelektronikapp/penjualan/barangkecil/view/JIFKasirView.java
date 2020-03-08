@@ -6,7 +6,7 @@ package Sinarelektronikapp.penjualan.barangkecil.view;
 
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.config.ActiveUser;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.barangkecil.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangkecil.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangkecil.entity.barang;
@@ -454,7 +454,7 @@ public class JIFKasirView extends javax.swing.JInternalFrame implements penjuala
     private Connection connection;
             
 	
-    static InternetProtocol ip1 = new InternetProtocol();    
+    static HostName ip1 = new HostName();
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");

@@ -1,6 +1,6 @@
 package Sinarelektronikapp.inventory.barangbesar.service;
 
-import Sinarelektronikapp.inventory.barangbesar.entity.Inventory;
+import Sinarelektronikapp.inventory.barangbesar.entity.InventoryDTO;
 import Sinarelektronikapp.inventory.barangbesar.error.InventoryException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +26,7 @@ public class InventoryDaoImpl implements InventoryDao {
     }
         
     @Override
-    public void insertProsesInventory(Inventory inventory) throws InventoryException {
+    public void insertProsesInventory(InventoryDTO inventory) throws InventoryException {
         PreparedStatement ps = null;
         try{
             c.setAutoCommit(false);

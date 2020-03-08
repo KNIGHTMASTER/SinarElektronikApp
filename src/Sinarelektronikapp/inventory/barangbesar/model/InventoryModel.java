@@ -1,10 +1,11 @@
 package Sinarelektronikapp.inventory.barangbesar.model;
 
 import Sinarelektronikapp.inventory.barangbesar.database.InventoryDatabase;
-import Sinarelektronikapp.inventory.barangbesar.entity.Inventory;
+import Sinarelektronikapp.inventory.barangbesar.entity.InventoryDTO;
 import Sinarelektronikapp.inventory.barangbesar.error.InventoryException;
 import Sinarelektronikapp.inventory.barangbesar.model.Event.InventoryListener;
 import Sinarelektronikapp.inventory.barangbesar.service.InventoryDao;
+import Sinarelektronikapp.model.BaseModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
  *
  * @author Fauzi
  */
-public class InventoryModel {
+public class InventoryModel extends BaseModel {
     int id, jumlah, harga, ekspedisi, subharga;
     
     String user, tanggal, jam, kode, nama;
@@ -127,7 +128,7 @@ public class InventoryModel {
         }
     }
     
-    public void fireOnInsert(Inventory inventory){
+    public void fireOnInsert(InventoryDTO inventory){
         if(listener!=null){
             listener.onInsert(inventory);
         }
@@ -148,7 +149,7 @@ public class InventoryModel {
     public void insertProsesInventory(){
         InventoryDao dao = InventoryDatabase.getInventoryDao();
         
-        Inventory inventory = new Inventory();        
+        InventoryDTO inventory = new InventoryDTO();        
         inventory.setId(id);
         inventory.setUser(user);
         inventory.setTanggal(tanggal);

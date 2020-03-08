@@ -5,8 +5,7 @@
 
 package Sinarelektronikapp.masterdata.itemforbonus.barangbesar.database;
 
-import Sinarelektronikapp.config.InternetProtocol;
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.service.impl.BarangBonusKaryawanBBDaoImpl;
 import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.service.BarangBonusKaryawanBBDao;
 import java.sql.Connection;
@@ -24,9 +23,8 @@ public class BarangBonusKaryawanBBDatabase {
     private static String ip;
     
     
-    static InternetProtocol ip1 = new InternetProtocol();
-    
-    public static Connection getConnection() throws SQLException {
+    static HostNameHostNameame();
+    HostNameic Connection getConnection() throws SQLException {
         if(connection == null){
             MysqlDataSource dataSource = new MysqlDataSource();            
             dataSource.setUrl("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik");

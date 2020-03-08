@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.retur.barangbesar.view;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
@@ -144,7 +144,7 @@ public class ProsesRetur extends javax.swing.JPanel implements barangListener{
     }
     
     Connection c;
-    InternetProtocol ip = new InternetProtocol();
+    HostName ip = new HostName();
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");

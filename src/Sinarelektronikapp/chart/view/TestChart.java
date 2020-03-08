@@ -5,7 +5,7 @@
 package Sinarelektronikapp.chart.view;
 
 import Sinarelektronikapp.chart.core.Core;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,9 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -169,7 +167,7 @@ public class TestChart extends javax.swing.JFrame {
     public Connection c = null;
     
     Core core = new Core();
-    InternetProtocol ip1 = new InternetProtocol();    
+    HostName ip1 = new HostName();
     
     public void koneksi(){
         String url = "jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;";

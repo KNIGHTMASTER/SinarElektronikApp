@@ -4,9 +4,9 @@ import Sinarelektronikapp.util.FormatRupiah;
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.util.Waktu;
 import Sinarelektronikapp.config.ActiveUser;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.inventory.barangbesar.controller.InventoryController;
-import Sinarelektronikapp.inventory.barangbesar.entity.Inventory;
+import Sinarelektronikapp.inventory.barangbesar.entity.InventoryDTO;
 import Sinarelektronikapp.inventory.barangbesar.model.Event.InventoryListener;
 import Sinarelektronikapp.inventory.barangbesar.model.InventoryModel;
 import Sinarelektronikapp.inventory.barangbesar.model.TabelModelInventory;
@@ -1556,7 +1556,7 @@ public void inisiasiDataAwal(){
     }     
 
     Connection c;
-    InternetProtocol ip = new InternetProtocol();
+    HostName ip = new HostName();
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -1605,7 +1605,7 @@ public void inisiasiDataAwal(){
     }
 
     @Override
-    public void onInsert(Inventory inventory) {
+    public void onInsert(InventoryDTO inventory) {
         tabelModelInventory.add(inventory);
         
         totalMain+=inventory.getSubharga();

@@ -1,6 +1,6 @@
 package Sinarelektronikapp.inventory.barangbesar.model;
 
-import Sinarelektronikapp.inventory.barangbesar.entity.Inventory;
+import Sinarelektronikapp.inventory.barangbesar.entity.InventoryDTO;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,9 +11,9 @@ import javax.swing.table.AbstractTableModel;
  * @author Fauzi
  */
 public class TabelModelInventory extends AbstractTableModel{
-    private List<Inventory> list = new ArrayList<>();
+    private List<InventoryDTO> list = new ArrayList<>();
 
-    public void setList(List<Inventory> list) {
+    public void setList(List<InventoryDTO> list) {
         this.list = list;
     }
 
@@ -29,7 +29,7 @@ public class TabelModelInventory extends AbstractTableModel{
         }
     }            
     
-    public boolean add(Inventory e) {
+    public boolean add(InventoryDTO e) {
         try{
             return list.add(e);
         }finally{
@@ -37,11 +37,11 @@ public class TabelModelInventory extends AbstractTableModel{
         }
     }
 
-    public Inventory get(int index) {
+    public InventoryDTO get(int index) {
         return list.get(index);
     }
 
-    public Inventory set(int index, Inventory element) {
+    public InventoryDTO set(int index, InventoryDTO element) {
         try{
             return list.set(index, element);
         }finally{
@@ -49,7 +49,7 @@ public class TabelModelInventory extends AbstractTableModel{
         }
     }
 
-    public Inventory remove(int index) {
+    public InventoryDTO remove(int index) {
         try{
             return list.remove(index);
         }finally{

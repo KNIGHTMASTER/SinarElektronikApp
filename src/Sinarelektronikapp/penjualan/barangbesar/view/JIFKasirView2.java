@@ -12,7 +12,7 @@ import Sinarelektronikapp.penjualan.barangbesar.model.PenjualanModel;
 import Sinarelektronikapp.penjualan.barangbesar.model.TabelModelPenjualan;
 import Sinarelektronikapp.penjualan.barangbesar.model.event.penjualanListener;
 import Sinarelektronikapp.config.ActiveUser;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
@@ -652,7 +652,7 @@ public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjual
     private Connection connection;
             
 	
-    static InternetProtocol ip1 = new InternetProtocol();    
+    static HostName ip1 = new HostName();
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");

@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.user.database;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.user.service.impl.userDaoImpl;
 import Sinarelektronikapp.masterdata.user.service.userDao;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
@@ -23,7 +23,7 @@ public class userdatabase {
 
     private static String ip;
     
-    static InternetProtocol ip1 = new InternetProtocol();
+    static HostName ip1 = new HostName();
     
     public static Connection getConnection() throws SQLException {
         if(connection == null){

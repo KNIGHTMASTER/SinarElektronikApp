@@ -2,7 +2,7 @@ package Sinarelektronikapp.view;
 
 import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.ActiveUser;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.util.AES;
 import java.sql.Connection;
@@ -146,7 +146,7 @@ public class ReLogin extends javax.swing.JFrame {
     private Connection connection;
 	
 
-    InternetProtocol ip = new InternetProtocol();
+    HostName ip = new HostName();
 	
     public void koneksi(){
         try {

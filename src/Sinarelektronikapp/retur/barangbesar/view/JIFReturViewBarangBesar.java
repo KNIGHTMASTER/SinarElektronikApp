@@ -14,7 +14,7 @@ import Sinarelektronikapp.retur.barangbesar.model.Event.ReturListener;
 import Sinarelektronikapp.retur.barangbesar.model.ReturModel;
 import Sinarelektronikapp.retur.barangbesar.model.TabelModelRetur;
 import Sinarelektronikapp.config.ActiveUser;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
@@ -313,7 +313,7 @@ public class JIFReturViewBarangBesar extends javax.swing.JInternalFrame implemen
     }              
 
     Connection c;
-    InternetProtocol ip = new InternetProtocol();
+    HostName ip = new HostName();
         
     public void inisiasiDataAwal(){
         txtnoretur.setText(String.valueOf(getIdTransaksi()));

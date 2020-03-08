@@ -2,7 +2,7 @@ package Sinarelektronikapp.transaction.barangbesar.database;
 
 import Sinarelektronikapp.transaction.barangbesar.service.TransaksiPenjualanBBDao;
 import Sinarelektronikapp.transaction.barangbesar.service.TransaksiPenjualanBBDaoImpl;
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,7 +18,7 @@ public class TransaksiPenjualanBBDatabase {
     
     private static TransaksiPenjualanBBDao dao;
     
-    private static InternetProtocol ip = new InternetProtocol();
+    private static HostName ip = new HostName();
 
     public static Connection getConnection() {
         if(connection == null){

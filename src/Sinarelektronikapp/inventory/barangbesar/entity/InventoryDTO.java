@@ -1,19 +1,18 @@
 package Sinarelektronikapp.inventory.barangbesar.entity;
 
+import Sinarelektronikapp.dto.BaseDTO;
 import java.util.Objects;
 
 /**
  *
  * @author Fauzi
  */
-public class Inventory {
-
-    public Inventory() {
-    }
+public class InventoryDTO extends BaseDTO {
+    private int id, jumlah, harga, ekspedisi, subharga;
+    private String user, tanggal, jam, kode, nama;
     
-    int id, jumlah, harga, ekspedisi, subharga;
-    
-    String user, tanggal, jam, kode, nama;
+    public InventoryDTO() {
+    }      
 
     public int getId() {
         return id;
@@ -119,7 +118,7 @@ public class Inventory {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Inventory other = (Inventory) obj;
+        final InventoryDTO other = (InventoryDTO) obj;
         if (this.id != other.id) {
             return false;
         }

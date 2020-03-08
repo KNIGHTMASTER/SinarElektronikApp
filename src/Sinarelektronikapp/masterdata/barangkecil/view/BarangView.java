@@ -4,7 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.barangkecil.view;
 
-import Sinarelektronikapp.config.InternetProtocol;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.barangkecil.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangkecil.database.barangDatabase;
@@ -63,7 +63,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
     
     barangModel model;
     
-    InternetProtocol ip = new InternetProtocol();    
+    HostName ip = new HostName();
         
     public BarangView() {
 
