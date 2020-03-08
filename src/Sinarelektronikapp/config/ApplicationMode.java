@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  * @author <a href="mailto:fauzi.knightmaster.achmad@gmail.com">Achmad Fauzi</a>
  */
 public class ApplicationMode {
-
+    
     private String activeMode;
     
     private final String FILE_NAME = "ui-config.txt";

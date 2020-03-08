@@ -56,7 +56,7 @@ public class InternetProtocol {
             }*/
         scan = new Scanner(new FileReader("config.txt"));
             while (scan.hasNext()) {                
-                ipServer = scan.nextLine();
+                ipServer = scan.nextLine();                
             }            
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error dalam membaca file cofiguration karena "+e);
@@ -66,7 +66,7 @@ public class InternetProtocol {
             }
         }
         if (ipServer != null) {           
-            ipServer = basicTextEncryptor.decrypt(ipServer);
+            ipServer = basicTextEncryptor.decrypt(ipServer);            
         }else {
             ipServer = null;
         }

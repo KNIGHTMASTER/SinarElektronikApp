@@ -1,6 +1,8 @@
 /build/
 .idea/
-
+.DS_Store
+dist/.DS_Store
+nbproject/private/jshell.history
 
 
 

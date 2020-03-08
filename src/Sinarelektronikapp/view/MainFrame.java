@@ -59,8 +59,9 @@ import Sinarelektronikapp.penjualan.view.JIFKasirView;
 import Sinarelektronikapp.retur.transaksi.view.JIFPRosesRetur2;
 import Sinarelektronikapp.retur.transaksi.view.JIFReturView2;
 import Sinarelektronikapp.swingResource.loadBtImage;
-import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import Sinarelektronikapp.util.AES;
+//import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
+//import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.CardLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -75,6 +76,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
@@ -1379,12 +1382,12 @@ public class MainFrame extends javax.swing.JFrame {
         Statement statement = null;
         try {
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT nama, password, level FROM user WHERE nama='" + userNameF + "'");
-
+            ResultSet rs = statement.executeQuery("SELECT nama, password, level FROM user WHERE nama='" + userNameF + "'");           
             String decryptedPassword = null;
 
             if (rs.next()) {
                 decryptedPassword = basicTextEncryptor.decrypt(rs.getString("password"));
+                
                 if (decryptedPassword.equals(passwordF)) {
                     Login.setText("Logout");
                     String levelLogin = "";
@@ -1728,12 +1731,12 @@ public class MainFrame extends javax.swing.JFrame {
                 case 0:
                     UIManager.setLookAndFeel(new NimbusLookAndFeel());
                     break;
-                case 1:
-                    UIManager.setLookAndFeel(new WindowsClassicLookAndFeel());
-                    break;
-                case 2:
-                    UIManager.setLookAndFeel(new WindowsLookAndFeel());
-                    break;
+//                case 1:
+//                    UIManager.setLookAndFeel(new WindowsClassicLookAndFeel());
+//                    break;
+//                case 2:
+//                    UIManager.setLookAndFeel(new WindowsLookAndFeel());
+//                    break;
                 case 3:
                     com.jtattoo.plaf.acryl.AcrylLookAndFeel.setTheme(theme);
                     com.jtattoo.plaf.acryl.AcrylLookAndFeel.setCurrentTheme(props);

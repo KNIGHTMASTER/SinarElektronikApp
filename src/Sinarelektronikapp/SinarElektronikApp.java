@@ -4,7 +4,6 @@
  */
 package Sinarelektronikapp;
 
-import Sinarelektronikapp.view.MainFrame;
 import Sinarelektronikapp.view.TestSplahScreen;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;

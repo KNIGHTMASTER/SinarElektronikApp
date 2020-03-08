@@ -55,11 +55,11 @@ public class ActiveUser {
                 ipServer = getData;
                 //JOptionPane.showMessageDialog(null, "ip server = "+ipServer);
             }*/
-        scan = new Scanner(new FileReader(FILE_NAME));
-            while (scan.hasNext()) {                
+            scan = new Scanner(new FileReader(FILE_NAME));
+            while (scan.hasNext()) {
                 user = scan.nextLine();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error dalam membaca file cofiguration karena "+e);
         }finally{
             if (scan != null) {
