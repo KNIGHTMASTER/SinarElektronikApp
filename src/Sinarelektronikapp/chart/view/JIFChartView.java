@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Sinarelektronikapp.chart.view;
 
 import Sinarelektronikapp.chart.core.Core;
@@ -75,7 +71,7 @@ public class JIFChartView extends javax.swing.JInternalFrame {
         panelTransaksi.add(jLabel2);
         panelTransaksi.add(txtTanggalAkhir);
 
-        btPieChartBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/pieChart.png"))); // NOI18N
+        btPieChartBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/pieChart.png"))); // NOI18N
         btPieChartBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btPieChartBBActionPerformed(evt);
@@ -83,7 +79,7 @@ public class JIFChartView extends javax.swing.JInternalFrame {
         });
         panelTransaksi.add(btPieChartBB);
 
-        btBarChartBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/barChart.png"))); // NOI18N
+        btBarChartBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/barChart.png"))); // NOI18N
         btBarChartBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBarChartBBActionPerformed(evt);
@@ -107,7 +103,7 @@ public class JIFChartView extends javax.swing.JInternalFrame {
         panelTransaksi1.add(jLabel4);
         panelTransaksi1.add(txtTanggalAkhirBK);
 
-        btPieChartBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/pieChart.png"))); // NOI18N
+        btPieChartBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/pieChart.png"))); // NOI18N
         btPieChartBK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btPieChartBKActionPerformed(evt);
@@ -115,7 +111,7 @@ public class JIFChartView extends javax.swing.JInternalFrame {
         });
         panelTransaksi1.add(btPieChartBK);
 
-        btBarChartBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/barChart.png"))); // NOI18N
+        btBarChartBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/barChart.png"))); // NOI18N
         btBarChartBK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBarChartBKActionPerformed(evt);
@@ -133,7 +129,7 @@ public class JIFChartView extends javax.swing.JInternalFrame {
         setTitle("Grafik Performa Karyawan");
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
-        btGrafikKaryawanBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/barangbesar.png"))); // NOI18N
+        btGrafikKaryawanBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/barangbesar.png"))); // NOI18N
         btGrafikKaryawanBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btGrafikKaryawanBBActionPerformed(evt);
@@ -141,7 +137,7 @@ public class JIFChartView extends javax.swing.JInternalFrame {
         });
         getContentPane().add(btGrafikKaryawanBB);
 
-        btGrafikKaryawanBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/barang.png"))); // NOI18N
+        btGrafikKaryawanBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/barang.png"))); // NOI18N
         btGrafikKaryawanBK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btGrafikKaryawanBKActionPerformed(evt);
