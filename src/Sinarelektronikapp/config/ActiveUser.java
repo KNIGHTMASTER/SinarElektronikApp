@@ -5,6 +5,7 @@
 package Sinarelektronikapp.config;
 
 import Sinarelektronikapp.AppConstant;
+import Sinarelektronikapp.util.AES;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,8 +16,9 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.swing.JOptionPane;
-import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  *
@@ -25,12 +27,8 @@ import org.jasypt.util.text.BasicTextEncryptor;
 public class ActiveUser {
     private String userName;
     private final String FILE_NAME = "user.txt";
-    
-    private final BasicTextEncryptor basicTextEncryptor;
 
     public ActiveUser() {
-        basicTextEncryptor = new BasicTextEncryptor();
-        basicTextEncryptor.setPassword(AppConstant.CONFIG_PASSWORD);
     }
     
     
@@ -67,7 +65,11 @@ public class ActiveUser {
             }
         }
         if (user != null) {
-            user = basicTextEncryptor.decrypt(user);
+            try {
+                user = AES.decrypt(user, AppConstant.CONFIG_PASSWORD);
+            } catch (IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(ActiveUser.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else {
             user = null;
         }
@@ -80,7 +82,7 @@ public class ActiveUser {
         try{
             Files.deleteIfExists(fileUser);
             fileUser = Files.createFile(fileUser);
-            userName = basicTextEncryptor.encrypt(getUserName());
+            userName = AES.encrypt(getUserName(), AppConstant.CONFIG_PASSWORD);
             bw = Files.newBufferedWriter(fileUser, Charset.defaultCharset());
             bw.append(userName);
             bw.flush();

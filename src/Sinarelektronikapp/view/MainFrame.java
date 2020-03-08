@@ -1,64 +1,59 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Sinarelektronikapp.view;
 
 import Sinarelektronikapp.AppConstant;
-import Sinarelektronikapp.Class.loading;
-import Sinarelektronikapp.ManajemenPenjualan.BarangBesar.View.JIFTransaksiPenjualanBB;
-import Sinarelektronikapp.ManajemenPenjualan.BarangKecil.View.JIFManajemenTransaksiPenjualan;
-import Sinarelektronikapp.PenjualanBarangBesar.view.JIFKasirView2;
-import Sinarelektronikapp.ReturBarangBesar.transaksi.view.JIFPRosesReturBB;
-import Sinarelektronikapp.ReturBarangBesar.transaksi.view.JIFReturViewBarangBesar;
-import Sinarelektronikapp.TransferBarangBesar.view.JIFTransferBB;
+import Sinarelektronikapp.util.loading;
+import Sinarelektronikapp.transaction.barangbesar.view.JIFTransaksiPenjualanBB;
+import Sinarelektronikapp.transaction.barangkecil.view.JIFManajemenTransaksiPenjualan;
+import Sinarelektronikapp.penjualan.barangbesar.view.JIFKasirView2;
+import Sinarelektronikapp.retur.barangbesar.view.JIFPRosesReturBB;
+import Sinarelektronikapp.retur.barangbesar.view.JIFReturViewBarangBesar;
+import Sinarelektronikapp.transfer.barangbesar.view.JIFTransferBB;
 import Sinarelektronikapp.chart.view.JIFChartView;
 import Sinarelektronikapp.config.ActiveUser;
 import Sinarelektronikapp.config.ApplicationMode;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.config.UserLevel;
-import Sinarelektronikapp.inventory.view.JIFInventory;
-import Sinarelektronikapp.inventoryBarangBesar.view.JIFInventoryBB;
-import Sinarelektronikapp.masterData.barang.stokreminder.view.JIFReminderView;
-import Sinarelektronikapp.masterData.barang.view.JIFBarangView;
-import Sinarelektronikapp.masterData.barang.view.JIFHistoryBarang;
-import Sinarelektronikapp.masterData.barang.view.JIFUpdateGlobalBK;
-import Sinarelektronikapp.masterData.barang2.stokreminder.view.JIFReminderView2;
-import Sinarelektronikapp.masterData.barang2.view.JIFBarangBesar;
-import Sinarelektronikapp.masterData.barang2.view.JIFHistoryBarangBesar;
-import Sinarelektronikapp.masterData.barang2.view.JIFUpdateGlobalBB;
-import Sinarelektronikapp.masterData.barangToko.view.JIFBarangToko;
-import Sinarelektronikapp.masterData.merek.view.JIFMerekView;
-import Sinarelektronikapp.masterData.namabarang.view.JIFNamaBarang;
-import Sinarelektronikapp.masterData.pelanggan.view.JIFPelangganView;
-import Sinarelektronikapp.masterData.pengaturanBarangBonusKaryawan.BarangBesar.view.JIFBarangBonusKaryawanBBView;
-import Sinarelektronikapp.masterData.pengaturanBarangBonusKaryawan.BarangKecil.view.JIFBarangBonusKaryawanBKView;
-import Sinarelektronikapp.masterData.pengaturanBarangBonusKaryawan.setupBonus.JIFSetupBonusView;
-import Sinarelektronikapp.masterData.penjualbb.view.JIFPenjualBarangBesarView;
-import Sinarelektronikapp.masterData.penjualbk.view.JIFPenjualBKView;
-import Sinarelektronikapp.masterData.report.view.JIFPriceListReport;
-import Sinarelektronikapp.masterData.report.view.JIFREportTransferBB;
-import Sinarelektronikapp.masterData.report.view.JIFReportInsentif;
-import Sinarelektronikapp.masterData.report.view.JIFReportInsentifBarangKecil;
-import Sinarelektronikapp.masterData.report.view.JIFReportInventory;
-import Sinarelektronikapp.masterData.report.view.JIFReportInventoryBarangBesar;
-import Sinarelektronikapp.masterData.report.view.JIFReportMaster;
-import Sinarelektronikapp.masterData.report.view.JIFReportPengembalianBarangBesar;
-import Sinarelektronikapp.masterData.report.view.JIFReportPengembalianBarangKecilSupplier;
-import Sinarelektronikapp.masterData.report.view.JIFReportProfit;
-import Sinarelektronikapp.masterData.report.view.JIFReportProfitBarangBesar;
-import Sinarelektronikapp.masterData.report.view.JIFReportRetur;
-import Sinarelektronikapp.masterData.report.view.JIFReportReturBarangBesar;
-import Sinarelektronikapp.masterData.report.view.JIFReportTransaksi;
-import Sinarelektronikapp.masterData.report.view.JIFReportTransaksiBarangBesar;
-import Sinarelektronikapp.masterData.satuan.view.JIFSatuanVIew;
-import Sinarelektronikapp.masterData.supplier.view.JIFSupplierView;
-import Sinarelektronikapp.masterData.tipe.view.JIFTipeView;
-import Sinarelektronikapp.masterData.user.view.JIFUserView;
-import Sinarelektronikapp.penjualan.view.JIFKasirView;
-import Sinarelektronikapp.retur.transaksi.view.JIFPRosesRetur2;
-import Sinarelektronikapp.retur.transaksi.view.JIFReturView2;
-import Sinarelektronikapp.swingResource.loadBtImage;
+import Sinarelektronikapp.inventory.barangkecil.view.JIFInventory;
+import Sinarelektronikapp.inventory.barangbesar.view.JIFInventoryBB;
+import Sinarelektronikapp.masterdata.barangkecil.stokreminder.view.JIFReminderView;
+import Sinarelektronikapp.masterdata.barangkecil.view.JIFBarangView;
+import Sinarelektronikapp.masterdata.barangkecil.view.JIFHistoryBarang;
+import Sinarelektronikapp.masterdata.barangkecil.view.JIFUpdateGlobalBK;
+import Sinarelektronikapp.masterdata.barangbesar.stokreminder.view.JIFReminderView2;
+import Sinarelektronikapp.masterdata.barangbesar.view.JIFBarangBesar;
+import Sinarelektronikapp.masterdata.barangbesar.view.JIFHistoryBarangBesar;
+import Sinarelektronikapp.masterdata.barangbesar.view.JIFUpdateGlobalBB;
+import Sinarelektronikapp.masterdata.barangtoko.view.JIFBarangToko;
+import Sinarelektronikapp.masterdata.merek.view.JIFMerekView;
+import Sinarelektronikapp.masterdata.namabarang.view.JIFNamaBarang;
+import Sinarelektronikapp.masterdata.pelanggan.view.JIFPelangganView;
+import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.view.JIFBarangBonusKaryawanBBView;
+import Sinarelektronikapp.masterdata.itemforbonus.barangkecil.view.JIFBarangBonusKaryawanBKView;
+import Sinarelektronikapp.masterdata.itemforbonus.setupbonus.JIFSetupBonusView;
+import Sinarelektronikapp.masterdata.penjual.barangbesar.view.JIFPenjualBarangBesarView;
+import Sinarelektronikapp.masterdata.penjual.barangkecil.view.JIFPenjualBKView;
+import Sinarelektronikapp.masterdata.report.view.JIFPriceListReport;
+import Sinarelektronikapp.masterdata.report.view.JIFREportTransferBB;
+import Sinarelektronikapp.masterdata.report.view.JIFReportInsentif;
+import Sinarelektronikapp.masterdata.report.view.JIFReportInsentifBarangKecil;
+import Sinarelektronikapp.masterdata.report.view.JIFReportInventory;
+import Sinarelektronikapp.masterdata.report.view.JIFReportInventoryBarangBesar;
+import Sinarelektronikapp.masterdata.report.view.JIFReportMaster;
+import Sinarelektronikapp.masterdata.report.view.JIFReportPengembalianBarangBesar;
+import Sinarelektronikapp.masterdata.report.view.JIFReportPengembalianBarangKecilSupplier;
+import Sinarelektronikapp.masterdata.report.view.JIFReportProfit;
+import Sinarelektronikapp.masterdata.report.view.JIFReportProfitBarangBesar;
+import Sinarelektronikapp.masterdata.report.view.JIFReportRetur;
+import Sinarelektronikapp.masterdata.report.view.JIFReportReturBarangBesar;
+import Sinarelektronikapp.masterdata.report.view.JIFReportTransaksi;
+import Sinarelektronikapp.masterdata.report.view.JIFReportTransaksiBarangBesar;
+import Sinarelektronikapp.masterdata.satuan.view.JIFSatuanVIew;
+import Sinarelektronikapp.masterdata.supplier.view.JIFSupplierView;
+import Sinarelektronikapp.masterdata.tipe.view.JIFTipeView;
+import Sinarelektronikapp.masterdata.user.view.JIFUserView;
+import Sinarelektronikapp.penjualan.barangkecil.view.JIFKasirView;
+import Sinarelektronikapp.retur.barangkecil.view.JIFPRosesRetur2;
+import Sinarelektronikapp.retur.barangkecil.view.JIFReturView2;
 import Sinarelektronikapp.util.AES;
 //import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
 //import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
@@ -83,7 +78,6 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  *
@@ -181,7 +175,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void setIconFrame() {
         Toolkit kit = Toolkit.getDefaultToolkit();
-        Image frameIcon = kit.getImage(getClass().getResource("/Sinarelektronikapp/imageResource/jframeIcon.png"));
+        Image frameIcon = kit.getImage(getClass().getResource("/Sinarelektronikapp/imageresource/jframeIcon.png"));
         this.setIconImage(frameIcon);
     }
     //JOptionPane.showMessageDialog(null, "Active USer = "+activeUser.getUserName());    
@@ -332,11 +326,11 @@ public class MainFrame extends javax.swing.JFrame {
         cmbTema = new javax.swing.JComboBox();
         JIFDashBoard = new javax.swing.JInternalFrame();
         Left = new javax.swing.JPanel();
-        btDashboard = new Sinarelektronikapp.swingResource.loadBtImage();
-        btMaster = new Sinarelektronikapp.swingResource.loadBtImage();
-        btTransaksi = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReport = new Sinarelektronikapp.swingResource.loadBtImage();
-        btMaintenance = new Sinarelektronikapp.swingResource.loadBtImage();
+        btDashboard = new Sinarelektronikapp.swinglib.loadBtImage();
+        btMaster = new Sinarelektronikapp.swinglib.loadBtImage();
+        btTransaksi = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReport = new Sinarelektronikapp.swinglib.loadBtImage();
+        btMaintenance = new Sinarelektronikapp.swinglib.loadBtImage();
         Center = new javax.swing.JPanel();
         dashboard = new javax.swing.JPanel();
         imageDashboard = new javax.swing.JLabel();
@@ -344,64 +338,64 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         master = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        btPenjualBB = new Sinarelektronikapp.swingResource.loadBtImage();
-        btBarangBesar = new Sinarelektronikapp.swingResource.loadBtImage();
-        StokUlangBarangBesar = new Sinarelektronikapp.swingResource.loadBtImage();
-        btBarangBesarExclude = new Sinarelektronikapp.swingResource.loadBtImage();
-        btBarangToko = new Sinarelektronikapp.swingResource.loadBtImage();
-        btUpdateGlobalBB = new Sinarelektronikapp.swingResource.loadBtImage();
-        btHistoryBarangBB = new Sinarelektronikapp.swingResource.loadBtImage();
+        btPenjualBB = new Sinarelektronikapp.swinglib.loadBtImage();
+        btBarangBesar = new Sinarelektronikapp.swinglib.loadBtImage();
+        StokUlangBarangBesar = new Sinarelektronikapp.swinglib.loadBtImage();
+        btBarangBesarExclude = new Sinarelektronikapp.swinglib.loadBtImage();
+        btBarangToko = new Sinarelektronikapp.swinglib.loadBtImage();
+        btUpdateGlobalBB = new Sinarelektronikapp.swinglib.loadBtImage();
+        btHistoryBarangBB = new Sinarelektronikapp.swinglib.loadBtImage();
         jPanel2 = new javax.swing.JPanel();
-        btPenjualBK = new Sinarelektronikapp.swingResource.loadBtImage();
-        btBarang = new Sinarelektronikapp.swingResource.loadBtImage();
-        btSetupBonus = new Sinarelektronikapp.swingResource.loadBtImage();
-        btBarangKecilExclude = new Sinarelektronikapp.swingResource.loadBtImage();
-        btStokUlang = new Sinarelektronikapp.swingResource.loadBtImage();
-        btUpdateGlobalBK = new Sinarelektronikapp.swingResource.loadBtImage();
-        btHistoryBarangBK = new Sinarelektronikapp.swingResource.loadBtImage();
+        btPenjualBK = new Sinarelektronikapp.swinglib.loadBtImage();
+        btBarang = new Sinarelektronikapp.swinglib.loadBtImage();
+        btSetupBonus = new Sinarelektronikapp.swinglib.loadBtImage();
+        btBarangKecilExclude = new Sinarelektronikapp.swinglib.loadBtImage();
+        btStokUlang = new Sinarelektronikapp.swinglib.loadBtImage();
+        btUpdateGlobalBK = new Sinarelektronikapp.swinglib.loadBtImage();
+        btHistoryBarangBK = new Sinarelektronikapp.swinglib.loadBtImage();
         jPanel3 = new javax.swing.JPanel();
-        btNamaBarang = new Sinarelektronikapp.swingResource.loadBtImage();
-        btTipe = new Sinarelektronikapp.swingResource.loadBtImage();
-        btMerek = new Sinarelektronikapp.swingResource.loadBtImage();
-        btSatuan = new Sinarelektronikapp.swingResource.loadBtImage();
-        btPelanggan = new Sinarelektronikapp.swingResource.loadBtImage();
-        btSupplier = new Sinarelektronikapp.swingResource.loadBtImage();
-        btUser = new Sinarelektronikapp.swingResource.loadBtImage();
+        btNamaBarang = new Sinarelektronikapp.swinglib.loadBtImage();
+        btTipe = new Sinarelektronikapp.swinglib.loadBtImage();
+        btMerek = new Sinarelektronikapp.swinglib.loadBtImage();
+        btSatuan = new Sinarelektronikapp.swinglib.loadBtImage();
+        btPelanggan = new Sinarelektronikapp.swinglib.loadBtImage();
+        btSupplier = new Sinarelektronikapp.swinglib.loadBtImage();
+        btUser = new Sinarelektronikapp.swinglib.loadBtImage();
         transaksi = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        btKasir = new Sinarelektronikapp.swingResource.loadBtImage();
-        btRetur = new Sinarelektronikapp.swingResource.loadBtImage();
-        btProsesRetur = new Sinarelektronikapp.swingResource.loadBtImage();
-        btInventory = new Sinarelektronikapp.swingResource.loadBtImage();
+        btKasir = new Sinarelektronikapp.swinglib.loadBtImage();
+        btRetur = new Sinarelektronikapp.swinglib.loadBtImage();
+        btProsesRetur = new Sinarelektronikapp.swinglib.loadBtImage();
+        btInventory = new Sinarelektronikapp.swinglib.loadBtImage();
         jPanel5 = new javax.swing.JPanel();
-        btManajemenTransaksiBarangKecil = new Sinarelektronikapp.swingResource.loadBtImage();
-        btManajemenTransaksiBB = new Sinarelektronikapp.swingResource.loadBtImage();
+        btManajemenTransaksiBarangKecil = new Sinarelektronikapp.swinglib.loadBtImage();
+        btManajemenTransaksiBB = new Sinarelektronikapp.swinglib.loadBtImage();
         jPanel6 = new javax.swing.JPanel();
-        btKasirBarangBesar = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReturBarangBesar = new Sinarelektronikapp.swingResource.loadBtImage();
-        btProsesReturBarangBesar = new Sinarelektronikapp.swingResource.loadBtImage();
-        btInventoryBarangBesar = new Sinarelektronikapp.swingResource.loadBtImage();
-        btTransferBarangBesar = new Sinarelektronikapp.swingResource.loadBtImage();
+        btKasirBarangBesar = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReturBarangBesar = new Sinarelektronikapp.swinglib.loadBtImage();
+        btProsesReturBarangBesar = new Sinarelektronikapp.swinglib.loadBtImage();
+        btInventoryBarangBesar = new Sinarelektronikapp.swinglib.loadBtImage();
+        btTransferBarangBesar = new Sinarelektronikapp.swinglib.loadBtImage();
         laporan = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        btChart = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReportMaster = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReportPriceList = new Sinarelektronikapp.swingResource.loadBtImage();
+        btChart = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReportMaster = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReportPriceList = new Sinarelektronikapp.swinglib.loadBtImage();
         jPanel8 = new javax.swing.JPanel();
-        btReportTransaksi = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReportRetur = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReportInventory = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReportProfit = new Sinarelektronikapp.swingResource.loadBtImage();
-        btInsentifBK = new Sinarelektronikapp.swingResource.loadBtImage();
+        btReportTransaksi = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReportRetur = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReportInventory = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReportProfit = new Sinarelektronikapp.swinglib.loadBtImage();
+        btInsentifBK = new Sinarelektronikapp.swinglib.loadBtImage();
         jPanel9 = new javax.swing.JPanel();
-        btReportTransaksiBB = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReportReturBB = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReportInventoryBB = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReportProfitBB = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReportTransferBB = new Sinarelektronikapp.swingResource.loadBtImage();
-        btReportInsentif = new Sinarelektronikapp.swingResource.loadBtImage();
+        btReportTransaksiBB = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReportReturBB = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReportInventoryBB = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReportProfitBB = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReportTransferBB = new Sinarelektronikapp.swinglib.loadBtImage();
+        btReportInsentif = new Sinarelektronikapp.swinglib.loadBtImage();
         maintenance = new javax.swing.JPanel();
-        btBackUp = new Sinarelektronikapp.swingResource.loadBtImage();
+        btBackUp = new Sinarelektronikapp.swinglib.loadBtImage();
         DialogMaintenance = new javax.swing.JDialog();
         maintenanceView1 = new Sinarelektronikapp.maintenance.maintenanceView();
         DialogAbout = new javax.swing.JDialog();
@@ -468,7 +462,7 @@ public class MainFrame extends javax.swing.JFrame {
         Down.setPreferredSize(new java.awt.Dimension(100, 30));
         Down.setLayout(new java.awt.GridLayout(1, 0));
 
-        btLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/login2.png"))); // NOI18N
+        btLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/login2.png"))); // NOI18N
         btLogin.setMnemonic('L');
         btLogin.setFocusable(false);
         btLogin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -480,7 +474,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         Down.add(btLogin);
 
-        btReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/reset.png"))); // NOI18N
+        btReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/reset.png"))); // NOI18N
         btReset.setMnemonic('R');
         btReset.setFocusable(false);
         btReset.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -513,7 +507,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         down.setLayout(new java.awt.GridLayout(1, 2));
 
-        btTes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/tes.png"))); // NOI18N
+        btTes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/tes.png"))); // NOI18N
         btTes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btTesActionPerformed(evt);
@@ -521,7 +515,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         down.add(btTes);
 
-        btSambungkan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/sambung.png"))); // NOI18N
+        btSambungkan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/sambung.png"))); // NOI18N
         btSambungkan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSambungkanActionPerformed(evt);
@@ -556,7 +550,7 @@ public class MainFrame extends javax.swing.JFrame {
         Left.setOpaque(false);
 
         btDashboard.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/BlackDashboardButton.png"))); // NOI18N
+        btDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/BlackDashboardButton.png"))); // NOI18N
         btDashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btDashboardActionPerformed(evt);
@@ -565,7 +559,7 @@ public class MainFrame extends javax.swing.JFrame {
         Left.add(btDashboard);
 
         btMaster.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btMaster.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/BlackMaster.png"))); // NOI18N
+        btMaster.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/BlackMaster.png"))); // NOI18N
         btMaster.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btMasterActionPerformed(evt);
@@ -574,7 +568,7 @@ public class MainFrame extends javax.swing.JFrame {
         Left.add(btMaster);
 
         btTransaksi.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btTransaksi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/Blacktransaksi.png"))); // NOI18N
+        btTransaksi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/Blacktransaksi.png"))); // NOI18N
         btTransaksi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btTransaksiActionPerformed(evt);
@@ -583,7 +577,7 @@ public class MainFrame extends javax.swing.JFrame {
         Left.add(btTransaksi);
 
         btReport.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/Blackreport.png"))); // NOI18N
+        btReport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/Blackreport.png"))); // NOI18N
         btReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportActionPerformed(evt);
@@ -592,7 +586,7 @@ public class MainFrame extends javax.swing.JFrame {
         Left.add(btReport);
 
         btMaintenance.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btMaintenance.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/Blackmaintenance.png"))); // NOI18N
+        btMaintenance.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/Blackmaintenance.png"))); // NOI18N
         btMaintenance.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btMaintenanceActionPerformed(evt);
@@ -608,7 +602,7 @@ public class MainFrame extends javax.swing.JFrame {
         dashboard.setOpaque(false);
         dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        imageDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/dashboard.png"))); // NOI18N
+        imageDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/dashboard.png"))); // NOI18N
         dashboard.add(imageDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 40)); // NOI18N
@@ -625,7 +619,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btPenjualBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/penjualbb.png"))); // NOI18N
+        btPenjualBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/penjualbb.png"))); // NOI18N
         btPenjualBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btPenjualBBActionPerformed(evt);
@@ -634,7 +628,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.add(btPenjualBB);
 
         btBarangBesar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/barangbesar.png"))); // NOI18N
+        btBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/barangbesar.png"))); // NOI18N
         btBarangBesar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBarangBesarActionPerformed(evt);
@@ -643,7 +637,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.add(btBarangBesar);
 
         StokUlangBarangBesar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        StokUlangBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/stokulangbb.png"))); // NOI18N
+        StokUlangBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/stokulangbb.png"))); // NOI18N
         StokUlangBarangBesar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 StokUlangBarangBesarActionPerformed(evt);
@@ -651,7 +645,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel1.add(StokUlangBarangBesar);
 
-        btBarangBesarExclude.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/BonusBB.png"))); // NOI18N
+        btBarangBesarExclude.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/BonusBB.png"))); // NOI18N
         btBarangBesarExclude.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBarangBesarExcludeActionPerformed(evt);
@@ -659,7 +653,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel1.add(btBarangBesarExclude);
 
-        btBarangToko.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/barangToko2.png"))); // NOI18N
+        btBarangToko.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/barangToko2.png"))); // NOI18N
         btBarangToko.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBarangTokoActionPerformed(evt);
@@ -667,7 +661,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel1.add(btBarangToko);
 
-        btUpdateGlobalBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/updateGlobal.png"))); // NOI18N
+        btUpdateGlobalBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/updateGlobal.png"))); // NOI18N
         btUpdateGlobalBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btUpdateGlobalBBActionPerformed(evt);
@@ -675,7 +669,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel1.add(btUpdateGlobalBB);
 
-        btHistoryBarangBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/historybarang.png"))); // NOI18N
+        btHistoryBarangBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/historybarang.png"))); // NOI18N
         btHistoryBarangBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btHistoryBarangBBActionPerformed(evt);
@@ -687,7 +681,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btPenjualBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/penjualbk.png"))); // NOI18N
+        btPenjualBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/penjualbk.png"))); // NOI18N
         btPenjualBK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btPenjualBKActionPerformed(evt);
@@ -696,7 +690,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2.add(btPenjualBK);
 
         btBarang.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/barang.png"))); // NOI18N
+        btBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/barang.png"))); // NOI18N
         btBarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBarangActionPerformed(evt);
@@ -704,7 +698,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel2.add(btBarang);
 
-        btSetupBonus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/setupBonus.png"))); // NOI18N
+        btSetupBonus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/setupBonus.png"))); // NOI18N
         btSetupBonus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSetupBonusActionPerformed(evt);
@@ -712,7 +706,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel2.add(btSetupBonus);
 
-        btBarangKecilExclude.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/BonusBK.png"))); // NOI18N
+        btBarangKecilExclude.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/BonusBK.png"))); // NOI18N
         btBarangKecilExclude.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBarangKecilExcludeActionPerformed(evt);
@@ -721,7 +715,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2.add(btBarangKecilExclude);
 
         btStokUlang.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btStokUlang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/StokUlang.png"))); // NOI18N
+        btStokUlang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/StokUlang.png"))); // NOI18N
         btStokUlang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btStokUlangActionPerformed(evt);
@@ -729,7 +723,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel2.add(btStokUlang);
 
-        btUpdateGlobalBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/updateGlobal.png"))); // NOI18N
+        btUpdateGlobalBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/updateGlobal.png"))); // NOI18N
         btUpdateGlobalBK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btUpdateGlobalBKActionPerformed(evt);
@@ -737,7 +731,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel2.add(btUpdateGlobalBK);
 
-        btHistoryBarangBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/historybarang.png"))); // NOI18N
+        btHistoryBarangBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/historybarang.png"))); // NOI18N
         btHistoryBarangBK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btHistoryBarangBKActionPerformed(evt);
@@ -750,7 +744,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btNamaBarang.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btNamaBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/Nama Barang.png"))); // NOI18N
+        btNamaBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/Nama Barang.png"))); // NOI18N
         btNamaBarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btNamaBarangActionPerformed(evt);
@@ -759,7 +753,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.add(btNamaBarang);
 
         btTipe.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btTipe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/tipe.png"))); // NOI18N
+        btTipe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/tipe.png"))); // NOI18N
         btTipe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btTipeActionPerformed(evt);
@@ -768,7 +762,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.add(btTipe);
 
         btMerek.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btMerek.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/merek.png"))); // NOI18N
+        btMerek.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/merek.png"))); // NOI18N
         btMerek.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btMerekActionPerformed(evt);
@@ -777,7 +771,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.add(btMerek);
 
         btSatuan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btSatuan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/satuan.png"))); // NOI18N
+        btSatuan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/satuan.png"))); // NOI18N
         btSatuan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSatuanActionPerformed(evt);
@@ -786,7 +780,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.add(btSatuan);
 
         btPelanggan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btPelanggan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/pelanggan.png"))); // NOI18N
+        btPelanggan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/pelanggan.png"))); // NOI18N
         btPelanggan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btPelangganActionPerformed(evt);
@@ -795,7 +789,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.add(btPelanggan);
 
         btSupplier.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btSupplier.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/supplier.png"))); // NOI18N
+        btSupplier.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/supplier.png"))); // NOI18N
         btSupplier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSupplierActionPerformed(evt);
@@ -804,7 +798,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.add(btSupplier);
 
         btUser.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/user.png"))); // NOI18N
+        btUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/user.png"))); // NOI18N
         btUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btUserActionPerformed(evt);
@@ -821,7 +815,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btKasir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btKasir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/kasir.png"))); // NOI18N
+        btKasir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/kasir.png"))); // NOI18N
         btKasir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btKasirActionPerformed(evt);
@@ -830,7 +824,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel4.add(btKasir);
 
         btRetur.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btRetur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/Retur.png"))); // NOI18N
+        btRetur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/Retur.png"))); // NOI18N
         btRetur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReturActionPerformed(evt);
@@ -839,7 +833,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel4.add(btRetur);
 
         btProsesRetur.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btProsesRetur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/prosesRetur.png"))); // NOI18N
+        btProsesRetur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/prosesRetur.png"))); // NOI18N
         btProsesRetur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btProsesReturActionPerformed(evt);
@@ -848,7 +842,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel4.add(btProsesRetur);
 
         btInventory.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btInventory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/Inventory2.png"))); // NOI18N
+        btInventory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/Inventory2.png"))); // NOI18N
         btInventory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btInventoryActionPerformed(evt);
@@ -860,7 +854,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btManajemenTransaksiBarangKecil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/ManajemenPenjualanBK.png"))); // NOI18N
+        btManajemenTransaksiBarangKecil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/ManajemenPenjualanBK.png"))); // NOI18N
         btManajemenTransaksiBarangKecil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btManajemenTransaksiBarangKecilActionPerformed(evt);
@@ -868,7 +862,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel5.add(btManajemenTransaksiBarangKecil);
 
-        btManajemenTransaksiBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/manajemenPenjualanBB.png"))); // NOI18N
+        btManajemenTransaksiBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/manajemenPenjualanBB.png"))); // NOI18N
         btManajemenTransaksiBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btManajemenTransaksiBBActionPerformed(evt);
@@ -881,7 +875,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btKasirBarangBesar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btKasirBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/kasirBarangBesar.png"))); // NOI18N
+        btKasirBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/kasirBarangBesar.png"))); // NOI18N
         btKasirBarangBesar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btKasirBarangBesarActionPerformed(evt);
@@ -890,7 +884,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel6.add(btKasirBarangBesar);
 
         btReturBarangBesar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReturBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/ReturBB.png"))); // NOI18N
+        btReturBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/ReturBB.png"))); // NOI18N
         btReturBarangBesar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReturBarangBesarActionPerformed(evt);
@@ -899,7 +893,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel6.add(btReturBarangBesar);
 
         btProsesReturBarangBesar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btProsesReturBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/prosesreturbb.png"))); // NOI18N
+        btProsesReturBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/prosesreturbb.png"))); // NOI18N
         btProsesReturBarangBesar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btProsesReturBarangBesarActionPerformed(evt);
@@ -908,7 +902,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel6.add(btProsesReturBarangBesar);
 
         btInventoryBarangBesar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btInventoryBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/InventoryBarangBesar.png"))); // NOI18N
+        btInventoryBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/InventoryBarangBesar.png"))); // NOI18N
         btInventoryBarangBesar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btInventoryBarangBesarActionPerformed(evt);
@@ -916,7 +910,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel6.add(btInventoryBarangBesar);
 
-        btTransferBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/transferbb.png"))); // NOI18N
+        btTransferBarangBesar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/transferbb.png"))); // NOI18N
         btTransferBarangBesar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btTransferBarangBesarActionPerformed(evt);
@@ -932,7 +926,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btChart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/grafik.png"))); // NOI18N
+        btChart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/grafik.png"))); // NOI18N
         btChart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btChartActionPerformed(evt);
@@ -941,7 +935,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel7.add(btChart);
 
         btReportMaster.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportMaster.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/BlackMaster.png"))); // NOI18N
+        btReportMaster.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/BlackMaster.png"))); // NOI18N
         btReportMaster.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportMasterActionPerformed(evt);
@@ -950,7 +944,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel7.add(btReportMaster);
 
         btReportPriceList.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportPriceList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/PriceList.png"))); // NOI18N
+        btReportPriceList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/PriceList.png"))); // NOI18N
         btReportPriceList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportPriceListActionPerformed(evt);
@@ -963,7 +957,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btReportTransaksi.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportTransaksi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/Blacktransaksi.png"))); // NOI18N
+        btReportTransaksi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/Blacktransaksi.png"))); // NOI18N
         btReportTransaksi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportTransaksiActionPerformed(evt);
@@ -972,7 +966,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel8.add(btReportTransaksi);
 
         btReportRetur.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportRetur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/Retur.png"))); // NOI18N
+        btReportRetur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/Retur.png"))); // NOI18N
         btReportRetur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportReturActionPerformed(evt);
@@ -981,7 +975,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel8.add(btReportRetur);
 
         btReportInventory.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportInventory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/Inventory2.png"))); // NOI18N
+        btReportInventory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/Inventory2.png"))); // NOI18N
         btReportInventory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportInventoryActionPerformed(evt);
@@ -990,7 +984,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel8.add(btReportInventory);
 
         btReportProfit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportProfit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/Profit.png"))); // NOI18N
+        btReportProfit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/Profit.png"))); // NOI18N
         btReportProfit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportProfitActionPerformed(evt);
@@ -998,7 +992,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel8.add(btReportProfit);
 
-        btInsentifBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/insentifbk.png"))); // NOI18N
+        btInsentifBK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/insentifbk.png"))); // NOI18N
         btInsentifBK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btInsentifBKActionPerformed(evt);
@@ -1011,7 +1005,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btReportTransaksiBB.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportTransaksiBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/transaksiBB.png"))); // NOI18N
+        btReportTransaksiBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/transaksiBB.png"))); // NOI18N
         btReportTransaksiBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportTransaksiBBActionPerformed(evt);
@@ -1020,7 +1014,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel9.add(btReportTransaksiBB);
 
         btReportReturBB.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportReturBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/ReturBB.png"))); // NOI18N
+        btReportReturBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/ReturBB.png"))); // NOI18N
         btReportReturBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportReturBBActionPerformed(evt);
@@ -1029,7 +1023,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel9.add(btReportReturBB);
 
         btReportInventoryBB.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportInventoryBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/InventoryBarangBesar.png"))); // NOI18N
+        btReportInventoryBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/InventoryBarangBesar.png"))); // NOI18N
         btReportInventoryBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportInventoryBBActionPerformed(evt);
@@ -1038,7 +1032,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel9.add(btReportInventoryBB);
 
         btReportProfitBB.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportProfitBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/ProfitBB.png"))); // NOI18N
+        btReportProfitBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/ProfitBB.png"))); // NOI18N
         btReportProfitBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportProfitBBActionPerformed(evt);
@@ -1047,7 +1041,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel9.add(btReportProfitBB);
 
         btReportTransferBB.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btReportTransferBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/transferbb.png"))); // NOI18N
+        btReportTransferBB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/transferbb.png"))); // NOI18N
         btReportTransferBB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportTransferBBActionPerformed(evt);
@@ -1055,7 +1049,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jPanel9.add(btReportTransferBB);
 
-        btReportInsentif.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/insentifbb.png"))); // NOI18N
+        btReportInsentif.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/insentifbb.png"))); // NOI18N
         btReportInsentif.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReportInsentifActionPerformed(evt);
@@ -1070,7 +1064,7 @@ public class MainFrame extends javax.swing.JFrame {
         maintenance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btBackUp.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btBackUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/backUp.png"))); // NOI18N
+        btBackUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/backUp.png"))); // NOI18N
         btBackUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btBackUpActionPerformed(evt);
@@ -1087,7 +1081,7 @@ public class MainFrame extends javax.swing.JFrame {
         DialogAbout.setTitle("Informasi Aplikasi");
         DialogAbout.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/dashboard.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/dashboard.png"))); // NOI18N
         DialogAbout.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -1158,14 +1152,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sinar Elektronik App");
-        setResizable(false);
+        setResizable(true);
         getContentPane().add(JSPutama, java.awt.BorderLayout.CENTER);
 
-        Main.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/main.png"))); // NOI18N
+        Main.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/main.png"))); // NOI18N
         Main.setText("Main");
 
         menuDashboard.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
-        menuDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/dashboard-small.png"))); // NOI18N
+        menuDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/dashboard-small.png"))); // NOI18N
         menuDashboard.setText("Dashboard");
         menuDashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1176,11 +1170,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(Main);
 
-        Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/main-login.png"))); // NOI18N
+        Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/main-login.png"))); // NOI18N
         Login.setText("Login");
 
         menuLogin.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
-        menuLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/login.png"))); // NOI18N
+        menuLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/login.png"))); // NOI18N
         menuLogin.setText("Login");
         menuLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1190,7 +1184,7 @@ public class MainFrame extends javax.swing.JFrame {
         Login.add(menuLogin);
 
         menuLogout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
-        menuLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/logout.png"))); // NOI18N
+        menuLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/logout.png"))); // NOI18N
         menuLogout.setText("Logout");
         menuLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1201,11 +1195,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(Login);
 
-        setting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/setting.png"))); // NOI18N
+        setting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/setting.png"))); // NOI18N
         setting.setText("setting");
 
         SetTema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
-        SetTema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/tema.png"))); // NOI18N
+        SetTema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/tema.png"))); // NOI18N
         SetTema.setText("Tema");
         SetTema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1215,7 +1209,7 @@ public class MainFrame extends javax.swing.JFrame {
         setting.add(SetTema);
 
         jaringan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_J, java.awt.event.InputEvent.CTRL_MASK));
-        jaringan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/jaringan.png"))); // NOI18N
+        jaringan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/jaringan.png"))); // NOI18N
         jaringan.setText("Jaringan");
         jaringan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1225,7 +1219,7 @@ public class MainFrame extends javax.swing.JFrame {
         setting.add(jaringan);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/about.png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/about.png"))); // NOI18N
         jMenuItem1.setText("About");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1372,10 +1366,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void doLogin() {
         koneksi();
         String userNameF = txtUserName.getText().trim();
-        String passwordF = txtPassword.getText().trim();
-
-        BasicTextEncryptor basicTextEncryptor = new BasicTextEncryptor();
-        basicTextEncryptor.setPassword(AppConstant.CONFIG_PASSWORD);
+        String passwordF = txtPassword.getText().trim();      
 
         activeUser.setUserName(userNameF);
         activeUser.Filling();
@@ -1386,7 +1377,11 @@ public class MainFrame extends javax.swing.JFrame {
             String decryptedPassword = null;
 
             if (rs.next()) {
-                decryptedPassword = basicTextEncryptor.decrypt(rs.getString("password"));
+                try {
+                    decryptedPassword = AES.decrypt(rs.getString("password"), AppConstant.CONFIG_PASSWORD);
+                } catch (IllegalBlockSizeException | BadPaddingException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                 if (decryptedPassword.equals(passwordF)) {
                     Login.setText("Logout");
@@ -1496,7 +1491,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             jIFNamaBarang = new JIFNamaBarang();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu nama barang action performed karena " + ex);
+            JOptionPane.showMessageDialog(null, "Error di menu nama barangkecil action performed karena " + ex);
         }
         JSPutama.add(jIFNamaBarang);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
@@ -2159,7 +2154,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             jIFReturViewBB = new JIFReturViewBarangBesar();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error di menu retur barang besar view action performed karena " + ex, "peringatan", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error di menu retur barangkecil besar view action performed karena " + ex, "peringatan", JOptionPane.ERROR_MESSAGE);
         }
         JSPutama.add(jIFReturViewBB);
         int x = (screenSize.width - MainFrame.WIDTH) / 3;
@@ -3593,67 +3588,67 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu Login;
     private javax.swing.JMenu Main;
     private javax.swing.JMenuItem SetTema;
-    private Sinarelektronikapp.swingResource.loadBtImage StokUlangBarangBesar;
+    private Sinarelektronikapp.swinglib.loadBtImage StokUlangBarangBesar;
     private javax.swing.JPanel Up;
-    private Sinarelektronikapp.swingResource.loadBtImage btBackUp;
-    private Sinarelektronikapp.swingResource.loadBtImage btBarang;
-    private Sinarelektronikapp.swingResource.loadBtImage btBarangBesar;
-    private Sinarelektronikapp.swingResource.loadBtImage btBarangBesarExclude;
-    private Sinarelektronikapp.swingResource.loadBtImage btBarangKecilExclude;
-    private Sinarelektronikapp.swingResource.loadBtImage btBarangToko;
-    private Sinarelektronikapp.swingResource.loadBtImage btChart;
-    private Sinarelektronikapp.swingResource.loadBtImage btDashboard;
-    private Sinarelektronikapp.swingResource.loadBtImage btHistoryBarangBB;
-    private Sinarelektronikapp.swingResource.loadBtImage btHistoryBarangBK;
-    private Sinarelektronikapp.swingResource.loadBtImage btInsentifBK;
-    private Sinarelektronikapp.swingResource.loadBtImage btInventory;
-    private Sinarelektronikapp.swingResource.loadBtImage btInventoryBarangBesar;
-    private Sinarelektronikapp.swingResource.loadBtImage btKasir;
-    private Sinarelektronikapp.swingResource.loadBtImage btKasirBarangBesar;
+    private Sinarelektronikapp.swinglib.loadBtImage btBackUp;
+    private Sinarelektronikapp.swinglib.loadBtImage btBarang;
+    private Sinarelektronikapp.swinglib.loadBtImage btBarangBesar;
+    private Sinarelektronikapp.swinglib.loadBtImage btBarangBesarExclude;
+    private Sinarelektronikapp.swinglib.loadBtImage btBarangKecilExclude;
+    private Sinarelektronikapp.swinglib.loadBtImage btBarangToko;
+    private Sinarelektronikapp.swinglib.loadBtImage btChart;
+    private Sinarelektronikapp.swinglib.loadBtImage btDashboard;
+    private Sinarelektronikapp.swinglib.loadBtImage btHistoryBarangBB;
+    private Sinarelektronikapp.swinglib.loadBtImage btHistoryBarangBK;
+    private Sinarelektronikapp.swinglib.loadBtImage btInsentifBK;
+    private Sinarelektronikapp.swinglib.loadBtImage btInventory;
+    private Sinarelektronikapp.swinglib.loadBtImage btInventoryBarangBesar;
+    private Sinarelektronikapp.swinglib.loadBtImage btKasir;
+    private Sinarelektronikapp.swinglib.loadBtImage btKasirBarangBesar;
     private javax.swing.JButton btLogin;
-    private Sinarelektronikapp.swingResource.loadBtImage btMaintenance;
-    private Sinarelektronikapp.swingResource.loadBtImage btManajemenTransaksiBB;
-    private Sinarelektronikapp.swingResource.loadBtImage btManajemenTransaksiBarangKecil;
-    private Sinarelektronikapp.swingResource.loadBtImage btMaster;
-    private Sinarelektronikapp.swingResource.loadBtImage btMerek;
-    private Sinarelektronikapp.swingResource.loadBtImage btNamaBarang;
-    private Sinarelektronikapp.swingResource.loadBtImage btPelanggan;
-    private Sinarelektronikapp.swingResource.loadBtImage btPenjualBB;
-    private Sinarelektronikapp.swingResource.loadBtImage btPenjualBK;
-    private Sinarelektronikapp.swingResource.loadBtImage btProsesRetur;
-    private Sinarelektronikapp.swingResource.loadBtImage btProsesReturBarangBesar;
-    private Sinarelektronikapp.swingResource.loadBtImage btReport;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportInsentif;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportInventory;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportInventoryBB;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportMaster;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportPriceList;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportProfit;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportProfitBB;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportRetur;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportReturBB;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportTransaksi;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportTransaksiBB;
-    private Sinarelektronikapp.swingResource.loadBtImage btReportTransferBB;
+    private Sinarelektronikapp.swinglib.loadBtImage btMaintenance;
+    private Sinarelektronikapp.swinglib.loadBtImage btManajemenTransaksiBB;
+    private Sinarelektronikapp.swinglib.loadBtImage btManajemenTransaksiBarangKecil;
+    private Sinarelektronikapp.swinglib.loadBtImage btMaster;
+    private Sinarelektronikapp.swinglib.loadBtImage btMerek;
+    private Sinarelektronikapp.swinglib.loadBtImage btNamaBarang;
+    private Sinarelektronikapp.swinglib.loadBtImage btPelanggan;
+    private Sinarelektronikapp.swinglib.loadBtImage btPenjualBB;
+    private Sinarelektronikapp.swinglib.loadBtImage btPenjualBK;
+    private Sinarelektronikapp.swinglib.loadBtImage btProsesRetur;
+    private Sinarelektronikapp.swinglib.loadBtImage btProsesReturBarangBesar;
+    private Sinarelektronikapp.swinglib.loadBtImage btReport;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportInsentif;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportInventory;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportInventoryBB;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportMaster;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportPriceList;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportProfit;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportProfitBB;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportRetur;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportReturBB;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportTransaksi;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportTransaksiBB;
+    private Sinarelektronikapp.swinglib.loadBtImage btReportTransferBB;
     private javax.swing.JButton btReset;
-    private Sinarelektronikapp.swingResource.loadBtImage btRetur;
-    private Sinarelektronikapp.swingResource.loadBtImage btReturBarangBesar;
+    private Sinarelektronikapp.swinglib.loadBtImage btRetur;
+    private Sinarelektronikapp.swinglib.loadBtImage btReturBarangBesar;
     private javax.swing.JButton btReturCustomer;
     private javax.swing.JButton btReturCustomer1;
     private javax.swing.JButton btReturSupplier;
     private javax.swing.JButton btReturSupplier1;
     private javax.swing.JButton btSambungkan;
-    private Sinarelektronikapp.swingResource.loadBtImage btSatuan;
-    private Sinarelektronikapp.swingResource.loadBtImage btSetupBonus;
-    private Sinarelektronikapp.swingResource.loadBtImage btStokUlang;
-    private Sinarelektronikapp.swingResource.loadBtImage btSupplier;
+    private Sinarelektronikapp.swinglib.loadBtImage btSatuan;
+    private Sinarelektronikapp.swinglib.loadBtImage btSetupBonus;
+    private Sinarelektronikapp.swinglib.loadBtImage btStokUlang;
+    private Sinarelektronikapp.swinglib.loadBtImage btSupplier;
     private javax.swing.JButton btTes;
-    private Sinarelektronikapp.swingResource.loadBtImage btTipe;
-    private Sinarelektronikapp.swingResource.loadBtImage btTransaksi;
-    private Sinarelektronikapp.swingResource.loadBtImage btTransferBarangBesar;
-    private Sinarelektronikapp.swingResource.loadBtImage btUpdateGlobalBB;
-    private Sinarelektronikapp.swingResource.loadBtImage btUpdateGlobalBK;
-    private Sinarelektronikapp.swingResource.loadBtImage btUser;
+    private Sinarelektronikapp.swinglib.loadBtImage btTipe;
+    private Sinarelektronikapp.swinglib.loadBtImage btTransaksi;
+    private Sinarelektronikapp.swinglib.loadBtImage btTransferBarangBesar;
+    private Sinarelektronikapp.swinglib.loadBtImage btUpdateGlobalBB;
+    private Sinarelektronikapp.swinglib.loadBtImage btUpdateGlobalBK;
+    private Sinarelektronikapp.swinglib.loadBtImage btUser;
     private javax.swing.JComboBox cmbTema;
     private javax.swing.JPanel dashboard;
     private javax.swing.JDialog dialogLogin;

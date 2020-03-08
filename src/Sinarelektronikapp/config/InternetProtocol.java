@@ -5,6 +5,7 @@
 package Sinarelektronikapp.config;
 
 import Sinarelektronikapp.AppConstant;
+import Sinarelektronikapp.util.AES;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,8 +18,9 @@ import java.sql.DriverManager;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.swing.JOptionPane;
-import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  *
@@ -26,11 +28,8 @@ import org.jasypt.util.text.BasicTextEncryptor;
  */
 public class InternetProtocol {
     String ip;
-    
-    private BasicTextEncryptor basicTextEncryptor;
+
     public InternetProtocol() {
-        basicTextEncryptor = new BasicTextEncryptor();
-        basicTextEncryptor.setPassword(AppConstant.CONFIG_PASSWORD);
     }
 
     public String getIp() {
@@ -66,7 +65,11 @@ public class InternetProtocol {
             }
         }
         if (ipServer != null) {           
-            ipServer = basicTextEncryptor.decrypt(ipServer);            
+            try {
+                ipServer = AES.decrypt(ipServer, AppConstant.CONFIG_PASSWORD);
+            } catch (IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(InternetProtocol.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else {
             ipServer = null;
         }
@@ -80,7 +83,7 @@ public class InternetProtocol {
             Files.deleteIfExists(fileConfig);
             fileConfig = Files.createFile(fileConfig);
             //JOptionPane.showMessageDialog(null, "selesai membuat file");                      
-            ip = basicTextEncryptor.encrypt(getIp());
+            ip = AES.encrypt(getIp(), AppConstant.CONFIG_PASSWORD);
             
             bw = Files.newBufferedWriter(fileConfig, Charset.defaultCharset());
             bw.append(ip);

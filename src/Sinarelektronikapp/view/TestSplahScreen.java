@@ -12,7 +12,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Frame;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,7 +70,7 @@ public class TestSplahScreen {
         dialog = new JDialog((Frame) null);
         dialog.setModal(false);
         dialog.setUndecorated(true);
-        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/Sinarelektronikapp/imageResource/SplashSEApp.png")));
+        JLabel background = new JLabel(new ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/SplashSEApp.png")));
         background.setLayout(new BorderLayout());
         dialog.add(background);
         JLabel text = new JLabel("Loading, please wait...");

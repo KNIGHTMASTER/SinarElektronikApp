@@ -1,11 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Sinarelektronikapp.config;
 
 import Sinarelektronikapp.AppConstant;
+import Sinarelektronikapp.util.AES;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -16,8 +14,9 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.swing.JOptionPane;
-import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  *
@@ -27,11 +26,7 @@ public class UserLevel {
     private String userLevel;
     private static final String FILE_NAME = "userlevel.txt";
 
-    private BasicTextEncryptor basicTextEncryptor;
-    
     public UserLevel() {
-        basicTextEncryptor = new BasicTextEncryptor();
-        basicTextEncryptor.setPassword(AppConstant.CONFIG_PASSWORD);
     }
     
     public String getUserLevel() {
@@ -80,7 +75,7 @@ public class UserLevel {
             while (scan.hasNext()) {                
                 userLevel = scan.nextLine();
             }
-        }catch(Exception e){
+        }catch(FileNotFoundException e){
             JOptionPane.showMessageDialog(null, "Error dalam membaca file cofiguration karena "+e, "Perhatian", JOptionPane.ERROR_MESSAGE);
         }finally{
             if (scan != null) {
@@ -89,7 +84,11 @@ public class UserLevel {
         }
         
         if (userLevel != null) {
-            userLevel = basicTextEncryptor.decrypt(userLevel);
+            try {
+                userLevel = AES.decrypt(userLevel, AppConstant.CONFIG_PASSWORD);
+            } catch (IllegalBlockSizeException | BadPaddingException ex) {
+                Logger.getLogger(UserLevel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else {
             userLevel = null;
         }
@@ -103,7 +102,7 @@ public class UserLevel {
             Files.deleteIfExists(fileUserLevel);
             fileUserLevel = Files.createFile(fileUserLevel);
             bw = Files.newBufferedWriter(fileUserLevel, Charset.defaultCharset());
-            userLevel = basicTextEncryptor.encrypt(getUserLevel());
+            userLevel = AES.encrypt(getUserLevel(), AppConstant.CONFIG_PASSWORD);
             bw.append(userLevel);
             bw.flush();
             //JOptionPane.showMessageDialog(null, "selesai mengisi fileConfig");
