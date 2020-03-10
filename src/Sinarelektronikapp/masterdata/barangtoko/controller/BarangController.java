@@ -1,13 +1,14 @@
 package Sinarelektronikapp.masterdata.barangtoko.controller;
 
+import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.view.JIFBarangBesarBonusKaryawanBBView;
 import Sinarelektronikapp.penjualan.barangbesar.view.JIFKasirView2;
-import Sinarelektronikapp.retur.barangbesar.view.JIFReturViewBarangBesar;
+import Sinarelektronikapp.retur.barangbesar.view.JIFReturViewBarangBesarBesar;
 import Sinarelektronikapp.inventory.barangbesar.view.JIFInventoryBB;
 import Sinarelektronikapp.masterdata.barangtoko.entity.barang;
 import Sinarelektronikapp.masterdata.barangtoko.error.BarangException;
 import Sinarelektronikapp.masterdata.barangtoko.model.barangModel;
 import Sinarelektronikapp.masterdata.barangtoko.view.BarangView;
-import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.view.JIFBarangBonusKaryawanBBView;
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -117,7 +118,7 @@ public class BarangController {
         }                
     }    */
     
-    public void cari4(Sinarelektronikapp.retur.barangbesar.view.JIFReturViewBarangBesar view, Sinarelektronikapp.retur.barangbesar.view.JIFReturViewBarangBesar v) throws SQLException, BarangException{
+    public void cari4(JIFReturViewBarangBesarBesar view, JIFReturViewBarangBesarBesar v) throws SQLException, BarangException{
         String kataKunci = view.getTxtKataKunci1().getText();
         String berdasarkan = v.getCmbCari1().getSelectedItem().toString();
         switch(berdasarkan){
@@ -223,7 +224,7 @@ public class BarangController {
     }    
     }    
     
-    public void sortBBKBB(JIFBarangBonusKaryawanBBView view) throws SQLException, BarangException{
+    public void sortBBKBB(JIFBarangBesarBonusKaryawanBBView view) throws SQLException, BarangException{
         
         String berdasarkan = view.getCmbUrut1().getSelectedItem().toString();
         switch(berdasarkan){
@@ -259,7 +260,7 @@ public class BarangController {
     }    
     }    */
     
-    public void sort(Sinarelektronikapp.retur.barangbesar.view.JIFReturViewBarangBesar view) throws SQLException, BarangException{
+    public void sort(JIFReturViewBarangBesarBesar view) throws SQLException, BarangException{
         
         String berdasarkan = view.getCmbUrut1().getSelectedItem().toString();
         switch(berdasarkan){
@@ -315,7 +316,7 @@ public class BarangController {
     }               
     
 
-    public void cari7(JIFReturViewBarangBesar view, JIFReturViewBarangBesar v) throws SQLException, BarangException{
+    public void cari7(JIFReturViewBarangBesarBesar view, JIFReturViewBarangBesarBesar v) throws SQLException, BarangException{
         String kataKunci = view.getTxtKataKunci1().getText();
         String berdasarkan = v.getCmbCari1().getSelectedItem().toString();
         switch(berdasarkan){

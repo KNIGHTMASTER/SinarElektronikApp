@@ -11,9 +11,9 @@ import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.dialog.DialogUpdateBulk;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
-import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
-import Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener;
-import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
+import Sinarelektronikapp.masterdata.barangbesar.model.BarangBesarModel;
+import Sinarelektronikapp.masterdata.barangbesar.model.TabelModelBarangBesar;
+import Sinarelektronikapp.masterdata.barangbesar.model.event.BarangBesarListener;
 import Sinarelektronikapp.masterdata.barangbesar.service.BarangDao;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -50,24 +50,24 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author Fauzi
  */
-public class BarangView extends javax.swing.JPanel implements barangListener, ListSelectionListener {
+public class BarangBesarView extends javax.swing.JPanel implements BarangBesarListener, ListSelectionListener {
 
     /**
-     * Creates new form BarangView
+     * Creates new form BarangBesarView
      */
     BarangController controller;
 
-    tabelModelBarang tabelmodelbarang;
+    TabelModelBarangBesar tabelmodelbarang;
 
-    barangModel model;
+    BarangBesarModel model;
 
     HostName ip = new HostName();
 
-    public BarangView() {
+    public BarangBesarView() {
 
-        tabelmodelbarang = new tabelModelBarang();
+        tabelmodelbarang = new TabelModelBarangBesar();
 
-        model = new barangModel();
+        model = new BarangBesarModel();
         model.setListener(this);
 
         controller = new BarangController();
@@ -147,7 +147,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -168,7 +168,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -190,7 +190,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -211,7 +211,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -223,10 +223,10 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
             try {
                 tabelmodelbarang.setList(dao.selectAllBarang());
             } catch (BarangException ex) {
-                Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -1035,7 +1035,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 /*try {
                     ps.setBlob(13, new FileInputStream(gambar));
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }*/
 
                 String garansi = "";
@@ -1096,7 +1096,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 try {
                     ps.setBlob(13, new FileInputStream(gambar));
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 String garansi = "";
                 int hari = 0, bulan = 0, tahun = 0;
@@ -1188,7 +1188,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
             // TODO add your handling code here:
             controller.cari(this, this);
         } catch (SQLException | BarangException ex) {
-            java.util.logging.Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setSize(getWidth(), getHeight());
     }//GEN-LAST:event_btCariActionPerformed
@@ -1202,9 +1202,9 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
             // TODO add your handling code here:
             controller.sort(this);
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BarangException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cmbUrutActionPerformed
 
@@ -1334,9 +1334,9 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         /*try {
             controller.sort(this);
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BarangException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
         loadDatabase();*/
     }
@@ -1380,10 +1380,10 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                     /*try {
                     controller.sort(this);
                 } catch (BarangException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }*/
                 } catch (SQLException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -1444,7 +1444,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                     JOptionPane.showMessageDialog(null, "gambar tidak tersedia");
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(null, "pilih data terlebih dahulu");
@@ -1733,7 +1733,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onChange(barangModel model) {
+    public void onChange(BarangBesarModel model) {
         txtKataKunci.setText(model.getCari());
         cmbCari.setSelectedItem(model.getCari());
         cmbUrut.setSelectedItem(model.getCmbsort());

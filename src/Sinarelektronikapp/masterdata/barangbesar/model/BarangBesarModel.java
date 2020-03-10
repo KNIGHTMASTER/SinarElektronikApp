@@ -1,14 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Sinarelektronikapp.masterdata.barangbesar.model;
 
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
-import Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener;
+import Sinarelektronikapp.masterdata.barangbesar.model.event.BarangBesarListener;
 import Sinarelektronikapp.masterdata.barangbesar.service.BarangDao;
 import java.sql.SQLException;
 import java.util.List;
@@ -17,19 +12,14 @@ import java.util.List;
  *
  * @author Fauzi
  */
-public class barangModel {
+public class BarangBesarModel {
 
-    private String cari, cmbcari, cmbsort;
-
-    public barangModel() {
-    }
-
-    private String idBarang, idBarcode, namaBarang, tipe, merek, satuan, supplier, keterangan, kategori;
-
+    private String cari, cmbcari, cmbsort, idBarang, idBarcode, namaBarang, tipe, merek, satuan, supplier, keterangan, kategori;
     private int stok, stokMinimum, harga;
-    
+    private BarangBesarListener listener ;
 
-    private barangListener listener ;
+    public BarangBesarModel() {
+    }
 
     public String getKategori() {
         return kategori;
@@ -41,16 +31,13 @@ public class barangModel {
     }
     
 
-    public barangListener getListener() {
+    public BarangBesarListener getListener() {
         return listener;
     }
 
-    public void setListener(barangListener listener) {
+    public void setListener(BarangBesarListener listener) {
         this.listener = listener;
     }
-
-    ////////////////////
-
         
     public String getCari() {
         return cari;
@@ -77,8 +64,6 @@ public class barangModel {
     public void setCmbsort(String cmbsort) {
         this.cmbsort = cmbsort;
     }
-
-    ///////////////////////////////
 
     public String getIdBarang() {
         return idBarang;
@@ -220,62 +205,6 @@ public class barangModel {
        setCmbcari(cmbcari);
        setCmbsort(cmbsort);
     }
-    
-    
-    /*public void resetTambahBarang(){
-        setIdBarang("");
-        setIdBarcode("");
-        setNamaBarang("");
-        setTipe("");
-        setMerek("");
-        setHarga(0);
-        setSatuan("");
-        setStok(0);
-        setStokMinimum(0);
-        setSupplier("");
-        setKeterangan("");
-    }
-    public void insertBarang() throws SQLException, barangException{
-        BarangDao dao = barangDatabase.getBarangDao();
-
-        barangkecil barangkecil = new barangkecil();
-        //barangkecil.setIdBarang(idBarang);
-        barangkecil.setIdBarcode(idBarcode);
-        barangkecil.setNamaBarang(namaBarang);
-        barangkecil.setTipe(tipe);
-        barangkecil.setMerek(merek);
-        barangkecil.setHarga(harga);
-        barangkecil.setSatuan(satuan);
-        barangkecil.setStok(stok);
-        barangkecil.setStokMinimum(stokMinimum);
-        barangkecil.setSupplier(supplier);
-        barangkecil.setKeterangan(keterangan);
-
-        dao.insertBarang(barangkecil);
-        fireOnInsert(barangkecil);
-    }
-    //private barangkecil barangkecil=null;
-    public barangkecil updateBarang() throws SQLException, barangException{
-        barangkecil barangkecil=new barangkecil();
-        barangkecil barangin=new barangkecil();
-        barangController controller=new barangController();
-        barangin = controller.getBarangEntity();
-        barangkecil.setIdBarang(barangin.getIdBarang());
-        barangkecil.setIdBarcode(barangin.getIdBarcode());
-        barangkecil.setNamaBarang(barangin.getNamaBarang());
-        barangkecil.setTipe(barangin.getTipe());
-        barangkecil.setMerek(barangin.getMerek());
-        barangkecil.setHarga(barangin.getHarga());
-        barangkecil.setSatuan(barangin.getSatuan());
-        barangkecil.setStok(barangin.getStok());
-        barangkecil.setStokMinimum(barangin.getStokMinimum());
-        barangkecil.setSupplier(barangin.getSupplier());
-        barangkecil.setKeterangan(barangin.getKeterangan());
-
-        /*dao.updateBarang(barangkecil);
-        fireOnUpdate(barangkecil);
-        return barangkecil;
-    }*/
 
     public void deleteBarang() throws SQLException, BarangException{
         BarangDao dao = barangDatabase.getBarangDao();

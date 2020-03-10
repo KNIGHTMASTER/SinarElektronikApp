@@ -1,9 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Sinarelektronikapp.retur.barangbesar.view;
 
+import Sinarelektronikapp.masterdata.barangbesar.model.BarangBesarModel;
+import Sinarelektronikapp.masterdata.barangbesar.model.event.BarangBesarListener;
 import Sinarelektronikapp.util.FormatRupiah;
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.util.Waktu;
@@ -13,9 +11,7 @@ import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
-import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
-import Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener;
-import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
+import Sinarelektronikapp.masterdata.barangbesar.model.TabelModelBarangBesar;
 import Sinarelektronikapp.masterdata.barangbesar.service.BarangDao;
 import Sinarelektronikapp.penjualan.barangkecil.view.Kasirview;
 import Sinarelektronikapp.retur.barangbesar.controller.ReturController;
@@ -51,7 +47,7 @@ import javax.swing.Timer;
  *
  * @author Fauzi
  */
-public class ReturView extends javax.swing.JPanel implements ReturListener, barangListener{
+public class ReturView extends javax.swing.JPanel implements ReturListener, BarangBesarListener {
 
     /**
      * Creates new form ReturView
@@ -71,17 +67,17 @@ public class ReturView extends javax.swing.JPanel implements ReturListener, bara
     
     Waktu w = new Waktu();
     
-    private  tabelModelBarang tabelmodelBarang ;
+    private  TabelModelBarangBesar tabelmodelBarang ;
     
     private BarangController controllerBarang;
     
-    private  barangModel modelBarang;
+    private BarangBesarModel modelBarang;
     
     public ReturView() {
         
-        tabelmodelBarang = new tabelModelBarang();
+        tabelmodelBarang = new TabelModelBarangBesar();
         
-        modelBarang=  new barangModel();
+        modelBarang=  new BarangBesarModel();
         modelBarang.setListener(null);
         
         controllerBarang = new BarangController();
@@ -1372,7 +1368,7 @@ public class ReturView extends javax.swing.JPanel implements ReturListener, bara
     }    
             
     
-    public void onChange(barangModel model) {
+    public void onChange(BarangBesarModel model) {
         txtKataKunci1.setText(modelBarang.getCari());
     }
 

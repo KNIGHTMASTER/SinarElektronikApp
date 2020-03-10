@@ -5,11 +5,11 @@ import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.util.Waktu;
 import Sinarelektronikapp.config.ActiveUser;
 import Sinarelektronikapp.config.HostName;
-import Sinarelektronikapp.inventory.barangkecil.controller.InventoryController;
-import Sinarelektronikapp.inventory.barangkecil.entity.Inventory;
-import Sinarelektronikapp.inventory.barangkecil.model.Event.InventoryListener;
-import Sinarelektronikapp.inventory.barangkecil.model.InventoryModel;
-import Sinarelektronikapp.inventory.barangkecil.model.TabelModelInventory;
+import Sinarelektronikapp.inventory.barangkecil.controller.InventoryBarangKecilController;
+import Sinarelektronikapp.dto.InventoryBarangKecilDTO;
+import Sinarelektronikapp.inventory.barangkecil.model.Event.InventoryBarangKecilListener;
+import Sinarelektronikapp.inventory.barangkecil.model.InventoryBarangKecilModel;
+import Sinarelektronikapp.inventory.barangkecil.model.TabelModelInventoryBarangKecil;
 import Sinarelektronikapp.masterdata.barangkecil.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangkecil.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangkecil.entity.barang;
@@ -46,33 +46,96 @@ import javax.swing.Timer;
  *
  * @author Fauzi
  */
-public class JIFInventory extends javax.swing.JInternalFrame implements barangListener, InventoryListener{
-
-    /**
-     * Creates new form JIFInventoryBB
-     */
+public class JIFInventoryBarangKecil extends javax.swing.JInternalFrame implements barangListener, InventoryBarangKecilListener {
     
-    int totalMain = 0;
-    
-    InputHarusAngka iha = new InputHarusAngka();
-    
-    FormatRupiah fr = new FormatRupiah();
-    
-    InventoryController controller;
-    
-    InventoryModel model;
-    
-    TabelModelInventory tabelModelInventory;        
-    
-    Waktu w = new Waktu();
-    
-    private  tabelModelBarang tabelmodelBarang ;
-    
+    private int totalMain = 0;
+    private InputHarusAngka iha = new InputHarusAngka();
+    private FormatRupiah fr = new FormatRupiah();
+    private InventoryBarangKecilController controller;
+    private InventoryBarangKecilModel model;
+    private TabelModelInventoryBarangKecil tabelModelInventoryBarangKecil;
+    private Waktu w = new Waktu();
+    private tabelModelBarang tabelmodelBarang ;
     private BarangController controllerBarang;
-    
     private  barangModel modelBarang;
-    
-    public JIFInventory() {
+    private javax.swing.JPanel Center;
+    private javax.swing.JDialog DialogCariBarang;
+    private javax.swing.JDialog DialogPreview;
+    private javax.swing.JPanel PanelTabel;
+    private javax.swing.JPanel PanelTombol;
+    private javax.swing.JPanel West;
+    private javax.swing.JPanel atas;
+    private javax.swing.JPanel atas2;
+    private javax.swing.JPanel bawah;
+    private javax.swing.JPanel bawah2;
+    private javax.swing.JButton btCari1;
+    private javax.swing.JButton btGo;
+    private javax.swing.JButton btHapus;
+    private javax.swing.JButton btOpenCari;
+    private javax.swing.JButton btReset;
+    private javax.swing.JButton btSimpan;
+    private javax.swing.JButton btTambah;
+    private javax.swing.JComboBox cmbCari1;
+    private javax.swing.JComboBox cmbUrut1;
+    private javax.swing.JPanel dua;
+    private javax.swing.JPanel duakanan;
+    private javax.swing.JPanel duakiri;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPanel kanan;
+    private javax.swing.JPanel kanan1;
+    private javax.swing.JPanel kanandua;
+    private javax.swing.JPanel kanansatu;
+    private javax.swing.JPanel kiri;
+    private javax.swing.JPanel kiri2;
+    private Sinarelektronikapp.swinglib.labeling labeling7;
+    private Sinarelektronikapp.swinglib.labeling labeling8;
+    private Sinarelektronikapp.swinglib.labeling labeling9;
+    private javax.swing.JLabel lblPreview;
+    private javax.swing.JPanel middle2;
+    private javax.swing.JPanel palingAtas;
+    private Sinarelektronikapp.swinglib.panelGradUser panelBackgroundUp1;
+    private Sinarelektronikapp.swinglib.panelGradUser panelGradUser4;
+    private javax.swing.JPanel panelKode;
+    private javax.swing.JMenuItem pilih;
+    private javax.swing.JPopupMenu popUpTabel;
+    private javax.swing.JPanel satu;
+    private javax.swing.JPanel satukanan;
+    private javax.swing.JPanel satukiri;
+    private javax.swing.JTable tabelBarang1;
+    private javax.swing.JTable tabelProsesInventory;
+    private javax.swing.JPanel tengah;
+    private javax.swing.JPanel tengah2;
+    private javax.swing.JPanel tiga;
+    private javax.swing.JPanel tigakanan;
+    private javax.swing.JPanel tigakiri;
+    private javax.swing.JTextField txtEkspedisi;
+    private javax.swing.JTextField txtJumlahBeli;
+    private javax.swing.JTextField txtKataKunci1;
+    private javax.swing.JTextField txtSubHarga;
+    private javax.swing.JTextField txthargaperitem;
+    private javax.swing.JTextField txtjam;
+    private Sinarelektronikapp.swinglib.AutoComplete.TextFieldAutoComplete txtkodeitem;
+    private javax.swing.JTextField txtnamabarang;
+    private javax.swing.JTextField txtnoBeli;
+    private javax.swing.JTextField txttanggal;
+    private javax.swing.JTextField txttotal;
+    private javax.swing.JTextField txtuser;
+    private javax.swing.JPanel up2;
+
+
+    public JIFInventoryBarangKecil() {
         tabelmodelBarang = new tabelModelBarang();
         
         modelBarang=  new barangModel();
@@ -81,23 +144,23 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
         controllerBarang = new BarangController();
         controllerBarang.setModel(modelBarang);
         
-        model = new InventoryModel();
+        model = new InventoryBarangKecilModel();
         model.setListener(this);
 
-        controller =  new InventoryController();
+        controller =  new InventoryBarangKecilController();
         controller.setModel(model);
         initComponents();
         
-        tabelModelInventory = new TabelModelInventory();
-        tabelProsesInventory.setModel(tabelModelInventory);
+        tabelModelInventoryBarangKecil = new TabelModelInventoryBarangKecil();
+        tabelProsesInventory.setModel(tabelModelInventoryBarangKecil);
         
         tabelBarang1.setModel(tabelmodelBarang);
         try {
             loadDatabaseCariBarang();
         } catch (SQLException ex) {
-            Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BarangException ex) {
-            Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -287,14 +350,8 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
         txttanggal.setText(getTanggal());
         txtkodeitem.setEditable(false);
         btOpenCari.setEnabled(false);
-    }    
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    }
+
     private void initComponents() {
 
         DialogCariBarang = new javax.swing.JDialog();
@@ -510,7 +567,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Inventory Pengadaan Barang");
+        setTitle("InventoryBarangKecilDTO Pengadaan Barang");
 
         palingAtas.setPreferredSize(new java.awt.Dimension(500, 300));
         palingAtas.setLayout(new java.awt.BorderLayout());
@@ -815,16 +872,16 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
         getContentPane().add(bawah, java.awt.BorderLayout.PAGE_END);
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     private void btOpenCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOpenCariActionPerformed
         // TODO add your handling code here:
         cariBarang();
-    }//GEN-LAST:event_btOpenCariActionPerformed
+    }
 
     private void btOpenCariFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btOpenCariFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_btOpenCariFocusLost
+    }
 
     private void txtkodeitemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtkodeitemActionPerformed
         // TODO add your handling code here:
@@ -837,15 +894,15 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
             txthargaperitem.setText(getHarga());
             txtEkspedisi.requestFocus();
         }
-    }//GEN-LAST:event_txtkodeitemActionPerformed
+    }
 
     private void txtkodeitemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtkodeitemFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtkodeitemFocusLost
+    }
 
     private void txtnamabarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnamabarangActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtnamabarangActionPerformed
+    }
 
     private void txtnamabarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtnamabarangFocusGained
         // TODO add your handling code here:
@@ -859,26 +916,26 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
             txthargaperitem.setText(getHarga());
             txtEkspedisi.requestFocus();
         }
-    }//GEN-LAST:event_txtnamabarangFocusGained
+    }
 
     private void txtEkspedisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEkspedisiActionPerformed
         // TODO add your handling code here:
         ekspedisiGo();
-    }//GEN-LAST:event_txtEkspedisiActionPerformed
+    }
 
     private void txtEkspedisiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEkspedisiFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtEkspedisiFocusGained
+    }
 
     private void txtEkspedisiFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEkspedisiFocusLost
         // TODO add your handling code here:
         ekspedisiGo();
-    }//GEN-LAST:event_txtEkspedisiFocusLost
+    }
 
     private void txtJumlahBeliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJumlahBeliActionPerformed
         // TODO add your handling code here:
         jumlahReturGo();
-    }//GEN-LAST:event_txtJumlahBeliActionPerformed
+    }
 
     private void txtJumlahBeliFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtJumlahBeliFocusGained
         // TODO add your handling code here:
@@ -891,17 +948,17 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
             txthargaperitem.setText(getHarga());
             txtJumlahBeli.requestFocus();
         }
-    }//GEN-LAST:event_txtJumlahBeliFocusGained
+    }
 
     private void txtJumlahBeliFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtJumlahBeliFocusLost
         // TODO add your handling code here:
         //jumlahReturGo();
-    }//GEN-LAST:event_txtJumlahBeliFocusLost
+    }
 
     private void txtSubHargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSubHargaActionPerformed
         // TODO add your handling code here:
         btGo.requestFocus();
-    }//GEN-LAST:event_txtSubHargaActionPerformed
+    }
 
     private void txtSubHargaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSubHargaFocusGained
         // TODO add your handling code here:
@@ -919,7 +976,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
         controller.insertInventory(this);
         resetinputan();
         //setTxtTotalMain(totalMain);
-    }//GEN-LAST:event_btGoActionPerformed
+    }
 
     private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahActionPerformed
         // TODO add your handling code here:
@@ -941,65 +998,65 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
             btHapus.setEnabled(false);
             //setTxtTotalMain();
         }
-    }//GEN-LAST:event_btSimpanActionPerformed
+    }
 
     private void btHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHapusActionPerformed
         // TODO add your handling code here:
         controller.deleteInventory(this);
         resetinputan();
         //setTxtTotalMain();
-    }//GEN-LAST:event_btHapusActionPerformed
+    }
 
     private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
         // TODO add your handling code here:
         resetinputan();
-    }//GEN-LAST:event_btResetActionPerformed
+    }
 
     private void txtKataKunci1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKataKunci1ActionPerformed
         // TODO add your handling code here:
         btCari1.doClick();
-    }//GEN-LAST:event_txtKataKunci1ActionPerformed
+    }
 
     private void btCari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCari1ActionPerformed
         try {
             controllerBarang.cari3(this, this);
         } catch (SQLException | BarangException ex) {
-            Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setSize(getWidth(), getHeight());
-    }//GEN-LAST:event_btCari1ActionPerformed
+    }
 
     private void cmbCari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCari1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cmbCari1ActionPerformed
+    }
 
     private void cmbUrut1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrut1ActionPerformed
         try {
             controllerBarang.sort(this);
         } catch (SQLException ex) {
-            Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BarangException ex) {
-            Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_cmbUrut1ActionPerformed
+    }
 
     private void tabelBarang1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarang1MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tabelBarang1MouseClicked
+    }
 
     private void tabelBarang1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarang1MousePressed
         // TODO add your handling code here:
         if(evt.isPopupTrigger()){
             popUpTabel.show(evt.getComponent(), evt.getX(), evt.getY());
         }
-    }//GEN-LAST:event_tabelBarang1MousePressed
+    }
 
     private void tabelBarang1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarang1MouseReleased
         // TODO add your handling code here:
         if(evt.isPopupTrigger()){
             popUpTabel.show(evt.getComponent(), evt.getX(), evt.getY());
         }
-    }//GEN-LAST:event_tabelBarang1MouseReleased
+    }
 
     private void pilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pilihActionPerformed
         // TODO add your handling code here:
@@ -1009,85 +1066,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
             txtnamabarang.requestFocus();
             DialogCariBarang.dispose();                        
         }
-    }//GEN-LAST:event_pilihActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Center;
-    private javax.swing.JDialog DialogCariBarang;
-    private javax.swing.JDialog DialogPreview;
-    private javax.swing.JPanel PanelTabel;
-    private javax.swing.JPanel PanelTombol;
-    private javax.swing.JPanel West;
-    private javax.swing.JPanel atas;
-    private javax.swing.JPanel atas2;
-    private javax.swing.JPanel bawah;
-    private javax.swing.JPanel bawah2;
-    private javax.swing.JButton btCari1;
-    private javax.swing.JButton btGo;
-    private javax.swing.JButton btHapus;
-    private javax.swing.JButton btOpenCari;
-    private javax.swing.JButton btReset;
-    private javax.swing.JButton btSimpan;
-    private javax.swing.JButton btTambah;
-    private javax.swing.JComboBox cmbCari1;
-    private javax.swing.JComboBox cmbUrut1;
-    private javax.swing.JPanel dua;
-    private javax.swing.JPanel duakanan;
-    private javax.swing.JPanel duakiri;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JPanel kanan;
-    private javax.swing.JPanel kanan1;
-    private javax.swing.JPanel kanandua;
-    private javax.swing.JPanel kanansatu;
-    private javax.swing.JPanel kiri;
-    private javax.swing.JPanel kiri2;
-    private Sinarelektronikapp.swinglib.labeling labeling7;
-    private Sinarelektronikapp.swinglib.labeling labeling8;
-    private Sinarelektronikapp.swinglib.labeling labeling9;
-    private javax.swing.JLabel lblPreview;
-    private javax.swing.JPanel middle2;
-    private javax.swing.JPanel palingAtas;
-    private Sinarelektronikapp.swinglib.panelGradUser panelBackgroundUp1;
-    private Sinarelektronikapp.swinglib.panelGradUser panelGradUser4;
-    private javax.swing.JPanel panelKode;
-    private javax.swing.JMenuItem pilih;
-    private javax.swing.JPopupMenu popUpTabel;
-    private javax.swing.JPanel satu;
-    private javax.swing.JPanel satukanan;
-    private javax.swing.JPanel satukiri;
-    private javax.swing.JTable tabelBarang1;
-    private javax.swing.JTable tabelProsesInventory;
-    private javax.swing.JPanel tengah;
-    private javax.swing.JPanel tengah2;
-    private javax.swing.JPanel tiga;
-    private javax.swing.JPanel tigakanan;
-    private javax.swing.JPanel tigakiri;
-    private javax.swing.JTextField txtEkspedisi;
-    private javax.swing.JTextField txtJumlahBeli;
-    private javax.swing.JTextField txtKataKunci1;
-    private javax.swing.JTextField txtSubHarga;
-    private javax.swing.JTextField txthargaperitem;
-    private javax.swing.JTextField txtjam;
-    private Sinarelektronikapp.swinglib.AutoComplete.TextFieldAutoComplete txtkodeitem;
-    private javax.swing.JTextField txtnamabarang;
-    private javax.swing.JTextField txtnoBeli;
-    private javax.swing.JTextField txttanggal;
-    private javax.swing.JTextField txttotal;
-    private javax.swing.JTextField txtuser;
-    private javax.swing.JPanel up2;
-    // End of variables declaration//GEN-END:variables
+    }
 
     @Override
     public void onChange(barangModel model) {
@@ -1135,7 +1114,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -1153,13 +1132,13 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
                 hasil=rs.getString("namabarang");
             }            
         } catch (SQLException ex) {
-            Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             if(s!=null){
                 try {
                     s.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -1187,7 +1166,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
                 try {
                     s.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -1206,7 +1185,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -1232,7 +1211,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }        
@@ -1264,7 +1243,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
                 try {
                     s.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -1282,13 +1261,13 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
                 id = rs.getInt(1)+1;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             if(s!=null){
                 try {
                     s.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -1368,22 +1347,24 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
     }    
   
     public void jumlahReturGo(){
-        int jumlahBeli = Integer.parseInt(txtJumlahBeli.getText());
-        //int jumlahBarang = getJumlahBarang(txtkodeitem.getText());
-        //int jumlahTemp = jumlahBarang + getJumlahTemp(txtkodeitem.getText());
-        //!txtJumlah.getText().matches("[0-9]*")
-        if(!txtJumlahBeli.getText().matches("[0-9]*")){
-            JOptionPane.showMessageDialog(null, "Jumlah pembelian harus angka");
-            return;                        
-        }else if(jumlahBeli<=0){
-            JOptionPane.showMessageDialog(null, "jumlah pembelian barangkecil tidak boleh 0");
-            txtJumlahBeli.requestFocus();
-            txtJumlahBeli.selectAll();
-            return;
-        }else{
-            txtSubHarga.setText(String.valueOf(getSubHarga(Integer.parseInt(txthargaperitem.getText()), Integer.parseInt(txtJumlahBeli.getText()), Integer.parseInt(txtEkspedisi.getText()))));
-            txtSubHarga.requestFocus();            
-        }        
+        int jumlahBeli = 0;
+        if (txtJumlahBeli.getText() != null) {            
+            if (!txtJumlahBeli.getText().matches("[0-9]*")) {
+                JOptionPane.showMessageDialog(null, "Jumlah pembelian harus angka");
+                return;
+            } else if (jumlahBeli <= 0) {
+                JOptionPane.showMessageDialog(null, "jumlah pembelian barangkecil tidak boleh 0");
+                txtJumlahBeli.requestFocus();
+                txtJumlahBeli.selectAll();
+                return;
+            }
+            
+            jumlahBeli = Integer.parseInt(txtJumlahBeli.getText());
+            txtSubHarga.setText(String.valueOf(getSubHarga(Integer.parseInt(txthargaperitem.getText()), jumlahBeli, Integer.parseInt(txtEkspedisi.getText()))));
+            txtSubHarga.requestFocus();
+        }
+         
+      
     }  
     
     public void insertIntoTableInventory(){
@@ -1403,15 +1384,14 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
             try {
                 c.rollback();
             } catch (SQLException ex) {
-                Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //JOptionPane.showMessageDialog(null, "error dalam insert table retur karena = "+exception);
         }finally{
             if(ps!=null){
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -1453,7 +1433,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
             try {
                 c.rollback();
             } catch (SQLException ex) {
-                Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(null, "error dalam insert table detail retur karena = "+exception);
         }finally{
@@ -1461,7 +1441,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }        
@@ -1490,13 +1470,13 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
                 inc++;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             if(statement!=null){
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }  
@@ -1509,12 +1489,12 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
         } catch (SQLException ex) {
-            Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public int getJumlahTemp(String kode){
@@ -1534,7 +1514,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
                 try {
                     s.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFInventoryBarangKecil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -1543,7 +1523,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
 
 
     @Override
-    public void onChange(InventoryModel model) {
+    public void onChange(InventoryBarangKecilModel model) {
         txtnoBeli.setText(String.valueOf(model.getId()));
         txtuser.setText(model.getUser());
         txtjam.setText(model.getJam());
@@ -1554,10 +1534,10 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
     }
 
     @Override
-    public void onInsert(Inventory inventory) {
-        tabelModelInventory.add(inventory);
+    public void onInsert(InventoryBarangKecilDTO inventoryBarangKecilDTO) {
+        tabelModelInventoryBarangKecil.add(inventoryBarangKecilDTO);
         
-        totalMain+=inventory.getSubharga();
+        totalMain+= inventoryBarangKecilDTO.getSubharga();
         setTxtTotalMain(totalMain);
     }
 
@@ -1568,7 +1548,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
         totalMain-=Integer.parseInt(String.valueOf(tabelProsesInventory.getValueAt(index, 4)));
         setTxtTotalMain(totalMain);
         
-        tabelModelInventory.remove(index);        
+        tabelModelInventoryBarangKecil.remove(index);
     }
 
     
@@ -1578,7 +1558,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
         int b= tabelProsesInventory.getSelectedRowCount();
         int a=0;
         while (b>0) {            
-            tabelModelInventory.remove(a);
+            tabelModelInventoryBarangKecil.remove(a);
             tabelProsesInventory.selectAll();
             b= tabelProsesInventory.getSelectedRowCount();
         }

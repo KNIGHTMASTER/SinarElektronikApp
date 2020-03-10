@@ -32,7 +32,7 @@ public class JIFReportInventory extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Report Inventory");
+        setTitle("Report InventoryBarangKecilDTO");
         getContentPane().add(reportInventory1, java.awt.BorderLayout.CENTER);
 
         pack();

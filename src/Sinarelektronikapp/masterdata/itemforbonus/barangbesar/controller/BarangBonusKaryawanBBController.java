@@ -7,7 +7,8 @@ package Sinarelektronikapp.masterdata.itemforbonus.barangbesar.controller;
 
 import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.error.BarangBonusKaryawanBBException;
 import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.model.BarangBonusKaryawanBBModel;
-import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.view.JIFBarangBonusKaryawanBBView;
+import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.view.JIFBarangBesarBonusKaryawanBBView;
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,11 +69,11 @@ public class BarangBonusKaryawanBBController {
     }
 
    
-    public void resetTipe(JIFBarangBonusKaryawanBBView view){
+    public void resetTipe(JIFBarangBesarBonusKaryawanBBView view){
         model.resetTipe();
     }
     
-    public void insertTipe(JIFBarangBonusKaryawanBBView view){
+    public void insertTipe(JIFBarangBesarBonusKaryawanBBView view){
         String kodeBarang = view.getTxtKodeBarang().getText();
         String namaBarang = view.getTxtNamaBarang().getText();        
         String tipeBarang = view.getTxtTipeBarang().getText();
@@ -106,7 +107,7 @@ public class BarangBonusKaryawanBBController {
         }    
     }
     
-    public void deleteTipe(JIFBarangBonusKaryawanBBView view){
+    public void deleteTipe(JIFBarangBesarBonusKaryawanBBView view){
         if(view.getTabelTipe().getSelectedRowCount()==0){
             JOptionPane.showMessageDialog(view, "pilih baris yang akan dihapus");
             return;

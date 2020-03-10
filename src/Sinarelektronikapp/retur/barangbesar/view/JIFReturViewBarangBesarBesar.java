@@ -1,9 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Sinarelektronikapp.retur.barangbesar.view;
 
+import Sinarelektronikapp.masterdata.barangbesar.model.BarangBesarModel;
+import Sinarelektronikapp.masterdata.barangbesar.model.event.BarangBesarListener;
 import Sinarelektronikapp.util.FormatRupiah;
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.util.Waktu;
@@ -19,9 +17,7 @@ import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
-import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
-import Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener;
-import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
+import Sinarelektronikapp.masterdata.barangbesar.model.TabelModelBarangBesar;
 import Sinarelektronikapp.masterdata.barangbesar.service.BarangDao;
 import Sinarelektronikapp.swinglib.AutoComplete.DefaultModelAutoComplete;
 import Sinarelektronikapp.swinglib.AutoComplete.TextFieldAutoComplete;
@@ -52,10 +48,10 @@ import javax.swing.Timer;
  *
  * @author Fauzi
  */
-public class JIFReturViewBarangBesar extends javax.swing.JInternalFrame implements ReturListener, barangListener, Sinarelektronikapp.masterdata.barangtoko.model.event.barangListener{
+public class JIFReturViewBarangBesarBesar extends javax.swing.JInternalFrame implements ReturListener, BarangBesarListener, Sinarelektronikapp.masterdata.barangtoko.model.event.barangListener{
 
     /**
-     * Creates new form JIFReturViewBarangBesar
+     * Creates new form JIFReturViewBarangBesarBesar
      */
     
     int totalMain = 0;
@@ -72,11 +68,11 @@ public class JIFReturViewBarangBesar extends javax.swing.JInternalFrame implemen
     
     Waktu w = new Waktu();
     
-    private  tabelModelBarang tabelmodelBarang ;
+    private  TabelModelBarangBesar tabelmodelBarang ;
     
     private BarangController controllerBarang;
     
-    private  barangModel modelBarang;
+    private BarangBesarModel modelBarang;
     
     private Sinarelektronikapp.masterdata.barangtoko.model.tabelModelBarang TabelmodelBarangToko;
     
@@ -84,10 +80,10 @@ public class JIFReturViewBarangBesar extends javax.swing.JInternalFrame implemen
     
     private Sinarelektronikapp.masterdata.barangtoko.model.barangModel modelBarangToko;
     
-    public JIFReturViewBarangBesar() {
-        tabelmodelBarang = new tabelModelBarang();
+    public JIFReturViewBarangBesarBesar() {
+        tabelmodelBarang = new TabelModelBarangBesar();
         
-        modelBarang=  new barangModel();
+        modelBarang=  new BarangBesarModel();
         modelBarang.setListener(this);        
         
         TabelmodelBarangToko = new Sinarelektronikapp.masterdata.barangtoko.model.tabelModelBarang();
@@ -1505,7 +1501,7 @@ public class JIFReturViewBarangBesar extends javax.swing.JInternalFrame implemen
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(JIFReturViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JIFReturViewBarangBesarBesar.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }        
@@ -1635,9 +1631,9 @@ public class JIFReturViewBarangBesar extends javax.swing.JInternalFrame implemen
                 tabelBarang1.setModel(TabelmodelBarangToko);
                 loadDatabaseCariBarangToko();
             } catch (Sinarelektronikapp.masterdata.barangtoko.error.BarangException ex) {
-                Logger.getLogger(JIFReturViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFReturViewBarangBesarBesar.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
-                Logger.getLogger(JIFReturViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFReturViewBarangBesarBesar.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else if(sumber.equals("Gudang")){
             sumberBarang = "barangbesar";
@@ -1645,9 +1641,9 @@ public class JIFReturViewBarangBesar extends javax.swing.JInternalFrame implemen
             try {
                 loadDatabaseCariBarang();
             } catch (SQLException ex) {
-                Logger.getLogger(JIFReturViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFReturViewBarangBesarBesar.class.getName()).log(Level.SEVERE, null, ex);
             } catch (BarangException ex) {
-                Logger.getLogger(JIFReturViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFReturViewBarangBesarBesar.class.getName()).log(Level.SEVERE, null, ex);
             }            
         }       
         setTxtkodeAuto();        
@@ -1812,7 +1808,7 @@ public class JIFReturViewBarangBesar extends javax.swing.JInternalFrame implemen
     }
     
     @Override
-    public void onChange(barangModel model) {
+    public void onChange(BarangBesarModel model) {
         txtKataKunci1.setText(modelBarang.getCari());
     }
 

@@ -19,7 +19,7 @@ public class marq extends JLabel {
     public marq(int Option, int Speed) {  
         this.Option = Option;  
         this.Speed = Speed;  
-        this.setText("Sistem Informasi Manajemen Sinar Elektronik Copyright © 2013: Sinar Elektronik, Inc");  
+        this.setText("Point Of Sales Sinar Elektronik Copyright © 2013: Sinar Elektronik, Inc");  
     }      
    
     @Override

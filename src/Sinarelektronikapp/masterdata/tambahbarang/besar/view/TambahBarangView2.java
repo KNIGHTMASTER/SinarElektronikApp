@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Sinarelektronikapp.masterdata.tambahbarang.besar.view;
 
 import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
-import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
+import Sinarelektronikapp.masterdata.barangbesar.model.BarangBesarModel;
+import Sinarelektronikapp.masterdata.barangbesar.model.TabelModelBarangBesar;
 import Sinarelektronikapp.masterdata.barangbesar.model.event.tambahBarangListener;
-import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
 import Sinarelektronikapp.masterdata.tambahbarang.besar.controller.tambahBarangController;
 import Sinarelektronikapp.masterdata.tambahbarang.besar.model.tambahBarangModel;
 import com.toedter.components.JSpinField;
@@ -104,7 +100,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         this.cmbNamaBarang = cmbNamaBarang;
     }
     
-    barangModel barangmodel=new barangModel();
+    BarangBesarModel barangmodel=new BarangBesarModel();
 
     private Connection conn;
 	
@@ -1167,7 +1163,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
 
     @Override
     public void onInsert(barang barang) {        
-        tabelModelBarang modelBarang=new tabelModelBarang();
+        TabelModelBarangBesar modelBarang=new TabelModelBarangBesar();
         modelBarang.add(barang);
     }
 

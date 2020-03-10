@@ -1,6 +1,7 @@
-package Sinarelektronikapp.inventory.barangbesar.model;
+package Sinarelektronikapp.inventory.barangkecil.model;
 
-import Sinarelektronikapp.inventory.barangbesar.entity.InventoryDTO;
+import Sinarelektronikapp.dto.InventoryBarangKecilDTO;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -10,10 +11,10 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Fauzi
  */
-public class TabelModelInventory extends AbstractTableModel{
-    private List<InventoryDTO> list = new ArrayList<>();
+public class TabelModelInventoryBarangKecil extends AbstractTableModel{
+    private List<InventoryBarangKecilDTO> list = new ArrayList<>();
 
-    public void setList(List<InventoryDTO> list) {
+    public void setList(List<InventoryBarangKecilDTO> list) {
         this.list = list;
     }
 
@@ -29,7 +30,7 @@ public class TabelModelInventory extends AbstractTableModel{
         }
     }            
     
-    public boolean add(InventoryDTO e) {
+    public boolean add(InventoryBarangKecilDTO e) {
         try{
             return list.add(e);
         }finally{
@@ -37,11 +38,11 @@ public class TabelModelInventory extends AbstractTableModel{
         }
     }
 
-    public InventoryDTO get(int index) {
+    public InventoryBarangKecilDTO get(int index) {
         return list.get(index);
     }
 
-    public InventoryDTO set(int index, InventoryDTO element) {
+    public InventoryBarangKecilDTO set(int index, InventoryBarangKecilDTO element) {
         try{
             return list.set(index, element);
         }finally{
@@ -49,7 +50,7 @@ public class TabelModelInventory extends AbstractTableModel{
         }
     }
 
-    public InventoryDTO remove(int index) {
+    public InventoryBarangKecilDTO remove(int index) {
         try{
             return list.remove(index);
         }finally{

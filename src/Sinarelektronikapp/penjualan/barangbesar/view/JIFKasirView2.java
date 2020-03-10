@@ -4,6 +4,8 @@
  */
 package Sinarelektronikapp.penjualan.barangbesar.view;
 
+import Sinarelektronikapp.masterdata.barangbesar.model.BarangBesarModel;
+import Sinarelektronikapp.masterdata.barangbesar.model.TabelModelBarangBesar;
 import Sinarelektronikapp.util.FormatRupiah;
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.penjualan.barangbesar.controller.penjualanController;
@@ -17,9 +19,7 @@ import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
-import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
-import Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener;
-import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
+import Sinarelektronikapp.masterdata.barangbesar.model.event.BarangBesarListener;
 import Sinarelektronikapp.masterdata.barangbesar.service.BarangDao;
 import Sinarelektronikapp.masterdata.report.core.ReportParam;
 import Sinarelektronikapp.swinglib.AutoComplete.DefaultModelAutoComplete;
@@ -53,7 +53,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Fauzi
  */
-public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjualanListener, barangListener, Sinarelektronikapp.masterdata.barangtoko.model.event.barangListener{
+public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjualanListener, BarangBesarListener, Sinarelektronikapp.masterdata.barangtoko.model.event.barangListener{
 
     /**
      * Creates new form JIFKasirView2
@@ -66,11 +66,11 @@ public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjual
     
     private penjualanController controller;
     
-    private  tabelModelBarang tabelmodelBarang ;    
+    private TabelModelBarangBesar tabelmodelBarangBesar;
     
     private BarangController controllerBarang;
     
-    private  barangModel modelBarang;
+    private BarangBesarModel modelBarang;
     
     private Sinarelektronikapp.masterdata.barangtoko.model.tabelModelBarang TabelmodelBarangToko;
     
@@ -86,9 +86,9 @@ public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjual
 
     public JIFKasirView2() {
 
-        tabelmodelBarang = new tabelModelBarang();
+        tabelmodelBarangBesar = new TabelModelBarangBesar();
         
-        modelBarang=  new barangModel();
+        modelBarang=  new BarangBesarModel();
         modelBarang.setListener(this);        
         
         TabelmodelBarangToko = new Sinarelektronikapp.masterdata.barangtoko.model.tabelModelBarang();
@@ -247,12 +247,12 @@ public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjual
         this.controller = controller;
     }
 
-    public tabelModelBarang getTabelmodelBarang() {
-        return tabelmodelBarang;
+    public TabelModelBarangBesar getTabelmodelBarangBesar() {
+        return tabelmodelBarangBesar;
     }
 
-    public void setTabelmodelBarang(tabelModelBarang tabelmodelBarang) {
-        this.tabelmodelBarang = tabelmodelBarang;
+    public void setTabelmodelBarangBesar(TabelModelBarangBesar tabelmodelBarangBesar) {
+        this.tabelmodelBarangBesar = tabelmodelBarangBesar;
     }
 
     public BarangController getControllerBarang() {
@@ -360,7 +360,7 @@ public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjual
 
     public void loadDatabaseCariBarang() throws SQLException, BarangException{
         BarangDao dao = barangDatabase.getBarangDao();
-        tabelmodelBarang.setList(dao.selectAllBarang());
+        tabelmodelBarangBesar.setList(dao.selectAllBarang());
     }    
     
     public void loadDatabaseCariBarangToko() throws Sinarelektronikapp.masterdata.barangtoko.error.BarangException, SQLException {
@@ -2491,7 +2491,7 @@ private void updateStokSetelahPembayaran() throws SQLException{
                 // TODO add your handling code here:
                 controllerBarang.cari(this, this);
             } catch (SQLException | BarangException ex) {
-                Logger.getLogger(ViewSearchBarang2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ViewSearchBarangBesar2.class.getName()).log(Level.SEVERE, null, ex);
             }            
         }
         this.setSize(getWidth(), getHeight());
@@ -2513,7 +2513,7 @@ private void updateStokSetelahPembayaran() throws SQLException{
             try {
                 controllerBarang.sort(this);
             } catch (SQLException | BarangException ex) {
-                Logger.getLogger(ViewSearchBarang2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ViewSearchBarangBesar2.class.getName()).log(Level.SEVERE, null, ex);
             }            
         }else if(sumberBarang.equals("barangtoko")){
             try { 
@@ -2619,7 +2619,7 @@ private void updateStokSetelahPembayaran() throws SQLException{
             }
         }else if(sumber.equals("Gudang")){
             sumberBarang = "barangbesar";
-            tabelBarang1.setModel(tabelmodelBarang);            
+            tabelBarang1.setModel(tabelmodelBarangBesar);
             try {
                 loadDatabaseCariBarang();
             } catch (SQLException ex) {
@@ -2816,7 +2816,7 @@ private void updateStokSetelahPembayaran() throws SQLException{
     }    
 
     @Override
-    public void onChange(barangModel model) {
+    public void onChange(BarangBesarModel model) {
         txtKataKunci1.setText(modelBarang.getCari());
     }
 
@@ -2832,12 +2832,12 @@ private void updateStokSetelahPembayaran() throws SQLException{
 
     @Override
     public void onSearch(List list) {
-        tabelmodelBarang.setList(list);
+        tabelmodelBarangBesar.setList(list);
     }
 
     @Override
     public void onSort(List list) {
-        tabelmodelBarang.setList(list);
+        tabelmodelBarangBesar.setList(list);
     }
 
     @Override

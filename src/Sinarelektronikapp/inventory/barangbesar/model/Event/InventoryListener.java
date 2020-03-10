@@ -1,12 +1,12 @@
 package Sinarelektronikapp.inventory.barangbesar.model.Event;
 
-import Sinarelektronikapp.inventory.barangbesar.entity.InventoryDTO;
-import Sinarelektronikapp.inventory.barangbesar.model.InventoryModel;
+import Sinarelektronikapp.dto.InventoryBarangBesarDTO;
+import Sinarelektronikapp.model.InventoryBarangBesarModel;
 import Sinarelektronikapp.listener.BaseListener;
 
 /**
  *
  * @author Fauzi
  */
-public interface InventoryListener extends BaseListener<InventoryModel, InventoryDTO> {    
+public interface InventoryListener extends BaseListener<InventoryBarangBesarModel, InventoryBarangBesarDTO> {
 }

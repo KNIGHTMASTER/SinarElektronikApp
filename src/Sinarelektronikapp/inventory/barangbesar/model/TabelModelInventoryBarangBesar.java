@@ -1,6 +1,6 @@
-package Sinarelektronikapp.inventory.barangkecil.model;
+package Sinarelektronikapp.inventory.barangbesar.model;
 
-import Sinarelektronikapp.inventory.barangkecil.entity.Inventory;
+import Sinarelektronikapp.dto.InventoryBarangBesarDTO;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -10,10 +10,10 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Fauzi
  */
-public class TabelModelInventory extends AbstractTableModel{
-    private List<Inventory> list = new ArrayList<>();
+public class TabelModelInventoryBarangBesar extends AbstractTableModel{
+    private List<InventoryBarangBesarDTO> list = new ArrayList<>();
 
-    public void setList(List<Inventory> list) {
+    public void setList(List<InventoryBarangBesarDTO> list) {
         this.list = list;
     }
 
@@ -29,7 +29,7 @@ public class TabelModelInventory extends AbstractTableModel{
         }
     }            
     
-    public boolean add(Inventory e) {
+    public boolean add(InventoryBarangBesarDTO e) {
         try{
             return list.add(e);
         }finally{
@@ -37,11 +37,11 @@ public class TabelModelInventory extends AbstractTableModel{
         }
     }
 
-    public Inventory get(int index) {
+    public InventoryBarangBesarDTO get(int index) {
         return list.get(index);
     }
 
-    public Inventory set(int index, Inventory element) {
+    public InventoryBarangBesarDTO set(int index, InventoryBarangBesarDTO element) {
         try{
             return list.set(index, element);
         }finally{
@@ -49,7 +49,7 @@ public class TabelModelInventory extends AbstractTableModel{
         }
     }
 
-    public Inventory remove(int index) {
+    public InventoryBarangBesarDTO remove(int index) {
         try{
             return list.remove(index);
         }finally{
@@ -80,10 +80,6 @@ public class TabelModelInventory extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch(columnIndex){
-            //case 0 : return list.get(rowIndex).getId();
-            //case 1 : return list.get(rowIndex).getUser();
-            //case 2 : return list.get(rowIndex).getTanggal();
-            //case 3 : return list.get(rowIndex).getJam();
             case 0 : return list.get(rowIndex).getId();
             case 1 : return list.get(rowIndex).getKode();
             case 2 : return list.get(rowIndex).getNama();
@@ -92,8 +88,4 @@ public class TabelModelInventory extends AbstractTableModel{
             default: return null;
         }
     }
-    
-    
-
-    
 }

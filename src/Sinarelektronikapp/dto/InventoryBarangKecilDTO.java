@@ -1,19 +1,15 @@
-package Sinarelektronikapp.inventory.barangkecil.entity;
+package Sinarelektronikapp.dto;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author Fauzi
  */
-public class Inventory {
-
-    public Inventory() {
-    }
-    
-    int id, jumlah, harga, ekspedisi, subharga;
-    
-    String user, tanggal, jam, kode, nama;
+public class InventoryBarangKecilDTO extends BaseDTO implements Serializable {
+    private int id, jumlah, harga, ekspedisi, subharga;   
+    private String user, tanggal, jam, kode, nama;
 
     public int getId() {
         return id;
@@ -119,7 +115,7 @@ public class Inventory {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Inventory other = (Inventory) obj;
+        final InventoryBarangKecilDTO other = (InventoryBarangKecilDTO) obj;
         if (this.id != other.id) {
             return false;
         }

@@ -42,7 +42,7 @@ public class JIFReportInventoryBarangBesar extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
 
-        panelTransaksi.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Laporan Inventory Barang Besar"));
+        panelTransaksi.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Laporan InventoryBarangKecilDTO Barang Besar"));
         panelTransaksi.setLayout(new java.awt.GridLayout(3, 2));
 
         jLabel1.setText("Tanggal Awal :");
@@ -53,7 +53,7 @@ public class JIFReportInventoryBarangBesar extends javax.swing.JInternalFrame {
         panelTransaksi.add(jLabel2);
         panelTransaksi.add(txtTanggalAkhir);
 
-        btRetur.setText("Inventory");
+        btRetur.setText("InventoryBarangKecilDTO");
         btRetur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReturActionPerformed(evt);
@@ -61,7 +61,7 @@ public class JIFReportInventoryBarangBesar extends javax.swing.JInternalFrame {
         });
         panelTransaksi.add(btRetur);
 
-        btDetailRetur.setText("Detail Inventory");
+        btDetailRetur.setText("Detail InventoryBarangKecilDTO");
         btDetailRetur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btDetailReturActionPerformed(evt);

@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Sinarelektronikapp.masterdata.barangbesar.model;
 
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
@@ -14,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Fauzi
  */
-public class tabelModelBarang extends AbstractTableModel{
+public class TabelModelBarangBesar extends AbstractTableModel{
 
     private List<barang> list = new ArrayList<>();
 

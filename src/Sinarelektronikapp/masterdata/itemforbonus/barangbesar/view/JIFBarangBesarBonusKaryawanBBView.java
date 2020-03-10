@@ -5,9 +5,9 @@ import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
-import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
-import Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener;
-import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
+import Sinarelektronikapp.masterdata.barangbesar.model.BarangBesarModel;
+import Sinarelektronikapp.masterdata.barangbesar.model.event.BarangBesarListener;
+import Sinarelektronikapp.masterdata.barangbesar.model.TabelModelBarangBesar;
 import Sinarelektronikapp.masterdata.barangbesar.service.BarangDao;
 import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.controller.BarangBonusKaryawanBBController;
 import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.database.BarangBonusKaryawanBBDatabase;
@@ -34,7 +34,7 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author Fauzi
  */
-public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame implements BarangBonusKaryawanBBListener, ListSelectionListener, Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener{
+public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFrame implements BarangBonusKaryawanBBListener, ListSelectionListener, BarangBesarListener {
 
     /**
      * Creates new form JIFTipeView
@@ -46,42 +46,42 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
     
     private BarangBonusKaryawanBBModel model;
     
-    private  tabelModelBarang tabelmodelBarang ;
+    private  TabelModelBarangBesar tabelmodelBarangBesar ;
     
     private BarangController controllerBarang;
     
-    private  barangModel modelBarang;
+    private BarangBesarModel modelBarang;
 
     private String sumberBarang = "barangbesar";
     
-    /*private Sinarelektronikapp.masterdata.barangtoko.model.tabelModelBarang TabelmodelBarangToko;
+    /*private Sinarelektronikapp.masterdata.barangtoko.model.TabelModelBarangBesar TabelmodelBarangToko;
     
     private Sinarelektronikapp.masterdata.barangtoko.controller.BarangController controllerBarangToko;
     
-    private Sinarelektronikapp.masterdata.barangtoko.model.barangModel modelBarangToko;    */
+    private Sinarelektronikapp.masterdata.barangtoko.model.BarangBesarModel modelBarangToko;    */
     
-    public JIFBarangBonusKaryawanBBView() {        
+    public JIFBarangBesarBonusKaryawanBBView() {
             try {
                 initComponents();
 
                 tabelMbbkbk = new tabelModelBarangBonusKaryawanBB();
                 
-                tabelmodelBarang = new tabelModelBarang();
+                tabelmodelBarangBesar = new TabelModelBarangBesar();
                 model = new BarangBonusKaryawanBBModel();
                 model.setListener(this);
                 
-                modelBarang=  new barangModel();
-                modelBarang.setListener((barangListener) this);
+                modelBarang=  new BarangBesarModel();
+                modelBarang.setListener((BarangBesarListener) this);
                 
                 controller = new BarangBonusKaryawanBBController(model);
                 
-                /*TabelmodelBarangToko = new Sinarelektronikapp.masterdata.barangtoko.model.tabelModelBarang();
-                modelBarangToko = new Sinarelektronikapp.masterdata.barangtoko.model.barangModel();
+                /*TabelmodelBarangToko = new Sinarelektronikapp.masterdata.barangtoko.model.TabelModelBarangBesar();
+                modelBarangToko = new Sinarelektronikapp.masterdata.barangtoko.model.BarangBesarModel();
                 modelBarangToko.setListener(this);
                 controllerBarangToko = new Sinarelektronikapp.masterdata.barangtoko.controller.BarangController();
                 controllerBarangToko.setModel(modelBarangToko);*/
         
-                modelBarang=  new barangModel();
+                modelBarang=  new BarangBesarModel();
                 modelBarang.setListener(this);
                 controllerBarang = new BarangController();
                 controllerBarang.setModel(modelBarang);
@@ -95,17 +95,17 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
             try {
                 LoadDatabase();
             } catch (SQLException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (BarangBonusKaryawanBBException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            tabelBarang1.setModel(tabelmodelBarang);
+            tabelBarang1.setModel(tabelmodelBarangBesar);
             loadDatabaseCariBarang();
         } catch (SQLException ex) {
-            Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BarangException ex) {
-            Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -554,10 +554,10 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
                             ps.setString(1, txtKodeBarang.getText());
                             ps.executeUpdate();
                         } catch (SQLException ex) {
-                            Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
                     }            
                 
                         LoadDatabase();
@@ -567,9 +567,9 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
                         txtTipeBarang.setText("");
                         this.setSize(this.getWidth(), this.getHeight());
             } catch (SQLException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }catch (BarangBonusKaryawanBBException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btDeleteActionPerformed
@@ -621,9 +621,9 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
                 controllerBarangToko.cariBBBKBBToko(this, this);
                 JOptionPane.showMessageDialog(null, "mulai toko 1");
             } catch (SQLException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Sinarelektronikapp.masterdata.barangtoko.error.BarangException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }*/
         }else if(sumberBarang.equals("barangbesar")){
             try {
@@ -632,9 +632,9 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
             this.setSize(getWidth(), getHeight());
             tabelBarang1.requestFocus();
             } catch (SQLException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (BarangException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btCari1ActionPerformed
@@ -654,17 +654,17 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
             try {
                 controllerBarang.sortBBKBB(this);
             } catch (SQLException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (BarangException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else if(sumberBarang.equals("barangtoko")){
             /*try {
                 controllerBarangToko.sortBBKBB(this);
             } catch (SQLException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Sinarelektronikapp.masterdata.barangtoko.error.BarangException ex) {
-                Logger.getLogger(JIFBarangBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }*/
         }
     }//GEN-LAST:event_cmbUrut1ActionPerformed
@@ -792,11 +792,11 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
     
     public void loadDatabaseCariBarang() throws SQLException, BarangException{
         BarangDao dao = barangDatabase.getBarangDao();
-        tabelmodelBarang.setList(dao.selectAllBarang());
+        tabelmodelBarangBesar.setList(dao.selectAllBarang());
     }        
 
     @Override
-    public void onChange(barangModel model) {
+    public void onChange(BarangBesarModel model) {
         txtKataKunci1.setText(modelBarang.getCari());
     }
 
@@ -812,11 +812,11 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
 
     @Override
     public void onSearch(List list) {
-        tabelmodelBarang.setList(list);
+        tabelmodelBarangBesar.setList(list);
     }
 
     @Override
     public void onSort(List list) {
-        tabelmodelBarang.setList(list);
+        tabelmodelBarangBesar.setList(list);
     }
 }

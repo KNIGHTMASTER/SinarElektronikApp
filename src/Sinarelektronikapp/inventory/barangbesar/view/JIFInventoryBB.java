@@ -1,22 +1,22 @@
 package Sinarelektronikapp.inventory.barangbesar.view;
 
+import Sinarelektronikapp.masterdata.barangbesar.model.BarangBesarModel;
+import Sinarelektronikapp.masterdata.barangbesar.model.event.BarangBesarListener;
 import Sinarelektronikapp.util.FormatRupiah;
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.util.Waktu;
 import Sinarelektronikapp.config.ActiveUser;
 import Sinarelektronikapp.config.HostName;
-import Sinarelektronikapp.inventory.barangbesar.controller.InventoryController;
-import Sinarelektronikapp.inventory.barangbesar.entity.InventoryDTO;
+import Sinarelektronikapp.inventory.barangbesar.controller.InventoryBarangBesarController;
+import Sinarelektronikapp.dto.InventoryBarangBesarDTO;
 import Sinarelektronikapp.inventory.barangbesar.model.Event.InventoryListener;
-import Sinarelektronikapp.inventory.barangbesar.model.InventoryModel;
-import Sinarelektronikapp.inventory.barangbesar.model.TabelModelInventory;
+import Sinarelektronikapp.model.InventoryBarangBesarModel;
+import Sinarelektronikapp.inventory.barangbesar.model.TabelModelInventoryBarangBesar;
 import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
-import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
-import Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener;
-import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
+import Sinarelektronikapp.masterdata.barangbesar.model.TabelModelBarangBesar;
 import Sinarelektronikapp.masterdata.barangbesar.service.BarangDao;
 import Sinarelektronikapp.swinglib.AutoComplete.DefaultModelAutoComplete;
 import Sinarelektronikapp.swinglib.AutoComplete.TextFieldAutoComplete;
@@ -46,53 +46,40 @@ import javax.swing.Timer;
  *
  * @author Fauzi
  */
-public class JIFInventoryBB extends javax.swing.JInternalFrame implements barangListener, InventoryListener{
+public class JIFInventoryBB extends javax.swing.JInternalFrame implements BarangBesarListener, InventoryListener{
 
-    /**
-     * Creates new form JIFInventory
-     */
-    
-    int totalMain = 0;
-    
-    InputHarusAngka iha = new InputHarusAngka();
-    
-    FormatRupiah fr = new FormatRupiah();
-    
-    InventoryController controller;
-    
-    InventoryModel model;
-    
-    TabelModelInventory tabelModelInventory;        
-    
-    Waktu w = new Waktu();
-    
-    private  tabelModelBarang tabelmodelBarang ;
-    
+    private int totalMain = 0;    
+    private InputHarusAngka iha = new InputHarusAngka();
+    private FormatRupiah fr = new FormatRupiah();
+    private InventoryBarangBesarController controller;
+    private InventoryBarangBesarModel model;
+    private TabelModelInventoryBarangBesar tabelModelInventoryBarangBesar;
+    private Waktu w = new Waktu();
+    private TabelModelBarangBesar tabelmodelBarangBesar;
     private BarangController controllerBarang;
-    
-    private  barangModel modelBarang;
+    private BarangBesarModel modelBarang;
     
     
     public JIFInventoryBB() {
-        tabelmodelBarang = new tabelModelBarang();
+        tabelmodelBarangBesar = new TabelModelBarangBesar();
         
-        modelBarang=  new barangModel();
+        modelBarang=  new BarangBesarModel();
         modelBarang.setListener(this);        
         
         controllerBarang = new BarangController();
         controllerBarang.setModel(modelBarang);
         
-        model = new InventoryModel();
+        model = new InventoryBarangBesarModel();
         model.setListener(this);
 
-        controller =  new InventoryController();
+        controller =  new InventoryBarangBesarController();
         controller.setModel(model);
         initComponents();
         
-        tabelModelInventory = new TabelModelInventory();
-        tabelProsesInventory.setModel(tabelModelInventory);
+        tabelModelInventoryBarangBesar = new TabelModelInventoryBarangBesar();
+        tabelProsesInventory.setModel(tabelModelInventoryBarangBesar);
         
-        tabelBarang1.setModel(tabelmodelBarang);
+        tabelBarang1.setModel(tabelmodelBarangBesar);
         try {
             loadDatabaseCariBarang();
         } catch (SQLException ex) {
@@ -516,7 +503,7 @@ public void inisiasiDataAwal(){
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Inventory Pengadaan Barang Besar");
+        setTitle("InventoryBarangKecilDTO Pengadaan Barang Besar");
 
         palingAtas.setPreferredSize(new java.awt.Dimension(500, 300));
         palingAtas.setLayout(new java.awt.BorderLayout());
@@ -855,7 +842,7 @@ public void inisiasiDataAwal(){
 
     public void loadDatabaseCariBarang() throws SQLException, BarangException{
         BarangDao dao = barangDatabase.getBarangDao();
-        tabelmodelBarang.setList(dao.selectAllBarang());
+        tabelmodelBarangBesar.setList(dao.selectAllBarang());
     }    
         
     
@@ -1116,7 +1103,7 @@ public void inisiasiDataAwal(){
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onChange(barangModel model) {
+    public void onChange(BarangBesarModel model) {
         txtKataKunci1.setText(modelBarang.getCari());
     }
 
@@ -1132,12 +1119,12 @@ public void inisiasiDataAwal(){
 
     @Override
     public void onSearch(List list) {
-        tabelmodelBarang.setList(list);
+        tabelmodelBarangBesar.setList(list);
     }
 
     @Override
     public void onSort(List list) {
-        tabelmodelBarang.setList(list);
+        tabelmodelBarangBesar.setList(list);
     }    
 
     @Override
@@ -1147,7 +1134,7 @@ public void inisiasiDataAwal(){
         totalMain-=Integer.parseInt(String.valueOf(tabelProsesInventory.getValueAt(index, 4)));
         setTxtTotalMain(totalMain);
         
-        tabelModelInventory.remove(index);        
+        tabelModelInventoryBarangBesar.remove(index);
     }
 
     
@@ -1157,7 +1144,7 @@ public void inisiasiDataAwal(){
         int b= tabelProsesInventory.getSelectedRowCount();
         int a=0;
         while (b>0) {            
-            tabelModelInventory.remove(a);
+            tabelModelInventoryBarangBesar.remove(a);
             tabelProsesInventory.selectAll();
             b= tabelProsesInventory.getSelectedRowCount();
         }
@@ -1329,7 +1316,7 @@ public void inisiasiDataAwal(){
         Statement s= null;
         try {
             s = c.createStatement();
-            ResultSet rs = s.executeQuery("SELECT count(id) from inventory.barangbesar");
+            ResultSet rs = s.executeQuery("SELECT count(id) from inventorybarangbesar");
             if(rs.next()){
                 id = rs.getInt(1)+1;
             }
@@ -1421,9 +1408,6 @@ public void inisiasiDataAwal(){
   
     public void jumlahReturGo(){
         int jumlahBeli = Integer.parseInt(txtJumlahBeli.getText());
-        //int jumlahBarang = getJumlahBarang(txtkodeitem.getText());
-        //int jumlahTemp = jumlahBarang + getJumlahTemp(txtkodeitem.getText());
-        //!txtJumlah.getText().matches("[0-9]*")
         if(!txtJumlahBeli.getText().matches("[0-9]*")){
             JOptionPane.showMessageDialog(null, "Jumlah pembelian harus angka");
             return;                        
@@ -1592,24 +1576,23 @@ public void inisiasiDataAwal(){
         }
         return jumlahTemp;
     }    
-
+    
     @Override
-    public void onChange(InventoryModel model) {
-        txtnoBeli.setText(String.valueOf(model.getId()));
-        txtuser.setText(model.getUser());
-        txtjam.setText(model.getJam());
-        txtkodeitem.setText(model.getKode());
-        txtnamabarang.setText(model.getNama());
-        txtJumlahBeli.setText(String.valueOf(model.getJumlah()));
-        txtSubHarga.setText(String.valueOf(model.getSubharga()));
+    public void onChange(InventoryBarangBesarModel dto) {
+        txtnoBeli.setText(String.valueOf(dto.getId()));
+        txtuser.setText(dto.getUser());
+        txtjam.setText(dto.getJam());
+        txtkodeitem.setText(dto.getKode());
+        txtnamabarang.setText(dto.getNama());
+        txtJumlahBeli.setText(String.valueOf(dto.getJumlah()));
+        txtSubHarga.setText(String.valueOf(dto.getSubharga()));
     }
 
     @Override
-    public void onInsert(InventoryDTO inventory) {
-        tabelModelInventory.add(inventory);
+    public void onInsert(InventoryBarangBesarDTO inventory) {
+        tabelModelInventoryBarangBesar.add(inventory);
         
-        totalMain+=inventory.getSubharga();
+        totalMain += inventory.getSubharga();
         setTxtTotalMain(totalMain);
     }
-    
 }

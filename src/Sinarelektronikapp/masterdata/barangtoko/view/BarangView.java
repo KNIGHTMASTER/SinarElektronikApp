@@ -51,7 +51,7 @@ import javax.swing.event.ListSelectionListener;
 public class BarangView extends javax.swing.JPanel implements barangListener, ListSelectionListener{
 
     /**
-     * Creates new form BarangView
+     * Creates new form BarangBesarView
      */
     
     BarangController controller;
@@ -1026,7 +1026,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 /*try {
                     ps.setBlob(13, new FileInputStream(gambar));
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }*/
             
             String garansi = "";
@@ -1321,9 +1321,9 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         /*try {
             controller.sort(this);
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BarangException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
         loadDatabase();*/
     }
@@ -1355,7 +1355,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 /*try {
                     controller.sort(this);
                 } catch (BarangException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }*/
             } catch (SQLException ex) {
                 Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);

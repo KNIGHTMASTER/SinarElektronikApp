@@ -39,7 +39,7 @@ public class ReportInventory extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        panelTransaksi.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Laporan Inventory"));
+        panelTransaksi.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Laporan InventoryBarangKecilDTO"));
         panelTransaksi.setLayout(new java.awt.GridLayout(3, 2));
 
         jLabel1.setText("Tanggal Awal :");
@@ -50,7 +50,7 @@ public class ReportInventory extends javax.swing.JPanel {
         panelTransaksi.add(jLabel2);
         panelTransaksi.add(txtTanggalAkhir);
 
-        btRetur.setText("Inventory");
+        btRetur.setText("InventoryBarangKecilDTO");
         btRetur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btReturActionPerformed(evt);
@@ -58,7 +58,7 @@ public class ReportInventory extends javax.swing.JPanel {
         });
         panelTransaksi.add(btRetur);
 
-        btDetailRetur.setText("Detail Inventory");
+        btDetailRetur.setText("Detail InventoryBarangKecilDTO");
         btDetailRetur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btDetailReturActionPerformed(evt);

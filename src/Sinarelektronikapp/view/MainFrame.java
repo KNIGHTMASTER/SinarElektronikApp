@@ -6,14 +6,14 @@ import Sinarelektronikapp.transaction.barangbesar.view.JIFTransaksiPenjualanBB;
 import Sinarelektronikapp.transaction.barangkecil.view.JIFManajemenTransaksiPenjualan;
 import Sinarelektronikapp.penjualan.barangbesar.view.JIFKasirView2;
 import Sinarelektronikapp.retur.barangbesar.view.JIFPRosesReturBB;
-import Sinarelektronikapp.retur.barangbesar.view.JIFReturViewBarangBesar;
+import Sinarelektronikapp.retur.barangbesar.view.JIFReturViewBarangBesarBesar;
 import Sinarelektronikapp.transfer.barangbesar.view.JIFTransferBB;
 import Sinarelektronikapp.chart.view.JIFChartView;
 import Sinarelektronikapp.config.ActiveUser;
 import Sinarelektronikapp.config.ApplicationMode;
 import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.config.UserLevel;
-import Sinarelektronikapp.inventory.barangkecil.view.JIFInventory;
+import Sinarelektronikapp.inventory.barangkecil.view.JIFInventoryBarangKecil;
 import Sinarelektronikapp.inventory.barangbesar.view.JIFInventoryBB;
 import Sinarelektronikapp.masterdata.barangkecil.stokreminder.view.JIFReminderView;
 import Sinarelektronikapp.masterdata.barangkecil.view.JIFBarangView;
@@ -27,7 +27,7 @@ import Sinarelektronikapp.masterdata.barangtoko.view.JIFBarangToko;
 import Sinarelektronikapp.masterdata.merek.view.JIFMerekView;
 import Sinarelektronikapp.masterdata.namabarang.view.JIFNamaBarang;
 import Sinarelektronikapp.masterdata.pelanggan.view.JIFPelangganView;
-import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.view.JIFBarangBonusKaryawanBBView;
+import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.view.JIFBarangBesarBonusKaryawanBBView;
 import Sinarelektronikapp.masterdata.itemforbonus.barangkecil.view.JIFBarangBonusKaryawanBKView;
 import Sinarelektronikapp.masterdata.itemforbonus.setupbonus.JIFSetupBonusView;
 import Sinarelektronikapp.masterdata.penjual.barangbesar.view.JIFPenjualBarangBesarView;
@@ -240,11 +240,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private JIFReturView2 jifReturView = null;
 
-    private JIFReturViewBarangBesar jIFReturViewBB = null;
+    private JIFReturViewBarangBesarBesar jIFReturViewBB = null;
 
     private JIFInventoryBB jIFInventory = null;
 
-    private JIFInventory jIFInventory1 = null;
+    private JIFInventoryBarangKecil jIFInventory1 = null;
 
     private JIFReminderView jIFReminderView = null;
 
@@ -290,7 +290,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private JIFReportInsentifBarangKecil jIFReportInsentifBarangKecil = null;
 
-    private JIFBarangBonusKaryawanBBView jIFBarangBonusKaryawanBBView = null;
+    private JIFBarangBesarBonusKaryawanBBView jIFBarangBonusKaryawanBBView = null;
 
     private JIFSetupBonusView jIFSetupBonusView = null;
 
@@ -603,14 +603,14 @@ public class MainFrame extends javax.swing.JFrame {
         dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         imageDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/dashboard.png"))); // NOI18N
-        dashboard.add(imageDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+        dashboard.add(imageDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 105, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 40)); // NOI18N
-        jLabel6.setText("SISTEM INFORMASI MANAJEMEN");
-        dashboard.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 600, 80));
+        jLabel6.setText("Point Of Sales");
+        dashboard.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 600, 100));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 40)); // NOI18N
-        jLabel9.setText("SINAR ELEKTRONIK");
+        jLabel9.setText("Sinar Elektronik");
         dashboard.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 380, 80));
 
         Center.add(dashboard, "dashboard");
@@ -2152,7 +2152,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void callMenuTransaksiReturBB() {
         jIFReturViewBB = null;
         try {
-            jIFReturViewBB = new JIFReturViewBarangBesar();
+            jIFReturViewBB = new JIFReturViewBarangBesarBesar();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error di menu retur barangkecil besar view action performed karena " + ex, "peringatan", JOptionPane.ERROR_MESSAGE);
         }
@@ -2180,7 +2180,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void callMenuTransaksiInventory() {
         jIFInventory1 = null;
         try {
-            jIFInventory1 = new JIFInventory();
+            jIFInventory1 = new JIFInventoryBarangKecil();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error di menu inventory view action performed karena " + ex);
         }
@@ -2958,7 +2958,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void callMenuBarangBonusKaryawanBB() {
         jIFBarangBonusKaryawanBBView = null;
         try {
-            jIFBarangBonusKaryawanBBView = new JIFBarangBonusKaryawanBBView();
+            jIFBarangBonusKaryawanBBView = new JIFBarangBesarBonusKaryawanBBView();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error di menu Barang Bonus Karyawan action performed karena " + ex);
         }

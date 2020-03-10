@@ -1,6 +1,6 @@
 package Sinarelektronikapp.masterdata.barangkecil.controller;
 
-import Sinarelektronikapp.inventory.barangkecil.view.JIFInventory;
+import Sinarelektronikapp.inventory.barangkecil.view.JIFInventoryBarangKecil;
 import Sinarelektronikapp.masterdata.barangkecil.entity.barang;
 import Sinarelektronikapp.masterdata.barangkecil.error.BarangException;
 import Sinarelektronikapp.masterdata.barangkecil.model.barangModel;
@@ -202,7 +202,7 @@ public class BarangController {
         }                
     }    */
     
-    public void cari3(JIFInventory view, JIFInventory v) throws SQLException, BarangException{
+    public void cari3(JIFInventoryBarangKecil view, JIFInventoryBarangKecil v) throws SQLException, BarangException{
         String kataKunci = view.getTxtKataKunci1().getText();
         String berdasarkan = v.getCmbCari1().getSelectedItem().toString();
         switch(berdasarkan){
@@ -341,7 +341,7 @@ public class BarangController {
     }    
     }    */
     
-    public void sort(JIFInventory view) throws SQLException, BarangException{
+    public void sort(JIFInventoryBarangKecil view) throws SQLException, BarangException{
         
         String berdasarkan = view.getCmbUrut1().getSelectedItem().toString();
         switch(berdasarkan){

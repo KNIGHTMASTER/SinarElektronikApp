@@ -8,7 +8,7 @@ import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
-import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
+import Sinarelektronikapp.masterdata.barangbesar.model.TabelModelBarangBesar;
 import Sinarelektronikapp.masterdata.barangbesar.stokreminder.controller.ReminderController;
 import Sinarelektronikapp.masterdata.barangbesar.stokreminder.database.ReminderDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.stokreminder.model.ReminderModel;
@@ -59,7 +59,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
     
     ReminderController controller;
     
-    tabelModelBarang tabelmodelbarang;
+    TabelModelBarangBesar tabelmodelbarang;
     
     ReminderModel model;
     
@@ -69,7 +69,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
         
     public ReminderView() {
 
-        tabelmodelbarang = new tabelModelBarang();
+        tabelmodelbarang = new TabelModelBarangBesar();
         
         model=new ReminderModel();
         model.setListener(this);
@@ -129,7 +129,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
         try {
             s = conn.createStatement();
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             ResultSet rs=s.executeQuery("SELECT namaTipe FROM tipe");
@@ -137,7 +137,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                 cmbTipe.addItem(rs.getString("namaTipe"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }
     
@@ -146,7 +146,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
         try {
             s = conn.createStatement();
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             ResultSet rs=s.executeQuery("SELECT namamerek FROM merek");
@@ -154,7 +154,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                 cmbMerek.addItem(rs.getString("namamerek"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }    
     
@@ -163,7 +163,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
         try {
             s = conn.createStatement();
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             ResultSet rs=s.executeQuery("SELECT nama FROM supplier");
@@ -171,7 +171,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                 cmbSupplier.addItem(rs.getString("nama"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }    
 
@@ -191,7 +191,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }      
@@ -928,7 +928,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                 /*try {
                     ps.setBlob(13, new FileInputStream(gambar));
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }*/
             
             String garansi = "";
@@ -988,7 +988,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                   try {
                     ps.setBlob(13, new FileInputStream(gambar));
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             String garansi = "";
             int hari =  0, bulan = 0, tahun = 0;
@@ -1433,9 +1433,9 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
         try {
             controller.sort(this);
         } catch (SQLException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BarangException ex) {
-            Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
         loadDatabase();
     }
@@ -1540,7 +1540,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                     JOptionPane.showMessageDialog(null, "gambar tidak tersedia");
                 }
                 } catch (SQLException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         else{

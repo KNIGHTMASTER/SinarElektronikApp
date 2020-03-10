@@ -1,10 +1,11 @@
 package Sinarelektronikapp.dao;
 
 import Sinarelektronikapp.dto.BaseDTO;
+import java.sql.PreparedStatement;
 
 /**
  *
- * @author moka
+ * @author Fauzi
  * @param <DTO>
  */
 public interface IBaseDAO<DTO extends BaseDTO>{
@@ -13,12 +14,15 @@ public interface IBaseDAO<DTO extends BaseDTO>{
      *
      * @param dto
      */
-    void insert(DTO dto);
+    void insert(DTO dto);    
+    void insertDetail(DTO dto, PreparedStatement ps);
     
-    void deleteByInt(int id);
+    void deleteByInt(int id);    
+    String getDeleteQueryById();
     
-    void deleteByString(String id);
+    void deleteByString(String id);    
+    String getDeleteQueryByString();
     
-    void truncate();
-    
+    void truncate();    
+    String getTruncateQuery();
 }

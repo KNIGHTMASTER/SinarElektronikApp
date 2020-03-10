@@ -985,7 +985,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                 /*try {
                     ps.setBlob(13, new FileInputStream(gambar));
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }*/
             
             String garansi = "";

@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Sinarelektronikapp.masterdata.itemforbonus.barangbesar.database;
 
-com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import Sinarelektronikapp.config.HostName;
 import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.service.impl.BarangBonusKaryawanBBDaoImpl;
 import Sinarelektronikapp.masterdata.itemforbonus.barangbesar.service.BarangBonusKaryawanBBDao;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -23,11 +19,10 @@ public class BarangBonusKaryawanBBDatabase {
     private static String ip;
     
     
-    static HostNameHostNameame();
-    HostNameic Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         if(connection == null){
             MysqlDataSource dataSource = new MysqlDataSource();            
-            dataSource.setUrl("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik");
+            dataSource.setUrl("jdbc:mysql://"+new HostName().getIpServer()+":3306/sinarelektronik");
             dataSource.setUser("root");
             dataSource.setPassword("P@ssw0rd");
             

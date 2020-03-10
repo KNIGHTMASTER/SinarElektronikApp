@@ -1,33 +1,39 @@
 package Sinarelektronikapp.inventory.barangkecil.controller;
 
-import Sinarelektronikapp.inventory.barangkecil.model.InventoryModel;
-import Sinarelektronikapp.inventory.barangkecil.view.JIFInventory;
+import Sinarelektronikapp.converter.InventoryBarangKecilConverter;
+import Sinarelektronikapp.dto.InventoryBarangKecilDTO;
+import Sinarelektronikapp.inventory.barangkecil.model.InventoryBarangKecilModel;
+import Sinarelektronikapp.inventory.barangkecil.service.InventoryBarangKecilDAO;
+import Sinarelektronikapp.inventory.barangkecil.service.InventoryBarangKecilDAOImpl;
+import Sinarelektronikapp.inventory.barangkecil.view.JIFInventoryBarangKecil;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Fauzi
  */
-public class InventoryController {
+public class InventoryBarangKecilController {
 
-    InventoryModel model;
+    private InventoryBarangKecilModel model;    
+    private InventoryBarangKecilDAO dao;
 
-    public InventoryController() {        
+    public InventoryBarangKecilController() {
+        dao = new InventoryBarangKecilDAOImpl();
     }
 
-    public InventoryModel getModel() {
+    public InventoryBarangKecilModel getModel() {
         return model;
     }
 
-    public void setModel(InventoryModel model) {
+    public void setModel(InventoryBarangKecilModel model) {
         this.model = model;
     }
 
-    public InventoryController(InventoryModel model) {
+    public InventoryBarangKecilController(InventoryBarangKecilModel model) {
         this.model = model;
     }
     
-    public void insertInventory(JIFInventory view){
+    public void insertInventory(JIFInventoryBarangKecil view){
         String id = view.getTxtnoBeli().getText();
         String user = view.getTxtuser().getText();
         String tanggal = view.getTanggalForDatabase();
@@ -40,33 +46,24 @@ public class InventoryController {
         String subharga = view.getTxtSubHarga().getText();
         
         if(id.trim().equals("")){
-            JOptionPane.showMessageDialog(view, "id transaksi inventory masih kosong");
-            return;            
+            JOptionPane.showMessageDialog(view, "id transaksi inventory masih kosong");            
         }else if(user.trim().equals("")){
             JOptionPane.showMessageDialog(view, "user transaksi inventory masih kosong");
-            return;                        
         }else if(jam.trim().equals("")){
             JOptionPane.showMessageDialog(view, "jam transaksi inventory masih kosong");
-            return;                        
         }else if(kode.trim().equals("")){
             JOptionPane.showMessageDialog(view, "Kode transaksi inventory masih kosong");
-            return;            
         }else if(nama.trim().equals("")){
             JOptionPane.showMessageDialog(view, "nama barangkecil transaksi inventory masih kosong");
-            return;                        
         }else if(harga.trim().equals("")){
             JOptionPane.showMessageDialog(view, "harga barangkecil transaksi inventory masih kosong");
-            return;                        
         }else if(ekspedisi.trim().equals("")){
             JOptionPane.showMessageDialog(view, "ekspedisi barangkecil transaksi inventory masih kosong");
-            return;                        
         }else if(jumlah.trim().equals("")){
             JOptionPane.showMessageDialog(view, "jumlah barangkecil transaksi inventory masih kosong");
-            return;                        
         }else if(subharga.trim().equals("")){
             JOptionPane.showMessageDialog(view, "subharga barangkecil inventory masih kosong");
-            return;                        
-        }else{
+        }else {
             model.setId(Integer.parseInt(id));
             model.setUser(user);
             model.setTanggal(tanggal);
@@ -77,29 +74,29 @@ public class InventoryController {
             model.setEkspedisi(Integer.parseInt(ekspedisi));
             model.setJumlah(Integer.parseInt(jumlah));
             model.setSubharga(Integer.parseInt(subharga));
-            
-            model.insertProsesInventory();
+    
+            InventoryBarangKecilDTO inventoryDTO = new InventoryBarangKecilConverter().toDTO(model);            
+            dao.insert(inventoryDTO);
+            model.fireOnInsert(inventoryDTO);
         }
         
     }
     
-    public void updateInventory(JIFInventory view){
-        
-    }    
-    
-    public void deleteInventory(JIFInventory view){
+    public void deleteInventory(JIFInventoryBarangKecil view){
         if(view.getTabelProsesInventory().getSelectedRowCount() == 0){
             JOptionPane.showMessageDialog(view, "pilih data yang akan dihapus");
             return;
-        }else if(JOptionPane.showConfirmDialog(view, "yakin data akan dihapus ?") == JOptionPane.YES_OPTION){
-            String no = view.getTabelProsesInventory().getValueAt(view.getTabelProsesInventory().getSelectedRow(), 0).toString();            
-            model.setId(Integer.parseInt(no));            
-            model.deleteProsesInventory();
-        }
+        } 
+        
+        String no = view.getTabelProsesInventory().getValueAt(view.getTabelProsesInventory().getSelectedRow(), 0).toString();
+        model.setId(Integer.parseInt(no));
+        dao.deleteByInt(model.getId());
+        model.fireOnDelete();
     }    
     
-    public void tambahTransaksi(JIFInventory view){
-        model.truncateProsesInventory();
+    public void tambahTransaksi(JIFInventoryBarangKecil view){
+        dao.truncate();
+        model.fireOnTruncate();
     }
     
 }

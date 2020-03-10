@@ -1,26 +1,19 @@
-package Sinarelektronikapp.inventory.barangbesar.model;
+package Sinarelektronikapp.model;
 
-import Sinarelektronikapp.inventory.barangbesar.database.InventoryDatabase;
-import Sinarelektronikapp.inventory.barangbesar.entity.InventoryDTO;
-import Sinarelektronikapp.inventory.barangbesar.error.InventoryException;
+import Sinarelektronikapp.dto.InventoryBarangBesarDTO;
 import Sinarelektronikapp.inventory.barangbesar.model.Event.InventoryListener;
-import Sinarelektronikapp.inventory.barangbesar.service.InventoryDao;
-import Sinarelektronikapp.model.BaseModel;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Fauzi
  */
-public class InventoryModel extends BaseModel {
-    int id, jumlah, harga, ekspedisi, subharga;
+public class InventoryBarangBesarModel extends BaseModel {
+    private int id, jumlah, harga, ekspedisi, subharga;    
+    private String user, tanggal, jam, kode, nama;
     
-    String user, tanggal, jam, kode, nama;
-    
-    InventoryListener listener;
+    private InventoryListener listener;
 
-    public InventoryModel() {
+    public InventoryBarangBesarModel() {
     }
 
     public int getId() {
@@ -128,7 +121,7 @@ public class InventoryModel extends BaseModel {
         }
     }
     
-    public void fireOnInsert(InventoryDTO inventory){
+    public void fireOnInsert(InventoryBarangBesarDTO inventory){
         if(listener!=null){
             listener.onInsert(inventory);
         }
@@ -144,52 +137,6 @@ public class InventoryModel extends BaseModel {
         if(listener!=null){
             listener.onTruncate();
         }
-    }
-    
-    public void insertProsesInventory(){
-        InventoryDao dao = InventoryDatabase.getInventoryDao();
-        
-        InventoryDTO inventory = new InventoryDTO();        
-        inventory.setId(id);
-        inventory.setUser(user);
-        inventory.setTanggal(tanggal);
-        inventory.setJam(jam);
-        inventory.setKode(kode);
-        inventory.setNama(nama);
-        inventory.setHarga(harga);
-        inventory.setEkspedisi(ekspedisi);
-        inventory.setJumlah(jumlah);
-        inventory.setSubharga(subharga);
-        
-        try {
-            dao.insertProsesInventory(inventory);
-        } catch (InventoryException ex) {
-            Logger.getLogger(InventoryModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        fireOnInsert(inventory);
-    }
-    
-    public void deleteProsesInventory(){
-        InventoryDao dao = InventoryDatabase.getInventoryDao();
-        try {
-            dao.deleteProsesInventory(id);
-        } catch (InventoryException ex) {
-            Logger.getLogger(InventoryModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        fireOnDelete();
-    }
-    
-    public void truncateProsesInventory(){
-        InventoryDao dao = InventoryDatabase.getInventoryDao();
-        try {
-            dao.truncateProsesInventory();
-        } catch (InventoryException ex) {
-            Logger.getLogger(InventoryModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        fireOnTruncate();
     }
     
     

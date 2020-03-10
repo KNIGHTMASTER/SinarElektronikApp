@@ -9,9 +9,9 @@ import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
-import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
-import Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener;
-import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
+import Sinarelektronikapp.masterdata.barangbesar.model.BarangBesarModel;
+import Sinarelektronikapp.masterdata.barangbesar.model.TabelModelBarangBesar;
+import Sinarelektronikapp.masterdata.barangbesar.model.event.BarangBesarListener;
 import Sinarelektronikapp.masterdata.barangbesar.service.BarangDao;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -34,21 +34,21 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Fauzi
  */
-public class ProsesRetur extends javax.swing.JPanel implements barangListener{
+public class ProsesRetur extends javax.swing.JPanel implements BarangBesarListener {
 
     /**
      * Creates new form ProsesRetur
      */   
-    private  tabelModelBarang tabelmodelBarang ;
+    private TabelModelBarangBesar tabelmodelBarangBesar;
     
     private BarangController controllerBarang;
     
-    private  barangModel modelBarang;    
+    private BarangBesarModel modelBarang;
     
     public ProsesRetur() {
-        tabelmodelBarang = new tabelModelBarang();
+        tabelmodelBarangBesar = new TabelModelBarangBesar();
         
-        modelBarang=  new barangModel();
+        modelBarang=  new BarangBesarModel();
         modelBarang.setListener(this);
         
         controllerBarang = new BarangController();
@@ -61,7 +61,7 @@ public class ProsesRetur extends javax.swing.JPanel implements barangListener{
         tabelPRosesRetur.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         cmbCariPRosesRetur.setSelectedItem("supplier");        
         
-        tabelBarang1.setModel(tabelmodelBarang);
+        tabelBarang1.setModel(tabelmodelBarangBesar);
         loadDatabaseCariBarang();        
     }
 
@@ -97,7 +97,7 @@ public class ProsesRetur extends javax.swing.JPanel implements barangListener{
             Logger.getLogger(ProsesRetur.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            tabelmodelBarang.setList(dao.selectAllBarang());
+            tabelmodelBarangBesar.setList(dao.selectAllBarang());
         } catch (BarangException ex) {
             Logger.getLogger(ProsesRetur.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1396,7 +1396,7 @@ public class ProsesRetur extends javax.swing.JPanel implements barangListener{
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onChange(barangModel model) {
+    public void onChange(BarangBesarModel model) {
         txtKataKunci1.setText(modelBarang.getCari());
     }
 
@@ -1417,12 +1417,12 @@ public class ProsesRetur extends javax.swing.JPanel implements barangListener{
 
     @Override
     public void onSearch(List list) {
-        tabelmodelBarang.setList(list);
+        tabelmodelBarangBesar.setList(list);
     }
 
     @Override
     public void onSort(List list) {
-        tabelmodelBarang.setList(list);
+        tabelmodelBarangBesar.setList(list);
     }
 
 }

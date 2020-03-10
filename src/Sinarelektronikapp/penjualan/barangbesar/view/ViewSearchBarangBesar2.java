@@ -2,15 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Sinarelektronikapp.transfer.barangbesar.view;
+package Sinarelektronikapp.penjualan.barangbesar.view;
 
 import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangbesar.database.barangDatabase;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.error.BarangException;
-import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
-import Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener;
-import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
+import Sinarelektronikapp.masterdata.barangbesar.model.BarangBesarModel;
+import Sinarelektronikapp.masterdata.barangbesar.model.TabelModelBarangBesar;
+import Sinarelektronikapp.masterdata.barangbesar.model.event.BarangBesarListener;
 import Sinarelektronikapp.masterdata.barangbesar.service.BarangDao;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,23 +24,23 @@ import javax.swing.JTextField;
  *
  * @author Fauzi
  */
-public class ViewSearchBarang2 extends javax.swing.JPanel implements barangListener{
+public class ViewSearchBarangBesar2 extends javax.swing.JPanel implements BarangBesarListener {
 
     /**
-     * Creates new form ViewSearchBarang2
+     * Creates new form ViewSearchBarangBesar2
      */
     
-    private  tabelModelBarang tabelmodelBarang ;
+    private TabelModelBarangBesar tabelmodelBarangBesar;
     
     private BarangController controller;                
     
-    private  barangModel model;
+    private BarangBesarModel model;
     
-    public ViewSearchBarang2() {
+    public ViewSearchBarangBesar2() {
         
-        tabelmodelBarang = new tabelModelBarang();        
+        tabelmodelBarangBesar = new TabelModelBarangBesar();
         
-        model=  new barangModel();
+        model=  new BarangBesarModel();
         model.setListener(this);        
         
         controller = new BarangController();
@@ -48,13 +48,13 @@ public class ViewSearchBarang2 extends javax.swing.JPanel implements barangListe
         
         initComponents();
         
-        tabelBarang.setModel(tabelmodelBarang);
+        tabelBarang.setModel(tabelmodelBarangBesar);
         try {
             loadDatabase();
         } catch (SQLException ex) {
-            Logger.getLogger(ViewSearchBarang2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewSearchBarangBesar2.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BarangException ex) {
-            Logger.getLogger(ViewSearchBarang2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewSearchBarangBesar2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -255,9 +255,9 @@ public class ViewSearchBarang2 extends javax.swing.JPanel implements barangListe
             // TODO add your handling code here:
             controller.cari(this, this);
         } catch (SQLException ex) {
-            Logger.getLogger(ViewSearchBarang2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewSearchBarangBesar2.class.getName()).log(Level.SEVERE, null, ex);
         } catch (barangException ex) {
-            Logger.getLogger(ViewSearchBarang2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewSearchBarangBesar2.class.getName()).log(Level.SEVERE, null, ex);
         }
             this.setSize(getWidth(), getHeight());*/
 
@@ -271,9 +271,9 @@ public class ViewSearchBarang2 extends javax.swing.JPanel implements barangListe
 /*        try {
             controller.sort(this);
         } catch (SQLException ex) {
-            Logger.getLogger(ViewSearchBarang2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewSearchBarangBesar2.class.getName()).log(Level.SEVERE, null, ex);
         } catch (barangException ex) {
-            Logger.getLogger(ViewSearchBarang2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewSearchBarangBesar2.class.getName()).log(Level.SEVERE, null, ex);
         }*/
     }//GEN-LAST:event_cmbUrutActionPerformed
 
@@ -344,7 +344,7 @@ public class ViewSearchBarang2 extends javax.swing.JPanel implements barangListe
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onChange(barangModel model) {
+    public void onChange(BarangBesarModel model) {
         txtKataKunci.setText(model.getCari());
     }
 
@@ -365,17 +365,17 @@ public class ViewSearchBarang2 extends javax.swing.JPanel implements barangListe
 
     @Override
     public void onSearch(List list) {
-        tabelmodelBarang.setList(list);
+        tabelmodelBarangBesar.setList(list);
     }
 
     @Override
     public void onSort(List list) {
-        tabelmodelBarang.setList(list);
+        tabelmodelBarangBesar.setList(list);
     }
     
     public void loadDatabase() throws SQLException, BarangException{
         BarangDao dao = barangDatabase.getBarangDao();
-        tabelmodelBarang.setList(dao.selectAllBarang());
+        tabelmodelBarangBesar.setList(dao.selectAllBarang());
     }
 
 }
