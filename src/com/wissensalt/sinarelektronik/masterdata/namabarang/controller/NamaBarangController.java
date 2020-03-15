@@ -1,40 +1,36 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.namabarang.controller;
 
-import com.wissensalt.sinarelektronik.masterdata.namabarang.error.NamaBarangException;
+import com.wissensalt.sinarelektronik.dao.NamaBarangDAO;
+import com.wissensalt.sinarelektronik.dao.impl.NamaBarangDAOImpl;
+import com.wissensalt.sinarelektronik.masterdata.namabarang.entity.NamaBarangDTO;
 import com.wissensalt.sinarelektronik.masterdata.namabarang.model.NamaBarangModel;
 import com.wissensalt.sinarelektronik.masterdata.namabarang.view.NamaBarangView;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
+
+import javax.swing.*;
 
 /**
  *
  * @author Fauzi
  */
 public class NamaBarangController {
-    private NamaBarangModel model;
+    private NamaBarangModel namaBarangModel;
+    private final NamaBarangDAO namaBarangDAO;
 
     public NamaBarangController() {
-    }
-
-    public NamaBarangController(NamaBarangModel model) {
-        this.model = model;
+        namaBarangDAO = new NamaBarangDAOImpl();
     }
 
     public NamaBarangModel getModel() {
-        return model;
+        return namaBarangModel;
     }
 
     public void setModel(NamaBarangModel model) {
-        this.model = model;
+        this.namaBarangModel = model;
     }
 
 
     public void resetNamaBarang(NamaBarangView view){
-        model.resetNamaBarang();
+        namaBarangModel.resetNamaBarang();
     }
     
     public void insertNamaBarang(NamaBarangView view){
@@ -43,15 +39,11 @@ public class NamaBarangController {
         if(namaBarang.trim().equals("")){
             JOptionPane.showMessageDialog(view, "Nama Barang Masih Kosong");
         }else{
-            model.setId(Integer.valueOf(id));
-            model.setNamaBarang(namaBarang);
-            try {
-                model.insertNamaBarang();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(view, "Insert NamaBarang gagal");
-            } catch (NamaBarangException ex) {
-                JOptionPane.showMessageDialog(view, "Terjadi exception pada NamaBarang exception dengan pesan "+ex);
-            }
+            NamaBarangDTO namaBarangDTO = new NamaBarangDTO();
+            namaBarangDTO.setId(Integer.valueOf(id));
+            namaBarangDTO.setNamabarang(namaBarang);
+            namaBarangDAO.insert(namaBarangDTO);
+            namaBarangModel.insertNamaBarang(namaBarangDTO);
         }
     }
     
@@ -66,17 +58,14 @@ public class NamaBarangController {
         if(namaBarang.trim().equals("")){
             JOptionPane.showMessageDialog(view, "Nama barangkecil Masih Kosong");
         }else{
-            model.setId(Integer.valueOf(id));
-            model.setNamaBarang(namaBarang);
-            try {
-                model.updateNamaBarang();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(view, "Update Nama Barang gagal");
-            } catch (NamaBarangException ex) {
-                JOptionPane.showMessageDialog(view, "Terjadi exception pada barangkecil exception dengan pesan "+ex);
-            }
+            NamaBarangDTO namaBarangDTO = new NamaBarangDTO();
+            namaBarangDTO.setId(Integer.valueOf(id));
+            namaBarangDTO.setNamabarang(namaBarang);
+            namaBarangDAO.update(namaBarangDTO);
+            namaBarangModel.updateNamaBarang(namaBarangDTO);
         }        
     }
+
     public void deletenamabarang(NamaBarangView view){        
         if(view.getTabelNamaBarang().getSelectedRowCount() == 0){
             JOptionPane.showMessageDialog(view, "pilih baris yang akan dihapus");
@@ -84,17 +73,9 @@ public class NamaBarangController {
         }
         if(JOptionPane.showConfirmDialog(view, "Anda yakin akan menghapus ? ") == JOptionPane.YES_OPTION){
             String id = view.getTxtId().getText();
-            model.setId(Integer.valueOf(id));
-            try {
-                model.deleteNamaBarang();
-                model.resetNamaBarang();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(view, "Terjadi kesalahan dengan pesan = "+ex);
-            } catch (NamaBarangException ex) {
-                JOptionPane.showMessageDialog(view, "Terjadi kesalahan barangkecil exception dengan pesan = "+ex);
-            }                            
-        }else{
-            
+            namaBarangDAO.deleteByString(id);
+            namaBarangModel.deleteNamaBarang();
+            namaBarangModel.resetNamaBarang();
         }
     }
  

@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class MerekDAOImpl extends ABaseDAO<MerekDTO> implements MerekDAO {
 
     private final static String INSERT_MEREK = "INSERT INTO merek (namamerek) VALUES (?)";
-        private final static String UPDATE_MEREK = "UPDATE merek SET idmerek=?, namamerek=? WHERE idmerek=?";
+    private final static String UPDATE_MEREK = "UPDATE merek SET idmerek=?, namamerek=? WHERE idmerek=?";
     private final static String DELETE_MEREK = "DELETE FROM merek WHERE idmerek= ? ";
     private final static String FIND_BY_ID = "SELECT * FROM merek WHERE idmerek = ?";
     private final static String FIND_ALL = "SELECT * FROM merek ORDER BY namamerek";

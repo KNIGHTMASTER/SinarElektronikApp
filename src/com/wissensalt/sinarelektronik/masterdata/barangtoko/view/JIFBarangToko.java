@@ -26,7 +26,7 @@ public class JIFBarangToko extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        barangView1 = new com.wissensalt.sinarelektronik.masterdata.barangtoko.view.BarangView();
+        barangView1 = new BarangTokoView();
 
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setClosable(true);
@@ -39,6 +39,6 @@ public class JIFBarangToko extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.wissensalt.sinarelektronik.masterdata.barangtoko.view.BarangView barangView1;
+    private BarangTokoView barangView1;
     // End of variables declaration//GEN-END:variables
 }

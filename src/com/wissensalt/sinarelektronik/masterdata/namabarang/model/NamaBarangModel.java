@@ -1,15 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.namabarang.model;
 
-import com.wissensalt.sinarelektronik.masterdata.namabarang.Entity.NamaBarang;
-import com.wissensalt.sinarelektronik.masterdata.namabarang.database.NamaBarangDatabase;
-import com.wissensalt.sinarelektronik.masterdata.namabarang.error.NamaBarangException;
+import com.wissensalt.sinarelektronik.masterdata.namabarang.entity.NamaBarangDTO;
 import com.wissensalt.sinarelektronik.masterdata.namabarang.model.event.NamaBarangListener;
-import com.wissensalt.sinarelektronik.masterdata.namabarang.service.NamaBarangDao;
-import java.sql.SQLException;
 
 /**
  *
@@ -17,10 +9,9 @@ import java.sql.SQLException;
  */
 public class NamaBarangModel {
 
-    public int id;
-    public String namabarang;
-    
-    NamaBarangListener listener;
+    private int id;
+    private String namabarang;
+    private NamaBarangListener listener;
 
     public int getId() {
         return id;
@@ -53,13 +44,13 @@ public class NamaBarangModel {
         }
     }
     
-    protected void fireOnInsert(NamaBarang namabarang){
+    protected void fireOnInsert(NamaBarangDTO namabarang){
         if(listener!=null){
             listener.onInsert(namabarang);
         }
     }
     
-     protected void fireOnUpdate(NamaBarang namabarang){
+     protected void fireOnUpdate(NamaBarangDTO namabarang){
         if(listener!=null){
             listener.onUpdate(namabarang);
         }
@@ -76,29 +67,15 @@ public class NamaBarangModel {
         setNamaBarang(namabarang);
     }
     
-    public void insertNamaBarang() throws SQLException, NamaBarangException{
-        NamaBarangDao dao = NamaBarangDatabase.getNamaBarangDao();
-        NamaBarang nbarang = new NamaBarang();
-        nbarang.setId(id);
-        nbarang.setNamabarang(namabarang);
-        dao.insertNamaBarang(nbarang);
-        
-        fireOnInsert(nbarang);
+    public void insertNamaBarang(NamaBarangDTO namaBarangDTO) {
+        fireOnInsert(namaBarangDTO);
     }
     
-    public void updateNamaBarang() throws SQLException, NamaBarangException{
-        NamaBarangDao dao = NamaBarangDatabase.getNamaBarangDao();
-        NamaBarang nbarang = new NamaBarang();
-        nbarang.setId(id);
-        nbarang.setNamabarang(namabarang);
-        dao.updateNamaBarang(nbarang);
-        
-        fireOnUpdate(nbarang);
+    public void updateNamaBarang(NamaBarangDTO namaBarangDTO){
+        fireOnUpdate(namaBarangDTO);
     }    
     
-    public void deleteNamaBarang() throws SQLException, NamaBarangException{
-        NamaBarangDao dao = NamaBarangDatabase.getNamaBarangDao();
-        dao.deleteNamaBarang(id);
+    public void deleteNamaBarang() {
         fireOnDelete();
     }
     

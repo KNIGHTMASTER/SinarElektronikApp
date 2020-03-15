@@ -9,13 +9,13 @@ import com.wissensalt.sinarelektronik.util.InputHarusAngka;
 import com.wissensalt.sinarelektronik.util.Waktu;
 import com.wissensalt.sinarelektronik.config.ActiveUser;
 import com.wissensalt.sinarelektronik.config.HostName;
+import com.wissensalt.sinarelektronik.dao.impl.BarangBesarDAOImpl;
 import com.wissensalt.sinarelektronik.inventory.barangbesar.controller.InventoryBarangBesarController;
 import com.wissensalt.sinarelektronik.dto.InventoryBarangBesarDTO;
 import com.wissensalt.sinarelektronik.inventory.barangbesar.model.Event.InventoryListener;
 import com.wissensalt.sinarelektronik.model.InventoryBarangBesarModel;
 import com.wissensalt.sinarelektronik.inventory.barangbesar.model.TabelModelInventoryBarangBesar;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.controller.BarangBesarController;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.database.barangDatabase;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.error.BarangException;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
 import com.wissensalt.sinarelektronik.swinglib.AutoComplete.DefaultModelAutoComplete;
@@ -58,9 +58,11 @@ public class JIFInventoryBB extends javax.swing.JInternalFrame implements Barang
     private TabelModelBarangBesar tabelmodelBarangBesar;
     private BarangBesarController controllerBarang;
     private BarangBesarModel barangBesarModel;
+    private final BarangBesarDAO barangBesarDAO;
     
     
     public JIFInventoryBB() {
+        barangBesarDAO = new BarangBesarDAOImpl();
         tabelmodelBarangBesar = new TabelModelBarangBesar();
         
         barangBesarModel =  new BarangBesarModel();
@@ -840,8 +842,7 @@ public void inisiasiDataAwal(){
     }//GEN-LAST:event_txtnamabarangActionPerformed
 
     public void loadDatabaseCariBarang() throws SQLException, BarangException{
-        BarangBesarDAO dao = barangDatabase.getBarangDao();
-        tabelmodelBarangBesar.setList(dao.selectAllBarang());
+        tabelmodelBarangBesar.setList(barangBesarDAO.selectAllBarang());
     }    
         
     

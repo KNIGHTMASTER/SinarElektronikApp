@@ -6,6 +6,10 @@ package com.wissensalt.sinarelektronik.penjualan.barangbesar.view;
 
 import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.controller.BarangBesarController;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.controller.BarangTokoController;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.TabelModelBarangToko;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.event.BarangTokoListener;
+import com.wissensalt.sinarelektronik.dao.BarangTokoDAO;
 import com.wissensalt.sinarelektronik.model.BarangBesarModel;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
 import com.wissensalt.sinarelektronik.util.FormatRupiah;
@@ -53,7 +57,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Fauzi
  */
-public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjualanListener, BarangBesarListener, com.wissensalt.sinarelektronik.masterdata.barangtoko.model.event.barangListener{
+public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjualanListener, BarangBesarListener, BarangTokoListener {
 
     /**
      * Creates new form JIFKasirView2
@@ -72,9 +76,9 @@ public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjual
     
     private BarangBesarModel modelBarang;
     
-    private com.wissensalt.sinarelektronik.masterdata.barangtoko.model.tabelModelBarang TabelmodelBarangToko;
+    private TabelModelBarangToko TabelmodelBarangToko;
     
-    private com.wissensalt.sinarelektronik.masterdata.barangtoko.controller.BarangController controllerBarangToko;
+    private BarangTokoController controllerBarangToko;
     
     private com.wissensalt.sinarelektronik.masterdata.barangtoko.model.barangModel modelBarangToko;
     
@@ -91,10 +95,10 @@ public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjual
         modelBarang=  new BarangBesarModel();
         modelBarang.setListener(this);        
         
-        TabelmodelBarangToko = new com.wissensalt.sinarelektronik.masterdata.barangtoko.model.tabelModelBarang();
+        TabelmodelBarangToko = new TabelModelBarangToko();
         modelBarangToko = new com.wissensalt.sinarelektronik.masterdata.barangtoko.model.barangModel();
         modelBarangToko.setListener(this);
-        controllerBarangToko = new com.wissensalt.sinarelektronik.masterdata.barangtoko.controller.BarangController();
+        controllerBarangToko = new BarangTokoController();
         controllerBarangToko.setModel(modelBarangToko);        
         
         controllerBarang = new BarangBesarController();
@@ -364,7 +368,7 @@ public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjual
     }    
     
     public void loadDatabaseCariBarangToko() throws com.wissensalt.sinarelektronik.masterdata.barangtoko.error.BarangException, SQLException {
-        com.wissensalt.sinarelektronik.masterdata.barangtoko.service.BarangDao dao = com.wissensalt.sinarelektronik.masterdata.barangtoko.database.barangDatabase.getBarangDao();
+        BarangTokoDAO dao = com.wissensalt.sinarelektronik.masterdata.barangtoko.database.barangDatabase.getBarangDao();
         TabelmodelBarangToko.setList(dao.selectAllBarang());
     }    
     

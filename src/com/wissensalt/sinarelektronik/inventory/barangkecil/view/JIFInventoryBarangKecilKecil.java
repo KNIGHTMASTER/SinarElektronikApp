@@ -13,11 +13,10 @@ import com.wissensalt.sinarelektronik.inventory.barangkecil.model.Event.Inventor
 import com.wissensalt.sinarelektronik.model.InventoryBarangKecilModel;
 import com.wissensalt.sinarelektronik.inventory.barangkecil.model.TabelModelInventoryBarangKecil;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.controller.BarangController;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.database.barangDatabase;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.error.BarangException;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.BarangKecilModel;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.TabelModelBarangKecil;
 import com.wissensalt.sinarelektronik.dao.BarangKecilDAO;
+import com.wissensalt.sinarelektronik.dao.impl.BarangKecilDAOImpl;
 import com.wissensalt.sinarelektronik.swinglib.AutoComplete.DefaultModelAutoComplete;
 import com.wissensalt.sinarelektronik.swinglib.AutoComplete.TextFieldAutoComplete;
 import java.awt.KeyEventDispatcher;
@@ -133,9 +132,12 @@ public class JIFInventoryBarangKecilKecil extends javax.swing.JInternalFrame imp
     private javax.swing.JTextField txttotal;
     private javax.swing.JTextField txtuser;
     private javax.swing.JPanel up2;
+    
+    private final BarangKecilDAO barangKecilDAO;
 
 
     public JIFInventoryBarangKecilKecil() {
+        barangKecilDAO = new BarangKecilDAOImpl();
         tabelmodelBarangKecil = new TabelModelBarangKecil();
         
         modelBarang=  new BarangKecilModel();
@@ -155,13 +157,7 @@ public class JIFInventoryBarangKecilKecil extends javax.swing.JInternalFrame imp
         tabelProsesInventory.setModel(tabelModelInventoryBarangKecil);
         
         tabelBarang1.setModel(tabelmodelBarangKecil);
-        try {
-            loadDatabaseCariBarang();
-        } catch (SQLException ex) {
-            Logger.getLogger(JIFInventoryBarangKecilKecil.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BarangException ex) {
-            Logger.getLogger(JIFInventoryBarangKecilKecil.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        loadDatabaseCariBarang();
         
         
        setTxtkodeAuto(); 
@@ -339,9 +335,8 @@ public class JIFInventoryBarangKecilKecil extends javax.swing.JInternalFrame imp
     }
 
     
-    public void loadDatabaseCariBarang() throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        tabelmodelBarangKecil.setList(dao.selectAllBarang());
+    public void loadDatabaseCariBarang() {
+        tabelmodelBarangKecil.setList(barangKecilDAO.selectAllBarang());
     }    
     
      public void inisiasiDataAwal(){
@@ -534,9 +529,6 @@ public class JIFInventoryBarangKecilKecil extends javax.swing.JInternalFrame imp
             }
         ));
         tabelBarang1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelBarang1MouseClicked(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tabelBarang1MousePressed(evt);
             }
@@ -1018,11 +1010,7 @@ public class JIFInventoryBarangKecilKecil extends javax.swing.JInternalFrame imp
     }
 
     private void btCari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCari1ActionPerformed
-        try {
-            controllerBarang.cari3(this, this);
-        } catch (SQLException | BarangException ex) {
-            Logger.getLogger(JIFInventoryBarangKecilKecil.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        controllerBarang.cari3(this, this);
         this.setSize(getWidth(), getHeight());
     }
 
@@ -1031,18 +1019,8 @@ public class JIFInventoryBarangKecilKecil extends javax.swing.JInternalFrame imp
     }
 
     private void cmbUrut1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrut1ActionPerformed
-        try {
-            controllerBarang.sort(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(JIFInventoryBarangKecilKecil.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BarangException ex) {
-            Logger.getLogger(JIFInventoryBarangKecilKecil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void tabelBarang1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarang1MouseClicked
-        // TODO add your handling code here:
-    }
+        controllerBarang.sort(this);
+    } 
 
     private void tabelBarang1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarang1MousePressed
         // TODO add your handling code here:

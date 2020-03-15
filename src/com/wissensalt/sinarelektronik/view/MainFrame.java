@@ -8,7 +8,7 @@ import com.wissensalt.sinarelektronik.transaction.barangbesar.view.JIFTransaksiP
 import com.wissensalt.sinarelektronik.transaction.barangkecil.view.JIFManajemenTransaksiPenjualan;
 import com.wissensalt.sinarelektronik.penjualan.barangbesar.view.JIFKasirView2;
 import com.wissensalt.sinarelektronik.retur.barangbesar.view.JIFPRosesReturBB;
-import com.wissensalt.sinarelektronik.retur.barangbesar.view.JIFReturViewBarangBesarBesar;
+import com.wissensalt.sinarelektronik.retur.barangbesar.view.JIFReturViewBarangTokoBesar;
 import com.wissensalt.sinarelektronik.transfer.barangbesar.view.JIFTransferBB;
 import com.wissensalt.sinarelektronik.chart.view.JIFChartView;
 import com.wissensalt.sinarelektronik.config.ActiveUser;
@@ -16,7 +16,7 @@ import com.wissensalt.sinarelektronik.config.ApplicationMode;
 import com.wissensalt.sinarelektronik.config.HostName;
 import com.wissensalt.sinarelektronik.config.UserLevel;
 import com.wissensalt.sinarelektronik.inventory.barangbesar.view.JIFInventoryBB;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.stokreminder.view.JIFReminderView;
+import com.wissensalt.sinarelektronik.masterdata.stokreminder.view.JIFReminderView;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.view.JIFBarangView;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.view.JIFHistoryBarang;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.view.JIFUpdateGlobalBK;
@@ -240,7 +240,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private JIFReturView2 jifReturView = null;
 
-    private JIFReturViewBarangBesarBesar jIFReturViewBB = null;
+    private JIFReturViewBarangTokoBesar jIFReturViewBB = null;
 
     private JIFInventoryBB jIFInventory = null;
 
@@ -2152,7 +2152,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void callMenuTransaksiReturBB() {
         jIFReturViewBB = null;
         try {
-            jIFReturViewBB = new JIFReturViewBarangBesarBesar();
+            jIFReturViewBB = new JIFReturViewBarangTokoBesar();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error di menu retur barangkecil besar view action performed karena " + ex, "peringatan", JOptionPane.ERROR_MESSAGE);
         }

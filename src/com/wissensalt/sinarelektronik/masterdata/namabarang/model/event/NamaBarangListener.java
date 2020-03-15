@@ -4,7 +4,7 @@
  */
 package com.wissensalt.sinarelektronik.masterdata.namabarang.model.event;
 
-import com.wissensalt.sinarelektronik.masterdata.namabarang.Entity.NamaBarang;
+import com.wissensalt.sinarelektronik.masterdata.namabarang.entity.NamaBarangDTO;
 import com.wissensalt.sinarelektronik.masterdata.namabarang.model.NamaBarangModel;
 
 /**
@@ -14,9 +14,9 @@ import com.wissensalt.sinarelektronik.masterdata.namabarang.model.NamaBarangMode
 public interface NamaBarangListener {
     public void onChange(NamaBarangModel model);
     
-    public void onInsert(NamaBarang namaBarang);
+    public void onInsert(NamaBarangDTO namaBarangDTO);
     
-    public void onUpdate(NamaBarang namaBarang);
+    public void onUpdate(NamaBarangDTO namaBarangDTO);
     
     public void onDelete();    
 }

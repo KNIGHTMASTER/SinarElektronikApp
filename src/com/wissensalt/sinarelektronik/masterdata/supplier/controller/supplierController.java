@@ -4,7 +4,7 @@
  */
 package com.wissensalt.sinarelektronik.masterdata.supplier.controller;
 
-import com.wissensalt.sinarelektronik.masterdata.supplier.model.supplierModel;
+import com.wissensalt.sinarelektronik.masterdata.supplier.model.SupplierModel;
 import com.wissensalt.sinarelektronik.masterdata.supplier.view.supplierView;
 import com.wissensalt.sinarelektronik.masterdata.supplier.view.tambahSupplierView;
 import java.sql.SQLException;
@@ -18,21 +18,21 @@ import com.wissensalt.sinarelektronik.masterdata.supplier.error.supplierExceptio
  * @author Fauzi
  */
 public class supplierController {
-    private supplierModel model;
+    private SupplierModel model;
 
     public supplierController() {
     }
 
-    public supplierModel getModel() {
+    public SupplierModel getModel() {
         return model;
     }
 
-    public void setModel(supplierModel model) {
+    public void setModel(SupplierModel model) {
         this.model = model;
     }
 
     
-    public supplierController(supplierModel model) {
+    public supplierController(SupplierModel model) {
         this.model = model;
     }
     

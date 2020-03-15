@@ -6,7 +6,7 @@ package com.wissensalt.sinarelektronik.masterdata.barangtoko.stokreminder.servic
 
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.entity.barang;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.error.BarangException;
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.service.impl.BarangDaoImpl;
+import com.wissensalt.sinarelektronik.dao.impl.BarangTokoDAOImpl;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.stokreminder.service.ReminderDao;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -103,7 +103,7 @@ public class ReminderDaoImpl implements ReminderDao {
             try {
                 statement.setBlob(13, new FileInputStream(barang.getGambar()));
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
             statement.setString(13, barang.getGaransi());
             statement.setString(14, String.valueOf(barang.getLamaGaransi()));

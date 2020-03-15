@@ -19,8 +19,9 @@ import javax.swing.event.ListSelectionListener;
  */
 public class MerekView extends javax.swing.JPanel implements merekListener, ListSelectionListener{
     private static final long serialVersionUID = -1087606205075691549L;
-    private TabelModelMerek tableModelMerek;
-    private MerekController controller;
+    
+    private final TabelModelMerek tableModelMerek;
+    private final MerekController merekController;
     private final MerekDAO merekDAO;
 
 
@@ -31,8 +32,8 @@ public class MerekView extends javax.swing.JPanel implements merekListener, List
         MerekModel model = new MerekModel();
         model.setListener(this);
 
-        controller = new MerekController();
-        controller.setModel(model);
+        merekController = new MerekController();
+        merekController.setModel(model);
 
         initComponents();
 
@@ -73,7 +74,7 @@ public class MerekView extends javax.swing.JPanel implements merekListener, List
     }    
     
     private void loadID() {
-        int lastid=merekDAO.getLastId() + 1;
+        int lastid = merekDAO.getLastId() + 1;
         txtId.setText(String.valueOf(lastid));
         txtMerek.requestFocus();
     }
@@ -224,8 +225,8 @@ public class MerekView extends javax.swing.JPanel implements merekListener, List
     }// </editor-fold>//GEN-END:initComponents
 
     private void delete(){
-        controller.deleteMerek(this);        
-        controller.resetMerek(this);
+        merekController.deleteMerek(this);        
+        merekController.resetMerek(this);
         loadID();
     }
     
@@ -236,47 +237,43 @@ public class MerekView extends javax.swing.JPanel implements merekListener, List
 
     
     private void update(){
-        controller.updateMerek(this);
+        merekController.updateMerek(this);
         int lastid = merekDAO.getLastId() +1;
         txtId.setText(String.valueOf(lastid));
         txtMerek.setText("");        
         txtMerek.requestFocus();          
     }
     
-    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
-        // TODO add your handling code here:
+    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {        
         update();
     }//GEN-LAST:event_btUpdateActionPerformed
 
     
     private void tambah(){
-        controller.insertMerek(this);
+        merekController.insertMerek(this);
         int lastid = merekDAO.getLastId() +1;
         txtId.setText(String.valueOf(lastid));
         txtMerek.setText("");        
         txtMerek.requestFocus();        
     }
-    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahActionPerformed
-        // TODO add your handling code here:
+    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {
         tambah();
-    }//GEN-LAST:event_btTambahActionPerformed
+    }
 
-    private void txtIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusGained
+    private void txtIdFocusGained(java.awt.event.FocusEvent evt) {
         loadID();
-    }//GEN-LAST:event_txtIdFocusGained
+    }
 
-    private void txtMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMerekActionPerformed
-        // TODO add your handling code here:
+    private void txtMerekActionPerformed(java.awt.event.ActionEvent evt) {
         tambah();
-    }//GEN-LAST:event_txtMerekActionPerformed
+    }
 
-    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
-        controller.resetMerek(this);
+    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {
+        merekController.resetMerek(this);
         loadID();
         txtMerek.requestFocus();
-    }//GEN-LAST:event_btResetActionPerformed
+    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel atas;
     private javax.swing.JPanel bawah;
     private javax.swing.JButton btDelete;

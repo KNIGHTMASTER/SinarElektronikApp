@@ -5,6 +5,7 @@
 package com.wissensalt.sinarelektronik.retur.barangbesar.controller;
 
 import com.wissensalt.sinarelektronik.retur.barangbesar.model.ReturModel;
+import com.wissensalt.sinarelektronik.retur.barangbesar.view.JIFReturViewBarangTokoBesar;
 import com.wissensalt.sinarelektronik.retur.barangbesar.view.ReturView;
 import javax.swing.JOptionPane;
 
@@ -76,7 +77,7 @@ public class ReturController {
         
     }
     
-    public void insertRetur(com.wissensalt.sinarelektronik.retur.barangbesar.view.JIFReturViewBarangBesar view){
+    public void insertRetur(JIFReturViewBarangTokoBesar view){
         String id = view.getTxtnoretur().getText();        
         String user = view.getTxtuser().getText();
         String tanggal = view.getTanggalForDatabase();
@@ -145,7 +146,7 @@ public class ReturController {
         }
     }    
     
-    public void deleteRetur(com.wissensalt.sinarelektronik.retur.barangbesar.view.JIFReturViewBarangBesar view){
+    public void deleteRetur(JIFReturViewBarangTokoBesar view){
         if(view.getTabelRetur().getSelectedRowCount() == 0){
             JOptionPane.showMessageDialog(view, "pilih data yang akan dihapus");
             return;
@@ -160,7 +161,7 @@ public class ReturController {
         model.truncateRetur();
     }
 
-     public void tambahTransaksi(com.wissensalt.sinarelektronik.retur.barangbesar.view.JIFReturViewBarangBesar view){
+     public void tambahTransaksi(JIFReturViewBarangTokoBesar view){
         model.truncateRetur();
     }
 }

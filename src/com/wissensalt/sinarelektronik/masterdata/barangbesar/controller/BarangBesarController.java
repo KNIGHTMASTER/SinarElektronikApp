@@ -6,12 +6,12 @@ import com.wissensalt.sinarelektronik.model.BarangBesarModel;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.view.BarangBesarView;
 import com.wissensalt.sinarelektronik.masterdata.itemforbonus.barangbesar.view.JIFBarangBesarBonusKaryawanBBView;
 import com.wissensalt.sinarelektronik.penjualan.barangbesar.view.JIFKasirView2;
+import com.wissensalt.sinarelektronik.retur.barangbesar.view.JIFReturViewBarangTokoBesar;
 import com.wissensalt.sinarelektronik.retur.barangbesar.view.ProsesRetur;
 import com.wissensalt.sinarelektronik.transfer.barangbesar.view.JIFTransferBB;
 import com.wissensalt.sinarelektronik.inventory.barangbesar.view.JIFInventoryBB;
 import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.error.BarangException;
-import com.wissensalt.sinarelektronik.retur.barangbesar.view.JIFReturViewBarangBesar;
 
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -65,7 +65,7 @@ public class BarangBesarController {
         findByField(v.getCmbCari1().getSelectedItem().toString(), view.getTxtKataKunci1().getText());
     }                    
     
-    public void cari4(JIFReturViewBarangBesar view, JIFReturViewBarangBesar v) throws SQLException, BarangException{
+    public void cari4(JIFReturViewBarangTokoBesar view, JIFReturViewBarangTokoBesar v) throws SQLException, BarangException{
         findByField(v.getCmbCari1().getSelectedItem().toString(), view.getTxtKataKunci1().getText());
     }            
     
@@ -97,7 +97,7 @@ public class BarangBesarController {
         sortBarangByField(view.getCmbUrut1().getSelectedItem().toString());
     } 
     
-    public void sort(JIFReturViewBarangBesar view) throws SQLException, BarangException{        
+    public void sort(JIFReturViewBarangTokoBesar view) throws SQLException, BarangException{
         sortBarangByField(view.getCmbUrut1().getSelectedItem().toString());
     }        
        

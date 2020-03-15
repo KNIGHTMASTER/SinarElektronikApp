@@ -2,11 +2,8 @@ package com.wissensalt.sinarelektronik.masterdata.barangkecil.model;
 
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.event.BarangKecilListener;
-import com.wissensalt.sinarelektronik.dao.BarangKecilDAO;
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.database.barangDatabase;
 import com.wissensalt.sinarelektronik.model.BaseModel;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -219,140 +216,15 @@ public class BarangKecilModel extends BaseModel {
        setCmbSort(cmbSort);
     }
 
-    public void deleteBarang() throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        dao.deleteBarang(idBarang);
+    public void deleteBarang() {        
         fireOnDelete();
     }
 
-    public void searchBarangbyId(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list = dao.getBarangbyId(kataKunci);
+    public void findByField(List list) {
         fireOnSearch(list);
     }
-
-     public void searchBarangbyBarcode(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.getBarangbyBarcode(kataKunci);
-        fireOnSearch(list);
-    }
-
-     public void searchBarangbyNama(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.getBarangbyNama(kataKunci);
-        fireOnSearch(list);
-    }
-
-     public void searchBarangbyTipe(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.getBarangbyTipe(kataKunci);
-        fireOnSearch(list);
-    }
-
-    public void searchBarangbyMerek(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.getBarangbyMerek(kataKunci);
-        fireOnSearch(list);
-    }
-
-    public void searchBarangbyHarga(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.getBarangbyHarga(kataKunci);
-        fireOnSearch(list);
-    }
-
-    public void searchBarangbySatuan(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.getBarangbySatuan(kataKunci);
-        fireOnSearch(list);
-    }
-
-    public void searchBarangbyStok(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.getBarangbyStok(kataKunci);
-        fireOnSearch(list);
-    }
-
-    public void searchBarangbyStokMin(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.getBarangbyStokMin(kataKunci);
-        fireOnSearch(list);
-    }
-
-    public void searchBarangbySupplier(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.getBarangbySupplier(kataKunci);
-        fireOnSearch(list);
-    }
-
-    public void searchBarangbyKeterangan(String kataKunci) throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.getBarangbyKeterangan(kataKunci);
+    
+    public void sortByField(List list) {
         fireOnSort(list);
-    }
-    public void sortBarangbyId() throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list = dao.sortBarangbyId();
-        fireOnSort(list);
-    }
-
-     public void sortBarangbyBarcode() throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.sortBarangbyBarcode();
-        fireOnSort(list);
-    }
-
-     public void sortBarangbyNama() throws SQLException, BarangException{         
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.sortBarangbyNama();
-        fireOnSort(list);
-    }
-
-     public void sortBarangbyTipe() throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.sortBarangbyTipe();
-        fireOnSort(list);
-    }
-
-    public void sortBarangbyMerek() throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.sortBarangbyMerek();
-        fireOnSort(list);
-    }
-
-    public void sortBarangbyHarga() throws SQLException, BarangException{      
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.sortBarangbyHarga();
-        fireOnSort(list);
-    }
-
-    public void sortBarangbySatuan() throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.sortBarangbySatuan();
-        fireOnSort(list);
-    }
-
-    public void sortBarangbyStok() throws SQLException, BarangException{        
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.sortBarangbyStok();
-        fireOnSort(list);
-    }
-
-    public void sortBarangbyStokMin() throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.sortBarangbyStokMin();
-        fireOnSort(list);
-    }
-
-    public void sortBarangbySupplier() throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.sortBarangbySupplier();
-        fireOnSort(list);
-    }
-
-    public void sortBarangbyKeterangan() throws SQLException, BarangException{
-        BarangKecilDAO dao = barangDatabase.getBarangDao();
-        List<BarangKecilDTO> list =dao.sortBarangbyKeterangan();
-        fireOnSort(list);
-    }   
+    }    
 }

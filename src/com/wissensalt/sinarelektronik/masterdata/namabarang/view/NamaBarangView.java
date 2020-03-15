@@ -1,23 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.namabarang.view;
 
 import com.wissensalt.sinarelektronik.config.UserLevel;
-import com.wissensalt.sinarelektronik.masterdata.namabarang.Entity.NamaBarang;
+import com.wissensalt.sinarelektronik.dao.NamaBarangDAO;
+import com.wissensalt.sinarelektronik.dao.impl.NamaBarangDAOImpl;
 import com.wissensalt.sinarelektronik.masterdata.namabarang.controller.NamaBarangController;
-import com.wissensalt.sinarelektronik.masterdata.namabarang.database.NamaBarangDatabase;
-import com.wissensalt.sinarelektronik.masterdata.namabarang.error.NamaBarangException;
+import com.wissensalt.sinarelektronik.masterdata.namabarang.entity.NamaBarangDTO;
 import com.wissensalt.sinarelektronik.masterdata.namabarang.model.NamaBarangModel;
 import com.wissensalt.sinarelektronik.masterdata.namabarang.model.TabelModelNamaBarang;
 import com.wissensalt.sinarelektronik.masterdata.namabarang.model.event.NamaBarangListener;
-import com.wissensalt.sinarelektronik.masterdata.namabarang.service.NamaBarangDao;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -31,13 +23,13 @@ public class NamaBarangView extends javax.swing.JPanel implements NamaBarangList
      * Creates new form NamaBarangView
      */
     private TabelModelNamaBarang tabelModelNamaBarang;
-    
-    private NamaBarangModel namaBarangModel;
-    
     private NamaBarangController namaBarangController;
+    private NamaBarangDAO namaBarangDAO;
     
     public NamaBarangView() {
-        namaBarangModel = new NamaBarangModel();
+        namaBarangDAO = new NamaBarangDAOImpl();
+
+        NamaBarangModel namaBarangModel = new NamaBarangModel();
         namaBarangModel.setListener(this);
         
         namaBarangController = new NamaBarangController();
@@ -124,18 +116,7 @@ public class NamaBarangView extends javax.swing.JPanel implements NamaBarangList
         kanan.setLayout(new java.awt.GridLayout(2, 0));
 
         txtId.setEditable(false);
-        txtId.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtIdFocusGained(evt);
-            }
-        });
         kanan.add(txtId);
-
-        txtNamaBarang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNamaBarangActionPerformed(evt);
-            }
-        });
         kanan.add(txtNamaBarang);
 
         atas.add(kanan);
@@ -237,47 +218,28 @@ public class NamaBarangView extends javax.swing.JPanel implements NamaBarangList
     public void setTxtNamaBarang(JTextField txtNamaBarang) {
         this.txtNamaBarang = txtNamaBarang;
     }
-    private void txtIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusGained
-        /*try {
-            // TODO add your handling code here:
-            loadID();
-        } catch (SQLException ex) {
-            Logger.getLogger(MerekView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (merekException ex) {
-            Logger.getLogger(MerekView.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-    }//GEN-LAST:event_txtIdFocusGained
-
-    private void txtNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNamaBarangActionPerformed
-        // TODO add your handling code here:
-        tambah();
-    }//GEN-LAST:event_txtNamaBarangActionPerformed
 
     public void tambah(){
         namaBarangController.insertNamaBarang(this);
     }
-    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahActionPerformed
-        // TODO add your handling code here:
+    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {
         tambah();
-    }//GEN-LAST:event_btTambahActionPerformed
+    }
 
-    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
-        // TODO add your handling code here:
+    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {
         namaBarangController.updateNamaBarang(this);
-    }//GEN-LAST:event_btUpdateActionPerformed
+    }
 
-    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
-        // TODO add your handling code here:
+    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {
         namaBarangController.deletenamabarang(this);
-    }//GEN-LAST:event_btDeleteActionPerformed
+    }
 
-    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
+    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {
         namaBarangController.resetNamaBarang(this);
         txtNamaBarang.setText("");
         txtNamaBarang.requestFocus();
-    }//GEN-LAST:event_btResetActionPerformed
+    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel atas;
     private javax.swing.JPanel bawah;
     private javax.swing.JButton btDelete;
@@ -302,14 +264,14 @@ public class NamaBarangView extends javax.swing.JPanel implements NamaBarangList
     }
 
     @Override
-    public void onInsert(NamaBarang namaBarang) {
-        tabelModelNamaBarang.add(namaBarang);
+    public void onInsert(NamaBarangDTO namaBarangDTO) {
+        tabelModelNamaBarang.add(namaBarangDTO);
     }
 
     @Override
-    public void onUpdate(NamaBarang namaBarang) {
+    public void onUpdate(NamaBarangDTO namaBarangDTO) {
         int index = tabelNamaBarang.getSelectedRow();
-        tabelModelNamaBarang.set(index, namaBarang);
+        tabelModelNamaBarang.set(index, namaBarangDTO);
     }
 
     @Override
@@ -320,43 +282,17 @@ public class NamaBarangView extends javax.swing.JPanel implements NamaBarangList
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        try{
-            NamaBarang nb = tabelModelNamaBarang.get(tabelNamaBarang.getSelectedRow());
-            txtId.setText(String.valueOf(nb.getId()));
-            txtNamaBarang.setText(nb.getNamabarang());
-        }catch(IndexOutOfBoundsException boundsException){
-            
-        }
+        NamaBarangDTO nb = tabelModelNamaBarang.get(tabelNamaBarang.getSelectedRow());
+        txtId.setText(String.valueOf(nb.getId()));
+        txtNamaBarang.setText(nb.getNamabarang());
     }
     
     public void loadDatabase(){
-        try {
-            NamaBarangDao barangDao = NamaBarangDatabase.getNamaBarangDao();
-            try {
-                tabelModelNamaBarang.setList(barangDao.selectAllNamaBarang());
-            } catch (NamaBarangException ex) {
-                Logger.getLogger(NamaBarangView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(NamaBarangView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        tabelModelNamaBarang.setList(namaBarangDAO.selectAllNamaBarang());
     }
     
     public void loadId(){
-        NamaBarangDao dao;
-        int lastid = 0;
-        try {
-            dao = NamaBarangDatabase.getNamaBarangDao();
-            try {
-                lastid=dao.getLastId();
-            } catch (NamaBarangException ex) {
-                Logger.getLogger(NamaBarangView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(NamaBarangView.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        txtId.setText(String.valueOf(lastid));
+        txtId.setText(String.valueOf(namaBarangDAO.getLastId()));
         txtNamaBarang.requestFocus();
     }
 }

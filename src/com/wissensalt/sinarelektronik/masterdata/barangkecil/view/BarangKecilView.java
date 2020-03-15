@@ -1,19 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.barangkecil.view;
 
 import com.wissensalt.sinarelektronik.config.HostName;
 import com.wissensalt.sinarelektronik.config.UserLevel;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.controller.BarangController;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.database.barangDatabase;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.error.BarangException;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.BarangKecilModel;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.event.BarangKecilListener;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.TabelModelBarangKecil;
 import com.wissensalt.sinarelektronik.dao.BarangKecilDAO;
+import com.wissensalt.sinarelektronik.dao.impl.BarangKecilDAOImpl;
 import com.wissensalt.sinarelektronik.masterdata.merek.view.MerekView;
 import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.view.tambahBarangKecilView;
 
@@ -53,28 +48,22 @@ import javax.swing.event.ListSelectionListener;
  * @author Fauzi
  */
 public class BarangKecilView extends javax.swing.JPanel implements BarangKecilListener, ListSelectionListener{
-
-    /**
-     * Creates new form BarangBesarView
-     */
-    
-    BarangController controller;
-    
-    TabelModelBarangKecil tabelmodelbarang;
-    
-    BarangKecilModel model;
+    private BarangController controller;
+    private TabelModelBarangKecil tabelmodelbarang;
+    private BarangKecilModel barangKecilModel;
+    private final BarangKecilDAO barangKecilDAO;   
     
     HostName ip = new HostName();
         
     public BarangKecilView() {
-
+        barangKecilDAO = new BarangKecilDAOImpl();
         tabelmodelbarang = new TabelModelBarangKecil();
         
-        model=new BarangKecilModel();
-        model.setListener(this);
+        barangKecilModel=new BarangKecilModel();
+        barangKecilModel.setListener(this);
         
         controller = new BarangController();
-        controller.setModel(model);        
+        controller.setModel(barangKecilModel);        
         
         initComponents();
                        
@@ -246,20 +235,8 @@ public class BarangKecilView extends javax.swing.JPanel implements BarangKecilLi
     }
     
     public void loadDatabase(){
-        try {
-            BarangKecilDAO dao=barangDatabase.getBarangDao();
-            try {
-                tabelmodelbarang.setList(dao.selectAllBarang());
-            } catch (BarangException ex) {
-                Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        tabelmodelbarang.setList(barangKecilDAO.selectAllBarang());
     }
-    
-//generate getter and setter
 
     public JComboBox getCmbCari() {
         return cmbCari;
@@ -1269,15 +1246,8 @@ public class BarangKecilView extends javax.swing.JPanel implements BarangKecilLi
     }//GEN-LAST:event_txtKataKunciActionPerformed
 
     private void btCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCariActionPerformed
-        try {
-            // TODO add your handling code here:
-     controller.cari(this, this);
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BarangException ex) {
-            java.util.logging.Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            this.setSize(getWidth(), getHeight());
+        controller.cari(this, this);
+        this.setSize(getWidth(), getHeight());
     }//GEN-LAST:event_btCariActionPerformed
 
     private void cmbCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCariActionPerformed
@@ -1285,14 +1255,7 @@ public class BarangKecilView extends javax.swing.JPanel implements BarangKecilLi
     }//GEN-LAST:event_cmbCariActionPerformed
 
     private void cmbUrutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrutActionPerformed
-        try {
-            // TODO add your handling code here:
         controller.sort(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BarangException ex) {
-            Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_cmbUrutActionPerformed
 
     private void tabelBarangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarangMousePressed

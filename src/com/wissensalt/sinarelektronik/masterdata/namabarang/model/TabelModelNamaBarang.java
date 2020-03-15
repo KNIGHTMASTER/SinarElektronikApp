@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.namabarang.model;
 
-import com.wissensalt.sinarelektronik.masterdata.namabarang.Entity.NamaBarang;
+import com.wissensalt.sinarelektronik.masterdata.namabarang.entity.NamaBarangDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -15,18 +12,18 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TabelModelNamaBarang extends AbstractTableModel{
 
-    public List<NamaBarang> list = new ArrayList<NamaBarang>();
+    public List<NamaBarangDTO> list = new ArrayList<>();
 
-    public List<NamaBarang> getList() {
+    public List<NamaBarangDTO> getList() {
         return list;
     }
 
-    public void setList(List<NamaBarang> list) {
+    public void setList(List<NamaBarangDTO> list) {
         this.list = list;
     }
 
     
-    public boolean add(NamaBarang e) {
+    public boolean add(NamaBarangDTO e) {
         try{
             return list.add(e);
         }finally{
@@ -34,11 +31,11 @@ public class TabelModelNamaBarang extends AbstractTableModel{
         }
     }
 
-    public NamaBarang get(int index) {
+    public NamaBarangDTO get(int index) {
         return list.get(index);
     }
 
-    public NamaBarang set(int index, NamaBarang element) {
+    public NamaBarangDTO set(int index, NamaBarangDTO element) {
         try{
             return list.set(index, element);
         }finally{
@@ -46,7 +43,7 @@ public class TabelModelNamaBarang extends AbstractTableModel{
         }
     }
 
-    public NamaBarang remove(int index) {
+    public NamaBarangDTO remove(int index) {
         try{
             return list.remove(index);
         }finally{

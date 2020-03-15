@@ -6,13 +6,13 @@ package com.wissensalt.sinarelektronik.masterdata.supplier.view;
 
 import com.wissensalt.sinarelektronik.config.HostName;
 import com.wissensalt.sinarelektronik.config.UserLevel;
-import com.wissensalt.sinarelektronik.masterdata.supplier.entity.supplier;
+import com.wissensalt.sinarelektronik.masterdata.supplier.entity.SupplierDTO;
 import com.wissensalt.sinarelektronik.masterdata.supplier.controller.supplierController;
 import com.wissensalt.sinarelektronik.masterdata.supplier.database.supplierDatabase;
+import com.wissensalt.sinarelektronik.masterdata.supplier.model.SupplierModel;
 import com.wissensalt.sinarelektronik.masterdata.supplier.model.event.supplierListener;
-import com.wissensalt.sinarelektronik.masterdata.supplier.model.supplierModel;
-import com.wissensalt.sinarelektronik.masterdata.supplier.model.tabelModelSupplier;
-import com.wissensalt.sinarelektronik.masterdata.supplier.service.supplierDao;
+import com.wissensalt.sinarelektronik.masterdata.supplier.model.TabelModelSupplier;
+import com.wissensalt.sinarelektronik.dao.SupplierDAO;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.Connection;
@@ -39,11 +39,11 @@ public class supplierView extends javax.swing.JPanel implements supplierListener
     /**
      * Creates new form barangView
      */
-    private  tabelModelSupplier modelSupplier;
+    private TabelModelSupplier modelSupplier;
     
     private supplierController controller;                
     
-    private  supplierModel model;
+    private SupplierModel model;
     
     
     String ip;
@@ -53,9 +53,9 @@ public class supplierView extends javax.swing.JPanel implements supplierListener
     }                    
             
     public supplierView() throws SQLException, supplierException {                        
-        modelSupplier = new tabelModelSupplier();
+        modelSupplier = new TabelModelSupplier();
         
-        model=  new supplierModel();
+        model=  new SupplierModel();
         model.setListener(this);        
         
         controller = new supplierController();
@@ -706,19 +706,19 @@ public class supplierView extends javax.swing.JPanel implements supplierListener
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onChange(supplierModel model) {
+    public void onChange(SupplierModel model) {
         txtKataKunci.setText(model.getIdsupplier());
     }
 
     @Override
-    public void onInsert(supplier supplier) {
-        modelSupplier.add(supplier);
+    public void onInsert(SupplierDTO SupplierDTO) {
+        modelSupplier.add(SupplierDTO);
     }
 
     @Override
-    public void onUpdate(supplier supplier) {
+    public void onUpdate(SupplierDTO SupplierDTO) {
         int index = tabelSupplier.getSelectedRow();
-        modelSupplier.set(index, supplier);
+        modelSupplier.set(index, SupplierDTO);
     }
 
     @Override
@@ -740,14 +740,14 @@ public class supplierView extends javax.swing.JPanel implements supplierListener
     @Override
     public void valueChanged(ListSelectionEvent e) {
         try{
-            supplier supplierEntity = modelSupplier.get(tabelSupplier.getSelectedRow());
+            SupplierDTO supplierDTOEntity = modelSupplier.get(tabelSupplier.getSelectedRow());
         }catch(IndexOutOfBoundsException ex){
             
         }        
     }
     
     public void loadDatabase() throws SQLException, supplierException{
-        supplierDao dao = supplierDatabase.getSupplierDao();
+        SupplierDAO dao = supplierDatabase.getSupplierDao();
         modelSupplier.setList(dao.selectAllSupplier());
     }
     

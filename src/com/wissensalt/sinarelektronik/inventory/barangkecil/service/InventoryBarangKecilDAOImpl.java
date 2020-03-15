@@ -1,6 +1,7 @@
 package com.wissensalt.sinarelektronik.inventory.barangkecil.service;
 
 import com.wissensalt.sinarelektronik.dao.ABaseDAO;
+import com.wissensalt.sinarelektronik.dao.InventoryBarangKecilDAO;
 import com.wissensalt.sinarelektronik.dto.InventoryBarangKecilDTO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

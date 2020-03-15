@@ -46,9 +46,4 @@ public class InventoryBarangBesarDAOImpl extends ABaseDAO<InventoryBarangBesarDT
     public String getTruncateQuery() {
         return "TRUNCATE TABLE prosesinventorybarangbesar";
     }
-
-    @Override
-    public String getDeleteQueryByString() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

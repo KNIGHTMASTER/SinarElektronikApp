@@ -1,10 +1,10 @@
 package com.wissensalt.sinarelektronik.inventory.barangkecil.controller;
 
 import com.wissensalt.sinarelektronik.converter.InventoryBarangKecilConverter;
+import com.wissensalt.sinarelektronik.dao.InventoryBarangKecilDAO;
 import com.wissensalt.sinarelektronik.dto.InventoryBarangKecilDTO;
 import com.wissensalt.sinarelektronik.inventory.barangkecil.view.JIFInventoryBarangKecilKecil;
 import com.wissensalt.sinarelektronik.model.InventoryBarangKecilModel;
-import com.wissensalt.sinarelektronik.inventory.barangkecil.service.InventoryBarangKecilDAO;
 import com.wissensalt.sinarelektronik.inventory.barangkecil.service.InventoryBarangKecilDAOImpl;
 
 import javax.swing.JOptionPane;

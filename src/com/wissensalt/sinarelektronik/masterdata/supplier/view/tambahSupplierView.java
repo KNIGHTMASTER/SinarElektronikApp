@@ -6,9 +6,9 @@ package com.wissensalt.sinarelektronik.masterdata.supplier.view;
 
 import com.wissensalt.sinarelektronik.masterdata.supplier.controller.supplierController;
 import com.wissensalt.sinarelektronik.masterdata.supplier.database.supplierDatabase;
-import com.wissensalt.sinarelektronik.masterdata.supplier.model.supplierModel;
-import com.wissensalt.sinarelektronik.masterdata.supplier.model.tabelModelSupplier;
-import com.wissensalt.sinarelektronik.masterdata.supplier.service.supplierDao;
+import com.wissensalt.sinarelektronik.masterdata.supplier.model.SupplierModel;
+import com.wissensalt.sinarelektronik.masterdata.supplier.model.TabelModelSupplier;
+import com.wissensalt.sinarelektronik.dao.SupplierDAO;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,12 +28,12 @@ public class tambahSupplierView extends javax.swing.JPanel {
     
     supplierController controller;
     
-    supplierModel model ;
+    SupplierModel model ;
     
-    tabelModelSupplier modelSupplier;
+    TabelModelSupplier modelSupplier;
     
     public tambahSupplierView() {
-        model = new supplierModel();
+        model = new SupplierModel();
         //model.setListener(this);
         
         controller=new supplierController();
@@ -104,7 +104,7 @@ public class tambahSupplierView extends javax.swing.JPanel {
     }
 
     public void LoadId() throws SQLException, supplierException{
-        supplierDao dao = supplierDatabase.getSupplierDao();
+        SupplierDAO dao = supplierDatabase.getSupplierDao();
         int id=dao.getLastId();
         txtIdsupplier.setText(String.valueOf(id));
         txtNama.requestFocus();
@@ -399,7 +399,7 @@ public class tambahSupplierView extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     /*@Override
-    public void onChange(supplierModel model) {
+    public void onChange(SupplierModel model) {
         txtAlamat.setText(model.getAlamat());
         txtAtasNama.setText(model.getAtasNama());
         txtBank.setText(model.getBank());

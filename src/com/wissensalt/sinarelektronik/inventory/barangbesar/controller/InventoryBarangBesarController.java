@@ -14,8 +14,7 @@ import com.wissensalt.sinarelektronik.dao.impl.InventoryBarangBesarDAOImpl;
  */
 public class InventoryBarangBesarController {
 
-    private InventoryBarangBesarModel model;
-    private InventoryBarangBesarConverter inventoryBarangBesarConverter;
+    private InventoryBarangBesarModel model;    
     private final InventoryBarangBesarDAO inventoryBarangBesarDAO;
     
     public InventoryBarangBesarController() {

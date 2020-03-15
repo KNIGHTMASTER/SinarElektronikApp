@@ -10,6 +10,7 @@ import com.wissensalt.sinarelektronik.model.BarangBesarModel;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.event.BarangBesarListener;
 import com.wissensalt.sinarelektronik.dao.BarangBesarDAO;
+import com.wissensalt.sinarelektronik.dao.impl.BarangBesarDAOImpl;
 import com.wissensalt.sinarelektronik.masterdata.merek.view.MerekView;
 
 import java.awt.Dimension;
@@ -51,11 +52,12 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     private BarangBesarController controller;
     private TabelModelBarangBesar tabelmodelbarang;
     private BarangBesarModel model;
+    private final BarangBesarDAO barangBesarDAO;
 
     HostName ip = new HostName();
 
     public BarangBesarView() {
-
+        barangBesarDAO = new BarangBesarDAOImpl();
         tabelmodelbarang = new TabelModelBarangBesar();
 
         model = new BarangBesarModel();
@@ -210,16 +212,10 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
 
     public void loadDatabase() {
         try {
-            BarangBesarDAO dao = barangDatabase.getBarangDao();
-            try {
-                tabelmodelbarang.setList(dao.selectAllBarang());
-            } catch (BarangException ex) {
-                Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (SQLException ex) {
+            tabelmodelbarang.setList(barangBesarDAO.selectAllBarang());
+        } catch (BarangException ex) {
             Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
 //generate getter and setter
@@ -953,16 +949,8 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     }//GEN-LAST:event_btTambahSupplierActionPerformed
 
     private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
-        // TODO add your handling code here:
-        /*controller.resetTambahBarang();
-        try {
-            resetManual();
-        } catch (SQLException ex) {
-            Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (barangException ex) {
-            Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-    }//GEN-LAST:event_btResetActionPerformed
+        
+    }
 
     public void copyFile() {
         File file = new File(pathGambar);
@@ -1322,14 +1310,6 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         dialogUpdate.setLocation(x, y);
         dialogUpdate.setModal(true);
         dialogUpdate.show(true);
-        /*try {
-            controller.sort(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BarangException ex) {
-            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        loadDatabase();*/
     }
 
     public void updateManual() {
@@ -1761,7 +1741,6 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     public void valueChanged(ListSelectionEvent e) {
         try {
             BarangBesarDTO BarangBesarDTO = tabelmodelbarang.get(tabelBarang.getSelectedRow());
-            //cmbCari.setSelectedItem(barangkecil.get);
         } catch (IndexOutOfBoundsException ioobe) {
 
         }

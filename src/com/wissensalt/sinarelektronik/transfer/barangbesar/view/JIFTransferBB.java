@@ -2,7 +2,7 @@ package com.wissensalt.sinarelektronik.transfer.barangbesar.view;
 
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.database.barangDatabase;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.entity.barang;
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.service.BarangDao;
+import com.wissensalt.sinarelektronik.dao.BarangTokoDAO;
 import com.wissensalt.sinarelektronik.model.BarangBesarModel;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
 import com.wissensalt.sinarelektronik.util.FormatRupiah;
@@ -236,7 +236,7 @@ public class JIFTransferBB extends javax.swing.JInternalFrame implements penjual
     }
 
     public void loadDatabaseCariBarang() throws SQLException, BarangException{
-        BarangDao dao = barangDatabase.getBarangDao();
+        BarangTokoDAO dao = barangDatabase.getBarangDao();
         tabelmodelBarangBesar.setList(dao.selectAllBarang());
     }    
     public void setEnableTransaksi(boolean enable){
