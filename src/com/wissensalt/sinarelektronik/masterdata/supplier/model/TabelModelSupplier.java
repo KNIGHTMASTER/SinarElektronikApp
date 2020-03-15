@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.supplier.model;
 
 import com.wissensalt.sinarelektronik.masterdata.supplier.entity.SupplierDTO;

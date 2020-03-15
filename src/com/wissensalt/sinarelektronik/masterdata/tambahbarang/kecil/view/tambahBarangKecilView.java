@@ -1,39 +1,27 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.view;
 
-import com.wissensalt.sinarelektronik.config.HostName;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.BarangKecilModel;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.event.TambahBarangKecilListener;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.TabelModelBarangKecil;
-import com.wissensalt.sinarelektronik.masterdata.merek.view.MerekView;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.controller.tambahBarangController;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.model.tambahBarangModel;
 import com.toedter.components.JSpinField;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Toolkit;
+import com.wissensalt.sinarelektronik.dao.MerekDAO;
+import com.wissensalt.sinarelektronik.dao.NamaBarangDAO;
+import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
+import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.TabelModelBarangKecil;
+import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.event.TambahBarangKecilListener;
+import com.wissensalt.sinarelektronik.masterdata.merek.view.MerekView;
+import com.wissensalt.sinarelektronik.masterdata.supplier.view.SupplierView;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.controller.TambahBarangController;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.model.TambahBarangModel;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
  *
@@ -41,22 +29,15 @@ import javax.swing.JTextField;
  */
 public class tambahBarangKecilView extends javax.swing.JPanel implements TambahBarangKecilListener {
 
-    /**
-     * Creates new form tambahBarangKecilView
-     */
-    
-    tambahBarangController controller;
-    
-    tambahBarangModel model;
-    
-    
-    static HostName ip1 = new HostName();
-    
-        
+    private TambahBarangController controller;
+    private final NamaBarangDAO namaBarangDAO;
+    private final MerekDAO merekDAO;
+
+
     public tambahBarangKecilView(){
-        model = new tambahBarangModel();
+        TambahBarangModel model = new TambahBarangModel();
         model.setListener(this);
-        controller = new tambahBarangController();
+        controller = new TambahBarangController();
         controller.setModel(model);
                 
         initComponents();
@@ -106,21 +87,8 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
     public void setCmbNamaBarang(JComboBox cmbNamaBarang) {
         this.cmbNamaBarang = cmbNamaBarang;
     }
-    
-    BarangKecilModel barangmodel=new BarangKecilModel();
 
-    private Connection conn;
-	
-    public void koneksi(){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Driver not Found");
-        }        
-    }        
-    
-    public void loadNamaBarang(){
+    private void loadNamaBarang(){
         Statement statement=null;
         try{
             statement=conn.createStatement();            
@@ -141,7 +109,7 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
         }        
     }
     
-    public void loadDataMerek(){
+    private void loadDataMerek(){
         Statement statement=null;
         try{
             statement=conn.createStatement();            
@@ -163,7 +131,7 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
         }
     }
     
-    public void loadDataTipe(){
+    private void loadDataTipe(){
         Statement statement=null;
         try{
             statement=conn.createStatement();            
@@ -183,7 +151,8 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
             }
         }
     }
-    public void loadDataSupplier(){
+
+    private void loadDataSupplier(){
         Statement statement=null;
         try{
             statement=conn.createStatement();            
@@ -350,7 +319,7 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
         }
         dialogTambahSupplier = new javax.swing.JDialog();
         try {
-            supplierView1 = new com.wissensalt.sinarelektronik.masterdata.supplier.view.supplierView();
+            supplierView1 = new SupplierView();
         } catch (java.sql.SQLException e1) {
             e1.printStackTrace();
         } catch (com.wissensalt.sinarelektronik.masterdata.supplier.error.supplierException e2) {
@@ -1255,7 +1224,7 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
     private javax.swing.JRadioButton rbTidak;
     private javax.swing.JRadioButton rbYa;
     private com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView satuanView1;
-    private com.wissensalt.sinarelektronik.masterdata.supplier.view.supplierView supplierView1;
+    private SupplierView supplierView1;
     private com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView tipeView1;
     private javax.swing.JTextField txtHargaEceran;
     private javax.swing.JTextField txtHargaGrosir;
@@ -1279,7 +1248,7 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
     }
 
     @Override
-    public void onChange(tambahBarangModel model) {
+    public void onChange(TambahBarangModel model) {
         txtIdBarang.setText(model.getIdBarang());
         txtIdBarcode.setText(model.getIdBarcode());
         txtHargaGrosir.setText(String.valueOf(model.getGrosir()));

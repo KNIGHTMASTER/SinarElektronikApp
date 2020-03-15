@@ -5,18 +5,23 @@ import com.wissensalt.sinarelektronik.dao.BarangTokoDAO;
 import com.wissensalt.sinarelektronik.dao.MerekDAO;
 import com.wissensalt.sinarelektronik.dao.NamaBarangDAO;
 import com.wissensalt.sinarelektronik.dao.SupplierDAO;
+import com.wissensalt.sinarelektronik.dao.TipeDAO;
 import com.wissensalt.sinarelektronik.dao.impl.BarangTokoDAOImpl;
 import com.wissensalt.sinarelektronik.dao.impl.MerekDAOImpl;
 import com.wissensalt.sinarelektronik.dao.impl.NamaBarangDAOImpl;
 import com.wissensalt.sinarelektronik.dao.impl.SupplierDAOImpl;
+import com.wissensalt.sinarelektronik.dao.impl.TipeDAOImpl;
 import com.wissensalt.sinarelektronik.dto.MerekDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.controller.BarangTokoController;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.entity.BarangTokoDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.BarangTokoModel;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.TabelModelBarangToko;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.event.BarangTokoListener;
 import com.wissensalt.sinarelektronik.masterdata.merek.view.MerekView;
 import com.wissensalt.sinarelektronik.masterdata.namabarang.entity.NamaBarangDTO;
 import com.wissensalt.sinarelektronik.masterdata.supplier.entity.SupplierDTO;
+import com.wissensalt.sinarelektronik.masterdata.supplier.view.SupplierView;
+import com.wissensalt.sinarelektronik.masterdata.tipe.entity.TipeDTO;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -48,8 +53,10 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     private final NamaBarangDAO namaBarangDAO;
     private final MerekDAO merekDAO;
     private final SupplierDAO supplierDAO;
+    private final TipeDAO tipeDAO;
 
     public BarangTokoView() {
+        tipeDAO = new TipeDAOImpl();
         barangTokoDAO = new BarangTokoDAOImpl();
         namaBarangDAO = new NamaBarangDAOImpl();
         merekDAO = new MerekDAOImpl();
@@ -125,23 +132,8 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     }
 
     public void loadTipe(){
-        Statement statement=null;
-        try{
-            statement=conn.createStatement();
-            ResultSet rs=statement.executeQuery("SELECT namaTipe FROM tipe ORDER BY namaTipe");
-            while (rs.next()) {
-                cmbTipe.addItem(rs.getString("namaTipe"));
-            }
-        }catch(SQLException e)         {
-            JOptionPane.showMessageDialog(null, "tidak bisa me-load data tipe");
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        for (TipeDTO tipeDTO : tipeDAO.selectAllTipe()) {
+            cmbTipe.addItem(tipeDTO.getNamaTipe());
         }
     }
 
@@ -272,31 +264,13 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         dialogPreview = new javax.swing.JDialog();
         lblPreview = new javax.swing.JLabel();
         dialogTambahTipe = new javax.swing.JDialog();
-        try {
-            tipeView2 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.tipe.error.TipeException e2) {
-            e2.printStackTrace();
-        }
+        tipeView2 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
         dialogTambahMerek = new javax.swing.JDialog();
         merekView21 = new MerekView();
         dialogTambahSupplier = new javax.swing.JDialog();
-        try {
-            supplierView1 = new com.wissensalt.sinarelektronik.masterdata.supplier.view.supplierView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.supplier.error.supplierException e2) {
-            e2.printStackTrace();
-        }
+        supplierView1 = new SupplierView();
         dialogTambahSatuan = new javax.swing.JDialog();
-        try {
-            satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.satuan.error.SatuanException e2) {
-            e2.printStackTrace();
-        }
+        satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
         dialogTambah = new javax.swing.JDialog();
         buttonGroup1 = new javax.swing.ButtonGroup();
         dialogTambahNamaBarang = new javax.swing.JDialog();
@@ -798,14 +772,6 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
                         "Title 1", "Title 2", "Title 3", "Title 4"
                 }
         ));
-        tabelBarang.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                tabelBarangMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tabelBarangMouseReleased(evt);
-            }
-        });
         jScrollPane1.setViewportView(tabelBarang);
 
         panelTengah.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -1104,14 +1070,7 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     }//GEN-LAST:event_txtKataKunciActionPerformed
 
     private void btCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCariActionPerformed
-        try {
-            // TODO add your handling code here:
-            controller.cari(this, this);
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BarangException ex) {
-            java.util.logging.Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        controller.cari(this, this);
         this.setSize(getWidth(), getHeight());
     }//GEN-LAST:event_btCariActionPerformed
 
@@ -1120,24 +1079,9 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     }//GEN-LAST:event_cmbCariActionPerformed
 
     private void cmbUrutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrutActionPerformed
-        try {
-            // TODO add your handling code here:
-            controller.sort(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BarangException ex) {
-            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_cmbUrutActionPerformed
-
-    private void tabelBarangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarangMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tabelBarangMousePressed
-
-    private void tabelBarangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarangMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tabelBarangMouseReleased
-
+        controller.sort(this);
+    }
+    
     private void tambah(){
         int x = (screenSize.width - this.WIDTH) / 4;
         int y = (screenSize.height - this.HEIGHT) /5;
@@ -1242,14 +1186,6 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         dialogUpdate.setLocation(x, y);
         dialogUpdate.setModal(true);
         dialogUpdate.show(true);
-        /*try {
-            controller.sort(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BarangException ex) {
-            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        loadDatabase();*/
     }
 
     public void updateManual(){
@@ -1590,7 +1526,7 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     private javax.swing.JRadioButton rbTidak;
     private javax.swing.JRadioButton rbYa;
     private com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView satuanView1;
-    private com.wissensalt.sinarelektronik.masterdata.supplier.view.supplierView supplierView1;
+    private SupplierView supplierView1;
     private javax.swing.JTable tabelBarang;
     private javax.swing.JPanel tengah;
     private com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView tipeView2;
@@ -1640,11 +1576,6 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        try{
-            barang barang= tabelmodelbarangToko.get(tabelBarang.getSelectedRow());
-            //cmbCari.setSelectedItem(barangkecil.get);
-        }catch(IndexOutOfBoundsException ioobe){
-
-        }
+        BarangTokoDTO barang= tabelmodelbarangToko.get(tabelBarang.getSelectedRow());
     }
 }

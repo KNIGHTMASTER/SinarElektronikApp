@@ -22,6 +22,8 @@ public class SupplierDAOImpl extends ABaseDAO<SupplierDTO> implements SupplierDA
     private final String deleteSupplier = "DELETE FROM supplier WHERE idsupplier = ?";
     
     private final String searchByid = "SELECT * FROM supplier WHERE idsupplier LIKE ?";
+
+    private final String searchByIdEqual = "SELECT * FROM supplier WHERE idsupplier = ?";
     
     private final String searchByNama = "SELECT * FROM supplier WHERE nama LIKE ?";
     
@@ -202,72 +204,72 @@ public class SupplierDAOImpl extends ABaseDAO<SupplierDTO> implements SupplierDA
     }
 
     @Override
-    public List<SupplierDTO> sortById(String idSupplier) {
+    public List<SupplierDTO> sortById() {
         return findAndSortByField(sortByid);
     }
 
     @Override
-    public List<SupplierDTO> sortByNama(String namaSupplier) {
+    public List<SupplierDTO> sortByNama() {
         return findAndSortByField(sortByNama);
     }
 
     @Override
-    public List<SupplierDTO> sortByAlamat(String alamatSupplier) {
+    public List<SupplierDTO> sortByAlamat() {
         return findAndSortByField(sortByAlamat);
     }
 
     @Override
-    public List<SupplierDTO> sortByKota(String kotaSupplier) {
+    public List<SupplierDTO> sortByKota() {
         return findAndSortByField(sortByKota);
     }
 
     @Override
-    public List<SupplierDTO> sortByPropinsi(String propinsiSupplier) {
+    public List<SupplierDTO> sortByPropinsi() {
         return findAndSortByField(sortByPropinsi);
     }
 
     @Override
-    public List<SupplierDTO> sortByKodePost(String kodePostSupplier) {
+    public List<SupplierDTO> sortByKodePost() {
         return findAndSortByField(sortByKodePost);
     }
 
     @Override
-    public List<SupplierDTO> sortByTelepon(String teleponSupplier) {
+    public List<SupplierDTO> sortByTelepon() {
         return findAndSortByField(sortByTelepon);
     }
 
     @Override
-    public List<SupplierDTO> sortByFax(String faxSupplier) {
+    public List<SupplierDTO> sortByFax() {
         return findAndSortByField(sortByFax);
     }
 
     @Override
-    public List<SupplierDTO> sortByBank(String bankSupplier) {
+    public List<SupplierDTO> sortByBank() {
         return findAndSortByField(sortByBank);
     }
 
     @Override
-    public List<SupplierDTO> sortByNomorRek(String nomorRekSupplier) {
+    public List<SupplierDTO> sortByNomorRek() {
         return findAndSortByField(sortByNomorRek);
     }
 
     @Override
-    public List<SupplierDTO> sortByAtasNama(String atasNamaSupplier) {
+    public List<SupplierDTO> sortByAtasNama() {
         return findAndSortByField(sortByAtasNama);
     }
 
     @Override
-    public List<SupplierDTO> sortByKontakPerson(String kontakPersonSupplier) {
+    public List<SupplierDTO> sortByKontakPerson() {
         return findAndSortByField(sortByKontakPerson);
     }
 
     @Override
-    public List<SupplierDTO> sortByEmail(String emailSupplier) {
+    public List<SupplierDTO> sortByEmail() {
         return findAndSortByField(sortByEmail);
     }
 
     @Override
-    public List<SupplierDTO> sortByNote(String noteSupplier) {
+    public List<SupplierDTO> sortByNote() {
         return findAndSortByField(sortByNote);
     }
 
@@ -279,5 +281,9 @@ public class SupplierDAOImpl extends ABaseDAO<SupplierDTO> implements SupplierDA
     @Override
     public int getLastId() {
         return findLastIdByField("TOTAL", getLastId);
+    }
+
+    public String getSearchByIdEqual() {
+        return searchByIdEqual;
     }
 }

@@ -2,7 +2,7 @@ package com.wissensalt.sinarelektronik.masterdata.barangtoko.model.event;
 
 import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
 
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.model.tambahBarangModel;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.model.TambahBarangBesarModel;
 
 /**
  *
@@ -10,7 +10,7 @@ import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.model.tambah
  */
 interface TambahBarangTokoListener {
     
-    void onChange(tambahBarangModel model);
+    void onChange(TambahBarangBesarModel model);
     
     void onInsert(BarangBesarDTO barangBesarDTO);
     

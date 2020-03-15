@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.service.impl;
+package com.wissensalt.sinarelektronik.dao.impl;
 
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
 import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.error.TambahBarangException;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.service.TambahBarangDao;
+import com.wissensalt.sinarelektronik.dao.TambahBarangKecilDAO;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
@@ -20,11 +20,11 @@ import javax.swing.JOptionPane;
  *
  * @author Fauzi
  */
-public class TambahBarangDaoImpl implements TambahBarangDao{
+public class TambahBarangKecilDAOImpl implements TambahBarangKecilDAO {
     
     private Connection connection;
 
-    public TambahBarangDaoImpl(Connection connection) {
+    public TambahBarangKecilDAOImpl(Connection connection) {
         this.connection = connection;
     }        
     
@@ -57,7 +57,7 @@ public class TambahBarangDaoImpl implements TambahBarangDao{
                     statement.setNull(15, java.sql.Types.BLOB);
                 }
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(TambahBarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TambahBarangKecilDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
             statement.setString(16, BarangKecilDTO.getGaransi());
             statement.setString(17, String.valueOf(BarangKecilDTO.getLamaGaransi()));

@@ -5,7 +5,8 @@
 
 package com.wissensalt.sinarelektronik.masterdata.satuan.model;
 
-import com.wissensalt.sinarelektronik.masterdata.satuan.entity.satuan;
+import com.wissensalt.sinarelektronik.masterdata.satuan.entity.SatuanDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -14,10 +15,10 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Fauzi
  */
-public class tabelModelSatuan extends AbstractTableModel{
-    private List<satuan> list = new ArrayList<satuan>();
+public class TabelModelSatuan extends AbstractTableModel{
+    private List<SatuanDTO> list = new ArrayList<SatuanDTO>();
 
-    public void setList(List<satuan> list) {
+    public void setList(List<SatuanDTO> list) {
         this.list = list;
     }
 
@@ -30,7 +31,7 @@ public class tabelModelSatuan extends AbstractTableModel{
         }
     }    
     
-    public boolean add(satuan e) {
+    public boolean add(SatuanDTO e) {
         try{
             return list.add(e);
         }finally{
@@ -38,11 +39,11 @@ public class tabelModelSatuan extends AbstractTableModel{
         }
     }
 
-    public satuan get(int index) {
+    public SatuanDTO get(int index) {
         return list.get(index);
     }
 
-    public satuan set(int index, satuan element) {
+    public SatuanDTO set(int index, SatuanDTO element) {
         try{
             return list.set(index, element);
         }finally{
@@ -50,7 +51,7 @@ public class tabelModelSatuan extends AbstractTableModel{
         }
     }
 
-    public satuan remove(int index) {
+    public SatuanDTO remove(int index) {
         try{
             return list.remove(index);
         }finally{
@@ -73,7 +74,7 @@ public class tabelModelSatuan extends AbstractTableModel{
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch(columnIndex){
             case 0 :return list.get(rowIndex).getIdsatuan();
-            case 1 :return list.get(rowIndex).getNamasatuan();
+            case 1 :return list.get(rowIndex).getNamaSatuan();
             default:return null;
         }
     }

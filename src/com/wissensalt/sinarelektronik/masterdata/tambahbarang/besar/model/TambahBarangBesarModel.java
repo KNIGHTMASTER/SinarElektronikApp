@@ -1,37 +1,23 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.model;
+package com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.model;
 
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.event.TambahBarangKecilListener;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.database.TambahbarangDatabase;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.error.TambahBarangException;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.service.TambahBarangDao;
+import com.wissensalt.sinarelektronik.dao.BarangBesarDAO;
+import com.wissensalt.sinarelektronik.dao.impl.BarangBesarDAOImpl;
+import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
+import com.wissensalt.sinarelektronik.dto.BaseDTO;
+import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.event.tambahBarangListener;
+
 import java.io.File;
-import java.sql.SQLException;
 
 /**
  *
  * @author Fauzi
  */
-public class tambahBarangModel {
+public class TambahBarangBesarModel extends BaseDTO {
 
     private String idBarang, idBarcode, namaBarang, tipe, merek, satuan, supplier, keterangan, garansi, kategori;
-    
     private File gambar;
+    private int stok, stokMinimum, hargaModal, eceran, grosir, lamaGaransi;
 
-    private int stok, stokMinimum, hargaModal, eceran, grosir, lamaGaransi, grosir2;
-
-    public int getGrosir2() {
-        return grosir2;
-    }
-
-    public void setGrosir2(int grosir2) {
-        this.grosir2 = grosir2;
-    }
-    
     public File getGambar() {
         return gambar;
     }
@@ -41,7 +27,7 @@ public class tambahBarangModel {
     }
 
     
-    private TambahBarangKecilListener listener;
+    private tambahBarangListener listener;
 
     public String getKategori() {
         return kategori;
@@ -62,11 +48,11 @@ public class tambahBarangModel {
         fireOnChange();
     }
     
-    public TambahBarangKecilListener getListener() {
+    public tambahBarangListener getListener() {
         return listener;
     }
 
-    public void setListener(TambahBarangKecilListener listener) {
+    public void setListener(tambahBarangListener listener) {
         this.listener = listener;
     }
 
@@ -193,15 +179,15 @@ public class tambahBarangModel {
         }
     }
     
-    public void fireOnInsert(BarangKecilDTO BarangKecilDTO){
+    public void fireOnInsert(BarangBesarDTO BarangBesarDTO){
         if(listener!=null){
-            listener.onInsert(BarangKecilDTO);
+            listener.onInsert(BarangBesarDTO);
         }
     }
     
-    public void fireOnUpdate(BarangKecilDTO BarangKecilDTO){
+    public void fireOnUpdate(BarangBesarDTO barangBesarDTO){
         if(listener!=null){
-            listener.onUpdate(BarangKecilDTO);
+            listener.onUpdate(barangBesarDTO);
         }
     }
     
@@ -212,38 +198,35 @@ public class tambahBarangModel {
         setTipe("");
         setMerek("");
         setGrosir(0);
-        setGrosir2(0);
         setSatuan("");
         setStok(0);
         setStokMinimum(0);
         setSupplier("");
         setKeterangan("");        
     }
-    public void insertBarang() throws SQLException, TambahBarangException {
-        TambahBarangDao dao = TambahbarangDatabase.getBarangDao();
 
-        BarangKecilDTO BarangKecilDTO = new BarangKecilDTO();
-        BarangKecilDTO.setIdBarang(idBarang);
-        BarangKecilDTO.setIdBarcode(idBarcode);
-        BarangKecilDTO.setNamaBarang(namaBarang);
-        BarangKecilDTO.setTipe(tipe);
-        BarangKecilDTO.setMerek(merek);
-        BarangKecilDTO.setHargamodal(hargaModal);
-        BarangKecilDTO.setGrosir(grosir);
-        BarangKecilDTO.setGrosir2(grosir2);
-        BarangKecilDTO.setEceran(eceran);
-        BarangKecilDTO.setSatuan(satuan);
-        BarangKecilDTO.setStok(stok);
-        BarangKecilDTO.setStokMinimum(stokMinimum);
-        BarangKecilDTO.setSupplier(supplier);
-        BarangKecilDTO.setKeterangan(keterangan);
+    public void insertBarang() {
+        BarangBesarDAO barangBesarDAO = new BarangBesarDAOImpl();
+        BarangBesarDTO barangBesarDTO = new BarangBesarDTO();
+        barangBesarDTO.setIdBarang(idBarang);
+        barangBesarDTO.setIdBarcode(idBarcode);
+        barangBesarDTO.setNamaBarang(namaBarang);
+        barangBesarDTO.setTipe(tipe);
+        barangBesarDTO.setMerek(merek);
+        barangBesarDTO.setModal(hargaModal);
+        barangBesarDTO.setGrosir(grosir);
+        barangBesarDTO.setEceran(eceran);
+        barangBesarDTO.setStok(stok);
+        barangBesarDTO.setStok_min(stokMinimum);
+        barangBesarDTO.setSupplier(supplier);
+        barangBesarDTO.setKeterangan(keterangan);
         if (gambar != null) {
-            BarangKecilDTO.setGambar(gambar);
-        }     
-        BarangKecilDTO.setGaransi(garansi);
-        BarangKecilDTO.setLamaGaransi(lamaGaransi);
-        BarangKecilDTO.setKategori(kategori);
-        dao.insertBarang(BarangKecilDTO);
-        fireOnInsert(BarangKecilDTO);
+            barangBesarDTO.setGambar(gambar);
+        }
+
+        barangBesarDTO.setGaransi(garansi);
+        barangBesarDTO.setLamaGaransi(lamaGaransi);
+        barangBesarDAO.insert(barangBesarDTO);
+        fireOnInsert(barangBesarDTO);
     }
 }

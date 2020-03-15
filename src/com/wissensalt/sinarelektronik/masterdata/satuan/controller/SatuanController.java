@@ -1,35 +1,29 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.wissensalt.sinarelektronik.masterdata.satuan.controller;
 
-import com.wissensalt.sinarelektronik.masterdata.satuan.error.SatuanException;
-import com.wissensalt.sinarelektronik.masterdata.satuan.model.satuanModel;
+import com.wissensalt.sinarelektronik.masterdata.satuan.model.SatuanModel;
 import com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
+
+import javax.swing.*;
 
 /**
  *
  * @author Fauzi
  */
-public class satuanController {
-    private satuanModel model;
+public class SatuanController {
+    private SatuanModel model;
 
-    public satuanController(satuanModel model) {
+    public SatuanController(SatuanModel model) {
         this.model = model;
     }
 
-    public satuanController() {
+    public SatuanController() {
     }
     
-    public satuanModel getModel() {
+    public SatuanModel getModel() {
         return model;
     }
 
-    public void setModel(satuanModel model) {
+    public void setModel(SatuanModel model) {
         this.model = model;
     }
     
@@ -46,14 +40,8 @@ public class satuanController {
             JOptionPane.showMessageDialog(view, "Nama satuan Masih Kosong");
         }else{
             model.setIdsatuan(idsatuan);
-            model.setNamasatuan(namasatuan);
-            try {
-                model.insertSatuan();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(view, "Insert satuan gagal");
-            } catch (SatuanException ex) {
-                JOptionPane.showMessageDialog(view, "Terjadi exception pada barangkecil exception dengan pesan "+ex);
-            }
+            model.setNamaSatuan(namasatuan);
+            model.insertSatuan();
         }
     }
     
@@ -70,16 +58,11 @@ public class satuanController {
             JOptionPane.showMessageDialog(view, "Nama satuan Masih Kosong");
         }else{
             model.setIdsatuan(idsatuan);
-            model.setNamasatuan(namasatuan);
-            try {
-                model.updateSatuan();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(view, "Update satuan gagal");
-            } catch (SatuanException ex) {
-                JOptionPane.showMessageDialog(view, "Terjadi exception pada barangkecil exception dengan pesan "+ex);
-            }
+            model.setNamaSatuan(namasatuan);
+            model.updateSatuan();
         }        
     }
+
     public void deletesatuan(SatuanView view){
         if(view.getTabelSatuan().getSelectedRowCount() == 0){
             JOptionPane.showMessageDialog(view, "pilih baris yang akan dihapus");
@@ -89,16 +72,8 @@ public class satuanController {
             String id = view.getTxtId().getText();
             JOptionPane.showMessageDialog(view, "id satuan = "+id);
             model.setIdsatuan(id);
-            try {
-                model.deleteSatuan();
-                model.resetSatuan();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(view, "Terjadi kesalahan dengan pesan = "+ex);
-            } catch (SatuanException ex) {
-                JOptionPane.showMessageDialog(view, "Terjadi kesalahan barangkecil exception dengan pesan = "+ex);
-            }                            
-        }else{
-            
+            model.deleteSatuan();
+            model.resetSatuan();
         }
     }
 }

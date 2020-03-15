@@ -1,23 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.satuan.view;
 
 import com.wissensalt.sinarelektronik.config.UserLevel;
-import com.wissensalt.sinarelektronik.masterdata.satuan.controller.satuanController;
-import com.wissensalt.sinarelektronik.masterdata.satuan.database.satuanDatabase;
-import com.wissensalt.sinarelektronik.masterdata.satuan.entity.satuan;
-import com.wissensalt.sinarelektronik.masterdata.satuan.model.satuanModel;
-import com.wissensalt.sinarelektronik.masterdata.satuan.model.tabelModelSatuan;
-import com.wissensalt.sinarelektronik.masterdata.satuan.error.SatuanException;
+import com.wissensalt.sinarelektronik.dao.SatuanDAO;
+import com.wissensalt.sinarelektronik.dao.impl.SatuanDAOImpl;
+import com.wissensalt.sinarelektronik.masterdata.satuan.controller.SatuanController;
+import com.wissensalt.sinarelektronik.masterdata.satuan.entity.SatuanDTO;
+import com.wissensalt.sinarelektronik.masterdata.satuan.model.SatuanModel;
+import com.wissensalt.sinarelektronik.masterdata.satuan.model.TabelModelSatuan;
 import com.wissensalt.sinarelektronik.masterdata.satuan.model.event.satuanListener;
-import com.wissensalt.sinarelektronik.masterdata.satuan.service.satuanDao;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -27,34 +19,26 @@ import javax.swing.event.ListSelectionListener;
  */
 public class SatuanView extends javax.swing.JPanel implements satuanListener, ListSelectionListener{
 
-    /**
-     * Creates new form tambahTipe
-     */
-    private tabelModelSatuan modelSatuan ;    
-    
-    private satuanModel model ;
-    
-    private satuanController controller ;
-    
-    public SatuanView() throws SQLException, SatuanException {
-        modelSatuan = new tabelModelSatuan();
+    private TabelModelSatuan modelSatuan ;
+    private SatuanController controller ;
+    private SatuanDAO satuanDAO;
 
-        model = new satuanModel();
+    public SatuanView() {
+        satuanDAO = new SatuanDAOImpl();
+        modelSatuan = new TabelModelSatuan();
+
+        SatuanModel model = new SatuanModel();
         model.setListener(this);
-        
-        controller = new satuanController();
-        controller.setModel(model);        
-        
+
+        controller = new SatuanController();
+        controller.setModel(model);
+
         initComponents();
-        
+
         tabelSatuan.setModel(modelSatuan);
         tabelSatuan.getSelectionModel().addListSelectionListener(this);
-        try {
-            loadId();
-        } catch (SatuanException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        loadDatabase();      
+        loadId();
+        loadDatabase();
         setLevel();
     }
 
@@ -66,7 +50,7 @@ public class SatuanView extends javax.swing.JPanel implements satuanListener, Li
         return txtId;
     }
 
-    
+
     public JTextField getTxtSatuan() {
         return txtSatuan;
     }
@@ -76,30 +60,30 @@ public class SatuanView extends javax.swing.JPanel implements satuanListener, Li
         String levelAktif = userLevel.getUserLevelActive();
         switch(levelAktif){
             case "Pemilik Toko":
-                    txtSatuan.setEnabled(true);
-                    btTambah.setEnabled(true);
-                    btDelete.setEnabled(true);
-                    btReset.setEnabled(true);
-                    btUpdate.setEnabled(true);
+                txtSatuan.setEnabled(true);
+                btTambah.setEnabled(true);
+                btDelete.setEnabled(true);
+                btReset.setEnabled(true);
+                btUpdate.setEnabled(true);
                 break;
             case "Administrator":
-                    txtSatuan.setEnabled(true);
-                    btTambah.setEnabled(true);
-                    btDelete.setEnabled(true);
-                    btReset.setEnabled(true);
-                    btUpdate.setEnabled(true);
+                txtSatuan.setEnabled(true);
+                btTambah.setEnabled(true);
+                btDelete.setEnabled(true);
+                btReset.setEnabled(true);
+                btUpdate.setEnabled(true);
                 break;
             case "Karyawan":
-                    txtSatuan.setEnabled(false);
-                    btTambah.setEnabled(false);
-                    btDelete.setEnabled(false);
-                    btReset.setEnabled(false);
-                    btUpdate.setEnabled(false);                
-                break;                        
+                txtSatuan.setEnabled(false);
+                btTambah.setEnabled(false);
+                btDelete.setEnabled(false);
+                btReset.setEnabled(false);
+                btUpdate.setEnabled(false);
+                break;
             default:;
         }
-    }    
-    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -130,15 +114,15 @@ public class SatuanView extends javax.swing.JPanel implements satuanListener, Li
         atas.setLayout(new java.awt.BorderLayout());
 
         tabelSatuan.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
+                new Object [][] {
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String [] {
+                        "Title 1", "Title 2", "Title 3", "Title 4"
+                }
         ));
         jScrollPane1.setViewportView(tabelSatuan);
 
@@ -231,71 +215,39 @@ public class SatuanView extends javax.swing.JPanel implements satuanListener, Li
         add(palingAtas, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
-            // TODO add your handling code here:
-            controller.deletesatuan(this);
-            controller.resetsatuan(this);
-        try {
-            loadId();
-        } catch (SQLException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SatuanException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btDeleteActionPerformed
+    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {
+        controller.deletesatuan(this);
+        controller.resetsatuan(this);
+        loadId();
+    }
 
-    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
-            // TODO add your handling code here:
-            controller.updatesatuan(this);
-        try {
-            loadId();
-        } catch (SQLException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SatuanException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btUpdateActionPerformed
+    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {
+        controller.updatesatuan(this);
+        loadId();
+    }
 
     public void tambah(){
-        try {
-            controller.insertsatuan(this);
-            loadId();
-        } catch (SQLException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SatuanException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        controller.insertsatuan(this);
+        loadId();
         txtSatuan.setText("");
         txtSatuan.requestFocus();
-            
     }
-    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahActionPerformed
-            // TODO add your handling code here:
-            tambah();
-    }//GEN-LAST:event_btTambahActionPerformed
+    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {
+        tambah();
+    }
 
     private void txtIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusGained
-        try {
-            // TODO add your handling code here:
-            loadId();
-        } catch (SQLException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SatuanException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_txtIdFocusGained
+        loadId();
+    }
 
     private void txtSatuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSatuanActionPerformed
-        // TODO add your handling code here:
         tambah();
-    }//GEN-LAST:event_txtSatuanActionPerformed
+    }
 
     private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
-        // TODO add your handling code here:
         controller.resetsatuan(this);
-    }//GEN-LAST:event_btResetActionPerformed
+    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel atas;
     private javax.swing.JPanel bawah;
     private javax.swing.JButton btDelete;
@@ -311,23 +263,22 @@ public class SatuanView extends javax.swing.JPanel implements satuanListener, Li
     private javax.swing.JTable tabelSatuan;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtSatuan;
-    // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onChange(satuanModel model) {
+    public void onChange(SatuanModel model) {
         txtId.setText(model.getIdsatuan());
-        txtSatuan.setText(model.getNamasatuan());
+        txtSatuan.setText(model.getNamaSatuan());
     }
 
     @Override
-    public void onInsert(satuan satuan) {
-        modelSatuan.add(satuan);
+    public void onInsert(SatuanDTO SatuanDTO) {
+        modelSatuan.add(SatuanDTO);
     }
 
     @Override
-    public void onUpdate(satuan satuan) {
+    public void onUpdate(SatuanDTO SatuanDTO) {
         int index = tabelSatuan.getSelectedRow();
-        modelSatuan.set(index, satuan);
+        modelSatuan.set(index, SatuanDTO);
     }
 
     @Override
@@ -338,35 +289,18 @@ public class SatuanView extends javax.swing.JPanel implements satuanListener, Li
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        try{
-        satuan satuan = modelSatuan.get(tabelSatuan.getSelectedRow());
-        
-        txtId.setText(satuan.getIdsatuan());
-        txtSatuan.setText(satuan.getNamasatuan());            
-        }catch(IndexOutOfBoundsException exception){
-            
-        }
+        SatuanDTO SatuanDTO = modelSatuan.get(tabelSatuan.getSelectedRow());
+
+        txtId.setText(SatuanDTO.getIdsatuan());
+        txtSatuan.setText(SatuanDTO.getNamaSatuan());
     }
-    
-    public void loadId() throws SQLException, SatuanException{
-        satuanDao dao=satuanDatabase.getSatuanDao();        
-        int id=dao.getLastId();        
-        txtId.setText(String.valueOf(id));
+
+    public void loadId() {
+        txtId.setText(String.valueOf(satuanDAO.getLastId()));
         txtSatuan.requestFocus();
     }
-    
+
     public void loadDatabase(){
-        satuanDao dao = null;
-        try {
-             dao = satuanDatabase.getSatuanDao();
-        } catch (SQLException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            modelSatuan.setList(dao.selectAllSatuan());
-        } catch (SatuanException ex) {
-            Logger.getLogger(SatuanView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-;
+        modelSatuan.setList(satuanDAO.selectAllSatuan());
     }
 }

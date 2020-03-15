@@ -1,48 +1,37 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.controller;
+package com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.controller;
 
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.error.TambahBarangException;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.model.tambahBarangModel;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.view.tambahBarangKecilView;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.model.TambahBarangBesarModel;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.view.TambahBarangView2;
 
+import javax.swing.*;
 import java.io.File;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Fauzi
  */
-public class tambahBarangController {
-    private tambahBarangModel model;
+public class TambahBarangController {
+    private TambahBarangBesarModel tambahBarangBesarModel;
 
-
-    public void setModel(tambahBarangModel model) {
-        this.model = model;
+    public void setTambahBarangBesarModel(TambahBarangBesarModel tambahBarangBesarModel) {
+        this.tambahBarangBesarModel = tambahBarangBesarModel;
     }
 
-    public tambahBarangController() {
-    }
-    
     public void resetTambahBarang(){        
-        model.resetTambahBarang();
+        tambahBarangBesarModel.resetTambahBarang();
     }
-    public void insertBarang(tambahBarangKecilView view){
+
+    public void insertBarang(TambahBarangView2 view){
         String idbarang = view.getTxtIdBarang().getText();
         String idbarcode = view.getTxtIdBarcode().getText();
         String namaBarang = view.getCmbNamaBarang().getSelectedItem().toString();
         String tipe = view.getCmbTipe().getSelectedItem().toString();
         String merek = view.getCmbMerek().getSelectedItem().toString();
         String hargaModal = view.getTxtHargaModal().getText();
-        String grosir = view.getTxtHargaGrosir().getText();        
+        String grosir = view.getTxtHargaGrosir().getText();
         String  eceran = view.getTxtHargaEceran().getText();
-        int grosir2 = (Integer.parseInt(grosir) + Integer.parseInt(eceran))/2;
-        String satuan  = view.getCmbSatuan().getSelectedItem().toString();
         int stok = view.getJsStok().getValue();
         int stokMinimum = view.getJsstokMin().getValue();
         String supplier = view.getCmbSupplier().getSelectedItem().toString();
@@ -54,9 +43,7 @@ public class tambahBarangController {
         bulan = view.getJsBulan().getValue() * 30;
         tahun = view.getJsTahun().getValue() * 360;
         
-        int lamaGaransi = (hari+bulan+tahun);
-        String kategori = view.getCmbKategori().getSelectedItem().toString();
-        
+        int lamaGaransi = (hari+bulan+tahun);        
         if(view.getRbTidak().isSelected()){
             garansi = "tidak";
         }else if(view.getRbYa().isSelected()){
@@ -89,36 +76,30 @@ public class tambahBarangController {
             view.getTxtHargaGrosir().requestFocus();
         }
         else{
-            model.setIdBarang(idbarang);
-            model.setIdBarcode(idbarcode);
-            model.setNamaBarang(namaBarang);
-            model.setTipe(tipe);
-            model.setMerek(merek);
-            model.setHargaModal(Integer.parseInt(hargaModal));            
-            model.setEceran(Integer.parseInt(eceran));
-            model.setGrosir(Integer.parseInt(grosir));
-            model.setGrosir2(grosir2);
-            model.setSatuan(satuan);            
-            model.setStok(stok);
-            model.setStokMinimum(stokMinimum);
-            model.setSupplier(supplier);
-            model.setKeterangan(keterangan);
+            tambahBarangBesarModel.setIdBarang(idbarang);
+            tambahBarangBesarModel.setIdBarcode(idbarcode);
+            tambahBarangBesarModel.setNamaBarang(namaBarang);
+            tambahBarangBesarModel.setTipe(tipe);
+            tambahBarangBesarModel.setMerek(merek);
+            tambahBarangBesarModel.setHargaModal(Integer.parseInt(hargaModal));
+            tambahBarangBesarModel.setEceran(Integer.parseInt(eceran));
+            tambahBarangBesarModel.setGrosir(Integer.parseInt(grosir));
+            tambahBarangBesarModel.setStok(stok);
+            tambahBarangBesarModel.setStokMinimum(stokMinimum);
+            tambahBarangBesarModel.setSupplier(supplier);
+            tambahBarangBesarModel.setKeterangan(keterangan);
             if (gambar != null) {
-                model.setGambar(gambar);
+                tambahBarangBesarModel.setGambar(gambar);
             }
-            model.setGaransi(garansi);
-            model.setLamaGaransi(lamaGaransi);            
-            model.setKategori(kategori);
+            tambahBarangBesarModel.setGaransi(garansi);
+            tambahBarangBesarModel.setLamaGaransi(lamaGaransi);
+
             try {
-                try {
-                    model.insertBarang();
-                } catch (SQLException ex) {
-                    Logger.getLogger(tambahBarangController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (TambahBarangException ex) {
-                Logger.getLogger(tambahBarangController.class.getName()).log(Level.SEVERE, null, ex);
+                tambahBarangBesarModel.insertBarang();
+                JOptionPane.showMessageDialog(null, "Insert Barang Besar Berhasil");
+            } catch (Exception ex) {
+                Logger.getLogger(TambahBarangController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            JOptionPane.showMessageDialog(view, "barangkecil berhasil dimasukkan");
         }
     }    
 }

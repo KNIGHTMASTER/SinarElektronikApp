@@ -1,17 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.supplier.controller;
 
 import com.wissensalt.sinarelektronik.masterdata.supplier.model.SupplierModel;
-import com.wissensalt.sinarelektronik.masterdata.supplier.view.supplierView;
+import com.wissensalt.sinarelektronik.masterdata.supplier.view.SupplierView;
 import com.wissensalt.sinarelektronik.masterdata.supplier.view.tambahSupplierView;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import com.wissensalt.sinarelektronik.masterdata.supplier.error.supplierException;
+
+import javax.swing.*;
 
 /**
  *
@@ -36,7 +29,7 @@ public class supplierController {
         this.model = model;
     }
     
-    public void resetSupplier(supplierView view){
+    public void resetSupplier(SupplierView view){
         model.resetSupplier();        
     }
     
@@ -77,62 +70,20 @@ public class supplierController {
             model.setKontakPerson(kontakPerson);
             model.setEmail(email);
             model.setNote(note);
-            try {
-                model.insertSupplier();
-                JOptionPane.showMessageDialog(view, "Supplier telah dimasukkan");
-            } catch (SQLException ex) {
-                Logger.getLogger(supplierController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (supplierException ex) {
-                Logger.getLogger(supplierController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            model.insertSupplier();
+            JOptionPane.showMessageDialog(view, "Supplier insert successfull");
         }
     }
     
-    /*public void updateSupplier(suppli){
-     }
-    
-    public void deleteSupplier(){
-    * }*/
-    
-    public void search(supplierView view, supplierView view2) throws SQLException, supplierException{
+    public void search(SupplierView view, SupplierView view2) {
         String kataKunci = view.getTxtKataKunci().getText();
         String berdasarkan = view2.getCmbCari().getSelectedItem().toString();
-        switch(berdasarkan){
-            case "idsupplier" : model.searchById(kataKunci);break;
-            case "nama" : model.searchByNama(kataKunci);break;
-            case "alamat" : model.searchByAlamat(kataKunci);break;
-            case "kota" : model.searchByKota(kataKunci);break;
-            case "propinsi" : model.searchByPropinsi(kataKunci);break;
-            case "kodePost" : model.searchByKodePost(kataKunci);break;
-            case "telepon" : model.searchByTelepon(kataKunci);break;                
-            case "fax" : model.searchByFax(kataKunci);break;
-            case "bank" : model.searchByBank(kataKunci);break;                                
-            case "nomorRek" : model.searchByNomorRek(kataKunci);break;
-            case "atasNama" : model.searchByAtasNama(kataKunci);break;
-            case "kontakPerson" : model.searchByKontakPerson(kataKunci);break;
-            case "email" : model.searchByEmail(kataKunci);break;
-            case "note" : model.searchByNote(kataKunci);break;                        
-        }
+        model.findByField(kataKunci, berdasarkan);
     }
-    public void sort(supplierView view) throws SQLException, supplierException{
+
+    public void sort(SupplierView view) {
         String berdasarkan = view.getCmbUrut().getSelectedItem().toString();
-        
-        switch(berdasarkan){
-            case "idsupplier" : model.sortById();break;
-            case "nama" : model.sortByNama();break;
-            case "alamat" : model.sortByAlamat();break;
-            case "kota" : model.sortByKota();break;
-            case "propinsi" : model.sortByPropinsi();break;
-            case "kodePost" : model.sortByKodePost();break;
-            case "telepon" : model.sortByTelepon();break;                
-            case "fax" : model.sortByFax();break;
-            case "bank" : model.sortByBank();break;                                
-            case "nomorRek" : model.sortByNomorRek();break;
-            case "atasNama" : model.sortByAtasNama();break;
-            case "kontakPerson" : model.sortByKontakPerson();break;
-            case "email" : model.sortByEmail();break;
-            case "note" : model.sortByNote();break;                        
-        }
+        model.sortByField(berdasarkan);
     }
 }
 

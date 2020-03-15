@@ -2,12 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.controller;
+package com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.controller;
 
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.model.tambahBarangModel;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.view.TambahBarangView2;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.error.TambahBarangException;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.model.TambahBarangModel;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.view.tambahBarangKecilView;
+
 import java.io.File;
-import java.lang.Exception;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,29 +18,31 @@ import javax.swing.JOptionPane;
  *
  * @author Fauzi
  */
-public class tambahBarangController {
-    private tambahBarangModel model;
+public class TambahBarangController {
+    private TambahBarangModel model;
 
 
-    public void setModel(tambahBarangModel model) {
+    public void setModel(TambahBarangModel model) {
         this.model = model;
     }
 
-    public tambahBarangController() {
+    public TambahBarangController() {
     }
     
     public void resetTambahBarang(){        
         model.resetTambahBarang();
     }
-    public void insertBarang(TambahBarangView2 view){
+    public void insertBarang(tambahBarangKecilView view){
         String idbarang = view.getTxtIdBarang().getText();
         String idbarcode = view.getTxtIdBarcode().getText();
         String namaBarang = view.getCmbNamaBarang().getSelectedItem().toString();
         String tipe = view.getCmbTipe().getSelectedItem().toString();
         String merek = view.getCmbMerek().getSelectedItem().toString();
         String hargaModal = view.getTxtHargaModal().getText();
-        String grosir = view.getTxtHargaGrosir().getText();
+        String grosir = view.getTxtHargaGrosir().getText();        
         String  eceran = view.getTxtHargaEceran().getText();
+        int grosir2 = (Integer.parseInt(grosir) + Integer.parseInt(eceran))/2;
+        String satuan  = view.getCmbSatuan().getSelectedItem().toString();
         int stok = view.getJsStok().getValue();
         int stokMinimum = view.getJsstokMin().getValue();
         String supplier = view.getCmbSupplier().getSelectedItem().toString();
@@ -50,7 +54,9 @@ public class tambahBarangController {
         bulan = view.getJsBulan().getValue() * 30;
         tahun = view.getJsTahun().getValue() * 360;
         
-        int lamaGaransi = (hari+bulan+tahun);        
+        int lamaGaransi = (hari+bulan+tahun);
+        String kategori = view.getCmbKategori().getSelectedItem().toString();
+        
         if(view.getRbTidak().isSelected()){
             garansi = "tidak";
         }else if(view.getRbYa().isSelected()){
@@ -91,6 +97,8 @@ public class tambahBarangController {
             model.setHargaModal(Integer.parseInt(hargaModal));            
             model.setEceran(Integer.parseInt(eceran));
             model.setGrosir(Integer.parseInt(grosir));
+            model.setGrosir2(grosir2);
+            model.setSatuan(satuan);            
             model.setStok(stok);
             model.setStokMinimum(stokMinimum);
             model.setSupplier(supplier);
@@ -100,12 +108,17 @@ public class tambahBarangController {
             }
             model.setGaransi(garansi);
             model.setLamaGaransi(lamaGaransi);            
+            model.setKategori(kategori);
             try {
-                model.insertBarang();
-                JOptionPane.showMessageDialog(null, "Insert Barang Besar Berhasil");
-            } catch (Exception ex) {
-                Logger.getLogger(tambahBarangController.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    model.insertBarang();
+                } catch (SQLException ex) {
+                    Logger.getLogger(TambahBarangController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (TambahBarangException ex) {
+                Logger.getLogger(TambahBarangController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            JOptionPane.showMessageDialog(view, "barangkecil berhasil dimasukkan");
         }
     }    
 }

@@ -5,21 +5,23 @@
 
 package com.wissensalt.sinarelektronik.masterdata.satuan.entity;
 
+import com.wissensalt.sinarelektronik.dto.BaseDTO;
+
 import java.util.Objects;
 
 /**
  *
  * @author Fauzi
  */
-public class satuan {
-    private String idsatuan, namasatuan;
+public class SatuanDTO extends BaseDTO {
+    private String idsatuan, namaSatuan;
 
-    public satuan(String idsatuan, String namasatuan) {
+    public SatuanDTO(String idsatuan, String namaSatuan) {
         this.idsatuan = idsatuan;
-        this.namasatuan = namasatuan;
+        this.namaSatuan = namaSatuan;
     }
 
-    public satuan() {
+    public SatuanDTO() {
         
     }
 
@@ -31,19 +33,19 @@ public class satuan {
         this.idsatuan = idsatuan;
     }
 
-    public String getNamasatuan() {
-        return namasatuan;
+    public String getNamaSatuan() {
+        return namaSatuan;
     }
 
-    public void setNamasatuan(String namasatuan) {
-        this.namasatuan = namasatuan;
+    public void setNamaSatuan(String namaSatuan) {
+        this.namaSatuan = namaSatuan;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.idsatuan);
-        hash = 97 * hash + Objects.hashCode(this.namasatuan);
+        hash = 97 * hash + Objects.hashCode(this.namaSatuan);
         return hash;
     }
 
@@ -55,11 +57,11 @@ public class satuan {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final satuan other = (satuan) obj;
+        final SatuanDTO other = (SatuanDTO) obj;
         if (!Objects.equals(this.idsatuan, other.idsatuan)) {
             return false;
         }
-        if (!Objects.equals(this.namasatuan, other.namasatuan)) {
+        if (!Objects.equals(this.namaSatuan, other.namaSatuan)) {
             return false;
         }
         return true;

@@ -37,33 +37,33 @@ public interface SupplierDAO extends IBaseDAO<SupplierDTO> {
     
     List<SupplierDTO> searchByNote(String noteSupplier);
     
-    List<SupplierDTO> sortById(String idSupplier);
+    List<SupplierDTO> sortById();
     
-    List<SupplierDTO> sortByNama(String namaSupplier);
+    List<SupplierDTO> sortByNama();
     
-    List<SupplierDTO> sortByAlamat(String alamatSupplier);
+    List<SupplierDTO> sortByAlamat();
     
-    List<SupplierDTO> sortByKota(String kotaSupplier);
+    List<SupplierDTO> sortByKota();
     
-    List<SupplierDTO> sortByPropinsi(String propinsiSupplier);
+    List<SupplierDTO> sortByPropinsi();
     
-    List<SupplierDTO> sortByKodePost(String kodePostSupplier);
+    List<SupplierDTO> sortByKodePost();
     
-    List<SupplierDTO> sortByTelepon(String teleponSupplier);
+    List<SupplierDTO> sortByTelepon();
     
-    List<SupplierDTO> sortByFax(String faxSupplier);
+    List<SupplierDTO> sortByFax();
     
-    List<SupplierDTO> sortByBank(String bankSupplier);
+    List<SupplierDTO> sortByBank();
     
-    List<SupplierDTO> sortByNomorRek(String nomorRekSupplier);
+    List<SupplierDTO> sortByNomorRek();
     
-    List<SupplierDTO> sortByAtasNama(String atasNamaSupplier);
+    List<SupplierDTO> sortByAtasNama();
     
-    List<SupplierDTO> sortByKontakPerson(String kontakPersonSupplier);
+    List<SupplierDTO> sortByKontakPerson();
     
-    List<SupplierDTO> sortByEmail(String emailSupplier);
+    List<SupplierDTO> sortByEmail();
     
-    List<SupplierDTO> sortByNote(String noteSupplier);
+    List<SupplierDTO> sortByNote();
     
     List<SupplierDTO> selectAllSupplier() ;
     

@@ -1,16 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.supplier.model;
 
-import com.wissensalt.sinarelektronik.masterdata.supplier.entity.SupplierDTO;
-import com.wissensalt.sinarelektronik.masterdata.supplier.database.supplierDatabase;
-import com.wissensalt.sinarelektronik.masterdata.supplier.model.event.supplierListener;
 import com.wissensalt.sinarelektronik.dao.SupplierDAO;
-import java.sql.SQLException;
+import com.wissensalt.sinarelektronik.dao.impl.SupplierDAOImpl;
+import com.wissensalt.sinarelektronik.masterdata.supplier.entity.SupplierDTO;
+import com.wissensalt.sinarelektronik.masterdata.supplier.model.event.supplierListener;
+
+import java.util.ArrayList;
 import java.util.List;
-import com.wissensalt.sinarelektronik.masterdata.supplier.error.supplierException;
 
 /**
  *
@@ -18,15 +14,14 @@ import com.wissensalt.sinarelektronik.masterdata.supplier.error.supplierExceptio
  */
 public class SupplierModel {
     private String cari, cmbcari, cmbsort;
-    
     private String idsupplier, nama, alamat, kota, propinsi, kodePost, 
             telepon, fax, bank, nomorRek, atasNama, kontakPerson, email, note;
+    private supplierListener listener;
+    private final SupplierDAO supplierDAO;
 
     public SupplierModel() {
+        supplierDAO = new SupplierDAOImpl();
     }
-        
-    
-    supplierListener listener;
 
     public String getCari() {
         return cari;
@@ -245,219 +240,74 @@ public class SupplierModel {
         setNote("");
     }
     
-    public void insertSupplier() throws SQLException, supplierException{
-        SupplierDAO dao = supplierDatabase.getSupplierDao();
-        SupplierDTO SupplierDTO = new SupplierDTO();
-        SupplierDTO.setIdsupplier(idsupplier);
-        SupplierDTO.setNama(nama);
-        SupplierDTO.setAlamat(alamat);
-        SupplierDTO.setKota(kota);
-        SupplierDTO.setPropinsi(propinsi);
-        SupplierDTO.setKodePost(kodePost);
-        SupplierDTO.setTelepon(telepon);
-        SupplierDTO.setFax(fax);
-        SupplierDTO.setBank(bank);
-        SupplierDTO.setNomorRek(nomorRek);
-        SupplierDTO.setAtasNama(atasNama);
-        SupplierDTO.setKontakPerson(kontakPerson);
-        SupplierDTO.setEmail(email);
-        SupplierDTO.setNote(note);
-        dao.insertSupplier(SupplierDTO);
-        fireOnInsert(SupplierDTO);
+    public void insertSupplier() {
+        SupplierDTO supplierDTO = new SupplierDTO();
+        supplierDTO.setIdsupplier(idsupplier);
+        supplierDTO.setNama(nama);
+        supplierDTO.setAlamat(alamat);
+        supplierDTO.setKota(kota);
+        supplierDTO.setPropinsi(propinsi);
+        supplierDTO.setKodePost(kodePost);
+        supplierDTO.setTelepon(telepon);
+        supplierDTO.setFax(fax);
+        supplierDTO.setBank(bank);
+        supplierDTO.setNomorRek(nomorRek);
+        supplierDTO.setAtasNama(atasNama);
+        supplierDTO.setKontakPerson(kontakPerson);
+        supplierDTO.setEmail(email);
+        supplierDTO.setNote(note);
+        supplierDAO.insert(supplierDTO);
+        fireOnInsert(supplierDTO);
     }
     
-    public void updateSupplier() throws SQLException, supplierException{
-        SupplierDAO dao = supplierDatabase.getSupplierDao();
-        SupplierDTO SupplierDTO = new SupplierDTO();
-        SupplierDTO.setIdsupplier(idsupplier);
-        SupplierDTO.setNama(nama);
-        SupplierDTO.setAlamat(alamat);
-        SupplierDTO.setKota(kota);
-        SupplierDTO.setPropinsi(propinsi);
-        SupplierDTO.setKodePost(kodePost);
-        SupplierDTO.setTelepon(telepon);
-        SupplierDTO.setFax(fax);
-        SupplierDTO.setBank(bank);
-        SupplierDTO.setNomorRek(nomorRek);
-        SupplierDTO.setAtasNama(atasNama);
-        SupplierDTO.setKontakPerson(kontakPerson);
-        SupplierDTO.setEmail(email);
-        SupplierDTO.setNote(note);
-        dao.updateSupplier(SupplierDTO);
-        fireOnUpdate(SupplierDTO);
-    }
-    
-    public void deleteSupplier() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        dao.deleteSupplier(idsupplier);
+    public void deleteSupplier() {
+        supplierDAO.deleteByString(idsupplier);
         fireOnDelete();
     }
     
-    public void searchById(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchById(kataKunci);
+    public void findByField(String kataKunci, String berdasarkan) {
+        List list = new ArrayList();
+        switch(berdasarkan){
+            case "idsupplier" : list = supplierDAO.searchById(kataKunci);break;
+            case "nama" : list = supplierDAO.searchByNama(kataKunci);break;
+            case "alamat" : list = supplierDAO.searchByAlamat(kataKunci);break;
+            case "kota" : list = supplierDAO.searchByKota(kataKunci);break;
+            case "propinsi" : list = supplierDAO.searchByPropinsi(kataKunci);break;
+            case "kodePost" : list = supplierDAO.searchByKodePost(kataKunci);break;
+            case "telepon" : list = supplierDAO.searchByTelepon(kataKunci);break;
+            case "fax" : list = supplierDAO.searchByFax(kataKunci);break;
+            case "bank" : list = supplierDAO.searchByBank(kataKunci);break;
+            case "nomorRek" : list = supplierDAO.searchByNomorRek(kataKunci);break;
+            case "atasNama" : list = supplierDAO.searchByAtasNama(kataKunci);break;
+            case "kontakPerson" : list = supplierDAO.searchByKontakPerson(kataKunci);break;
+            case "email" : list = supplierDAO.searchByEmail(kataKunci);break;
+            case "note" : list = supplierDAO.searchByNote(kataKunci);break;
+            default:
+        }
+
         fireOnSearch(list);
     }
 
-     public void searchByNama(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByNama(kataKunci);
-        fireOnSearch(list);
-    }
-     
-    public void searchByAlamat(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByAlamat(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByKota(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByKota(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByPropinsi(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByPropinsi(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByKodePost(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByKodePost(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByTelepon(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByTelepon(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByFax(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByFax(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByBank(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByBank(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByNomorRek(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByNomorRek(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByAtasNama(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByAtasNama(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByKontakPerson(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByKontakPerson(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByEmail(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByEmail(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void searchByNote(String kataKunci) throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.searchByNote(kataKunci);
-        fireOnSearch(list);
-    }
-    
-    public void sortById() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortById(idsupplier);
-        fireOnSearch(list);
-    }
+    public void sortByField(String berdasarkan) {
+        List list = new ArrayList();
+        switch(berdasarkan){
+            case "idsupplier" : list = supplierDAO.sortById();break;
+            case "nama" : list = supplierDAO.sortByNama();break;
+            case "alamat" : list = supplierDAO.sortByAlamat();break;
+            case "kota" : list = supplierDAO.sortByKota();break;
+            case "propinsi" : list = supplierDAO.sortByPropinsi();break;
+            case "kodePost" : list = supplierDAO.sortByKodePost();break;
+            case "telepon" : list = supplierDAO.sortByTelepon();break;
+            case "fax" : list = supplierDAO.sortByFax();break;
+            case "bank" : list = supplierDAO.sortByBank();break;
+            case "nomorRek" : list = supplierDAO.sortByNomorRek();break;
+            case "atasNama" : list = supplierDAO.sortByAtasNama();break;
+            case "kontakPerson" : list = supplierDAO.sortByKontakPerson();break;
+            case "email" : list = supplierDAO.sortByEmail();break;
+            case "note" : list = supplierDAO.sortByNote();break;
+            default:
+        }
 
-     public void sortByNama() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByNama(nama);
         fireOnSearch(list);
     }
-     
-    public void sortByAlamat() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByAlamat(alamat);
-        fireOnSearch(list);
-    }
-    
-    public void sortByKota() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByKota(kota);
-        fireOnSearch(list);
-    }
-    
-    public void sortByPropinsi() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByPropinsi(propinsi);
-        fireOnSearch(list);
-    }
-    
-    public void sortByKodePost() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByKodePost(kodePost);
-        fireOnSearch(list);
-    }
-    
-    public void sortByTelepon() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByTelepon(telepon);
-        fireOnSearch(list);
-    }
-    
-    public void sortByFax() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByFax(fax);
-        fireOnSearch(list);
-    }
-    
-    public void sortByBank() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByBank(bank);
-        fireOnSearch(list);
-    }
-    
-    public void sortByNomorRek() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByNomorRek(nomorRek);
-        fireOnSearch(list);
-    }
-    
-    public void sortByAtasNama() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByAtasNama(atasNama);
-        fireOnSearch(list);
-    }
-    
-    public void sortByKontakPerson() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByKontakPerson(kontakPerson);
-        fireOnSearch(list);
-    }
-    
-    public void sortByEmail() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByEmail(email);
-        fireOnSearch(list);
-    }
-    
-    public void sortByNote() throws SQLException, supplierException{
-        SupplierDAO dao= supplierDatabase.getSupplierDao();
-        List<SupplierDTO> list = dao.sortByNote(note);
-        fireOnSearch(list);
-    }        
 }

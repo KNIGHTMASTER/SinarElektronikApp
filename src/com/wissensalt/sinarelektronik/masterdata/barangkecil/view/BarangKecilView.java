@@ -10,6 +10,7 @@ import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.TabelModelBar
 import com.wissensalt.sinarelektronik.dao.BarangKecilDAO;
 import com.wissensalt.sinarelektronik.dao.impl.BarangKecilDAOImpl;
 import com.wissensalt.sinarelektronik.masterdata.merek.view.MerekView;
+import com.wissensalt.sinarelektronik.masterdata.supplier.view.SupplierView;
 import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.view.tambahBarangKecilView;
 
 import java.awt.Dimension;
@@ -354,31 +355,13 @@ public class BarangKecilView extends javax.swing.JPanel implements BarangKecilLi
         dialogPreview = new javax.swing.JDialog();
         lblPreview = new javax.swing.JLabel();
         dialogTambahTipe = new javax.swing.JDialog();
-        try {
-            tipeView1 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.tipe.error.TipeException e2) {
-            e2.printStackTrace();
-        }
+        tipeView1 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
         dialogTambahMerek = new javax.swing.JDialog();
         merekView21 = new MerekView();
         dialogTambahSupplier = new javax.swing.JDialog();
-        try {
-            supplierView1 = new com.wissensalt.sinarelektronik.masterdata.supplier.view.supplierView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.supplier.error.supplierException e2) {
-            e2.printStackTrace();
-        }
+        supplierView1 = new SupplierView();
         dialogTambahSatuan = new javax.swing.JDialog();
-        try {
-            satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.satuan.error.SatuanException e2) {
-            e2.printStackTrace();
-        }
+        satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
         dialogTambah = new javax.swing.JDialog();
         tambahBarangView1 = new tambahBarangKecilView();
         buttonGroup1 = new javax.swing.ButtonGroup();
@@ -1774,7 +1757,7 @@ public class BarangKecilView extends javax.swing.JPanel implements BarangKecilLi
     private javax.swing.JRadioButton rbTidak;
     private javax.swing.JRadioButton rbYa;
     private com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView satuanView1;
-    private com.wissensalt.sinarelektronik.masterdata.supplier.view.supplierView supplierView1;
+    private SupplierView supplierView1;
     private javax.swing.JTable tabelBarang;
     private tambahBarangKecilView tambahBarangView1;
     private javax.swing.JPanel tengah;

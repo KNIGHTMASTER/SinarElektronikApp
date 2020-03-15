@@ -1,21 +1,17 @@
 package com.wissensalt.sinarelektronik.masterdata.user.view;
 
+import com.wissensalt.sinarelektronik.dao.UserDAO;
 import com.wissensalt.sinarelektronik.dao.impl.UserDAOImpl;
 import com.wissensalt.sinarelektronik.masterdata.user.controller.UserController;
 import com.wissensalt.sinarelektronik.masterdata.user.entity.UserDTO;
-import com.wissensalt.sinarelektronik.masterdata.user.model.event.UserListener;
 import com.wissensalt.sinarelektronik.masterdata.user.model.TabelModelUser;
 import com.wissensalt.sinarelektronik.masterdata.user.model.UserModel;
-import com.wissensalt.sinarelektronik.dao.UserDAO;
-import java.sql.SQLException;
-import java.util.List;
-import javax.swing.JComboBox;
-import javax.swing.JPasswordField;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import com.wissensalt.sinarelektronik.masterdata.user.model.event.UserListener;
+
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.util.List;
 
 /**
  *
@@ -27,7 +23,7 @@ public class UserView extends javax.swing.JPanel implements UserListener, ListSe
     private TabelModelUser modelUser;
     private final UserDAO userDAO;
     
-    public UserView() throws SQLException {
+    public UserView() {
         userDAO = new UserDAOImpl();
         modelUser = new TabelModelUser();
 

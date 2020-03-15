@@ -2,7 +2,6 @@ package com.wissensalt.sinarelektronik.retur.barangbesar.view;
 
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.controller.BarangBesarController;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.controller.BarangTokoController;
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.entity.BarangTokoDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.TabelModelBarangToko;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.event.BarangTokoListener;
 import com.wissensalt.sinarelektronik.dao.BarangTokoDAO;

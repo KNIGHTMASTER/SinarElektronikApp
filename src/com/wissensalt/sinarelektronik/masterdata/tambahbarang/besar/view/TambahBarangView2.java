@@ -1,63 +1,53 @@
 package com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.view;
 
-import com.wissensalt.sinarelektronik.config.HostName;
+import com.toedter.components.JSpinField;
+import com.wissensalt.sinarelektronik.dao.*;
+import com.wissensalt.sinarelektronik.dao.impl.*;
 import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
-import com.wissensalt.sinarelektronik.model.BarangBesarModel;
+import com.wissensalt.sinarelektronik.dto.MerekDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.event.tambahBarangListener;
 import com.wissensalt.sinarelektronik.masterdata.merek.view.MerekView;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.controller.tambahBarangController;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.model.tambahBarangModel;
-import com.toedter.components.JSpinField;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Toolkit;
+import com.wissensalt.sinarelektronik.masterdata.namabarang.entity.NamaBarangDTO;
+import com.wissensalt.sinarelektronik.masterdata.supplier.entity.SupplierDTO;
+import com.wissensalt.sinarelektronik.masterdata.supplier.view.SupplierView;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.controller.TambahBarangController;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.model.TambahBarangBesarModel;
+import com.wissensalt.sinarelektronik.masterdata.tipe.entity.TipeDTO;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
  *
  * @author Fauzi
  */
 public class TambahBarangView2 extends javax.swing.JPanel implements tambahBarangListener{
-
-    /**
-     * Creates new form TambahBarangView2
-     */
-    
-    tambahBarangController controller;
-    
-    tambahBarangModel model;
-    
-    
-    static HostName ip1 = new HostName();
-    
+    private TambahBarangController tambahBarangController;
+    private TambahBarangBesarModel tambahBarangBesarModel;
+    private final NamaBarangDAO namaBarangDAO;
+    private final MerekDAO merekDAO;
+    private final TipeDAO tipeDAO;
+    private final SupplierDAO supplierDAO;
         
-    public TambahBarangView2(){        
-        model = new tambahBarangModel();
-        model.setListener(this);
-        controller = new tambahBarangController();
-        controller.setModel(model);
+    public TambahBarangView2(){
+        supplierDAO = new SupplierDAOImpl();
+        tipeDAO = new TipeDAOImpl();
+        merekDAO = new MerekDAOImpl();
+        namaBarangDAO = new NamaBarangDAOImpl();
+        tambahBarangBesarModel = new TambahBarangBesarModel();
+        tambahBarangBesarModel.setListener(this);
+        tambahBarangController = new TambahBarangController();
+        tambahBarangController.setTambahBarangBesarModel(tambahBarangBesarModel);
                 
         initComponents();
         resetManual();
-        koneksi();
         loadNamaBarang();
         loadDataMerek();
         loadDataSupplier();
@@ -71,6 +61,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         String idBarang = cmbMerek.getSelectedItem().toString()+cmbTipe.getSelectedItem().toString()+"-"+cmbNamaBarang.getSelectedItem().toString();
         txtIdBarang.setText(idBarang);
     }
+
     private void hideButton(){
         jButton1.setVisible(false);
         jButton2.setVisible(false);
@@ -83,15 +74,6 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         jButton10.setVisible(false);
         jButton11.setVisible(false);
     }
-    private void setPanelGaransi() {        
-        if(rbYa.isSelected() == true){
-            PanellamaGaransi.setVisible(true);
-        }else if(rbTidak.isSelected() == true){
-            PanellamaGaransi.setVisible(true);
-        }else{
-            PanellamaGaransi.setVisible(true);
-        }
-    }
 
     public JComboBox getCmbNamaBarang() {
         return cmbNamaBarang;
@@ -101,100 +83,27 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         this.cmbNamaBarang = cmbNamaBarang;
     }
     
-    BarangBesarModel barangmodel=new BarangBesarModel();
+    private void loadNamaBarang(){
+        for (NamaBarangDTO namaBarangDTO : namaBarangDAO.selectAllNamaBarang()) {
+            cmbNamaBarang.addItem(namaBarangDTO.getNamabarang());
+        }
+    }
+    
+    private void loadDataMerek(){
+        for (MerekDTO merekDTO : merekDAO.selectAllMerek()) {
+            cmbMerek.addItem(merekDTO.getNamaMerek());
+        }
+    }
+    
+    private void loadDataTipe(){
+        for (TipeDTO tipeDTO : tipeDAO.selectAllTipe()) {
+            cmbTipe.addItem(tipeDTO.getNamaTipe());
+        }
+    }
 
-    private Connection conn;
-	
-    public void koneksi(){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Driver not Found");
-        }        
-    }        
-    
-    public void loadNamaBarang(){
-        Statement statement=null;
-        try{
-            statement=conn.createStatement();            
-            ResultSet rs=statement.executeQuery("SELECT namabarang FROM namabarang ORDER BY namabarang");
-            while (rs.next()) {
-                cmbNamaBarang.addItem(rs.getString("namabarang"));
-            }
-        }catch(SQLException e)         {
-            JOptionPane.showMessageDialog(null, "tidak bisa me-load data nama barangkecil");
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }        
-    }
-    
-    public void loadDataMerek(){
-        Statement statement=null;
-        try{
-            statement=conn.createStatement();            
-            ResultSet rs=statement.executeQuery("SELECT namamerek FROM merek ORDER BY namamerek");
-            while (rs.next()) {
-                cmbMerek.addItem(rs.getString("namamerek"));
-            }
-        }catch(SQLException e)         {
-            JOptionPane.showMessageDialog(null, "tidak bisa me-load data MerekDTO");
-            e.printStackTrace();
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-    
-    public void loadDataTipe(){
-        Statement statement=null;
-        try{
-            statement=conn.createStatement();            
-            ResultSet rs=statement.executeQuery("SELECT namaTipe FROM tipe ORDER BY namaTipe");
-            while (rs.next()) {
-                cmbTipe.addItem(rs.getString("namaTipe"));
-            }
-        }catch(SQLException e)         {
-            JOptionPane.showMessageDialog(null, "tidak bisa me-load data tipe");
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-    public void loadDataSupplier(){
-        Statement statement=null;
-        try{
-            statement=conn.createStatement();            
-            ResultSet rs=statement.executeQuery("SELECT nama FROM supplier ORDER BY nama");
-            while (rs.next()) {
-                cmbSupplier.addItem(rs.getString("nama"));
-            }
-        }catch(SQLException e)         {
-            JOptionPane.showMessageDialog(null, "tidak bisa me-load data supplier");
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+    private void loadDataSupplier(){
+        for (SupplierDTO supplierDTO : supplierDAO.selectAllSupplier()) {
+            cmbSupplier.addItem(supplierDTO.getNama());
         }
     }        
 
@@ -290,17 +199,10 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         dialogTambahTipe = new javax.swing.JDialog();
-        try {
-            tipeView1 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.tipe.error.TipeException e2) {
-            e2.printStackTrace();
-        }
+        tipeView1 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
         dialogTambahSatuan = new javax.swing.JDialog();
         try {
             satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
@@ -310,13 +212,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
             e2.printStackTrace();
         }
         dialogTambahSupplier = new javax.swing.JDialog();
-        try {
-            supplierView1 = new com.wissensalt.sinarelektronik.masterdata.supplier.view.supplierView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.supplier.error.supplierException e2) {
-            e2.printStackTrace();
-        }
+        supplierView1 = new SupplierView();
         dialogTambahMerek = new javax.swing.JDialog();
         merekView21 = new MerekView();
         buttonGroup1 = new javax.swing.ButtonGroup();
@@ -764,7 +660,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         bawah.add(btReset);
 
         add(bawah, java.awt.BorderLayout.PAGE_END);
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
     public void resetManual(){
         txtIdBarang.setText("");
@@ -776,7 +672,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
     }
     
     private void reset(){
-        controller.resetTambahBarang();
+        tambahBarangController.resetTambahBarang();
         resetManual();        
     }
     
@@ -832,7 +728,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         if (pathGambar.length() > 0) {
             gambar = new File(pathGambar);
         }
-        controller.insertBarang(this);
+        tambahBarangController.insertBarang(this);
         resetManual();
         txtIdBarang.requestFocus();                    
         }
@@ -1150,7 +1046,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
     private javax.swing.JRadioButton rbTidak;
     private javax.swing.JRadioButton rbYa;
     private com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView satuanView1;
-    private com.wissensalt.sinarelektronik.masterdata.supplier.view.supplierView supplierView1;
+    private SupplierView supplierView1;
     private com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView tipeView1;
     private javax.swing.JTextField txtHargaEceran;
     private javax.swing.JTextField txtHargaGrosir;
@@ -1174,7 +1070,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
     }
 
     @Override
-    public void onChange(tambahBarangModel model) {
+    public void onChange(TambahBarangBesarModel model) {
         txtIdBarang.setText(model.getIdBarang());
         txtIdBarcode.setText(model.getIdBarcode());
         txtHargaGrosir.setText(String.valueOf(model.getGrosir()));
