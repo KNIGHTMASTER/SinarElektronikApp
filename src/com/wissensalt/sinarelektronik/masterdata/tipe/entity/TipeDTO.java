@@ -5,30 +5,32 @@
 
 package com.wissensalt.sinarelektronik.masterdata.tipe.entity;
 
+import com.wissensalt.sinarelektronik.dto.BaseDTO;
+
 import java.util.Objects;
 
 /**
  *
  * @author Fauzi
  */
-public class tipe {
-    private String idtipe, namaTipe;
+public class TipeDTO extends BaseDTO {
+    private String idTipe, namaTipe;
 
-    public tipe() {
+    public TipeDTO() {
     }
 
     
-    public tipe(String idtipe, String namaTipe) {
-        this.idtipe = idtipe;
+    public TipeDTO(String idTipe, String namaTipe) {
+        this.idTipe = idTipe;
         this.namaTipe = namaTipe;
     }
     
-    public String getIdtipe() {
-        return idtipe;
+    public String getIdTipe() {
+        return idTipe;
     }
 
-    public void setIdtipe(String idtipe) {
-        this.idtipe = idtipe;
+    public void setIdTipe(String idTipe) {
+        this.idTipe = idTipe;
     }
 
     public String getNamaTipe() {
@@ -42,7 +44,7 @@ public class tipe {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 41 * hash + Objects.hashCode(this.idtipe);
+        hash = 41 * hash + Objects.hashCode(this.idTipe);
         hash = 41 * hash + Objects.hashCode(this.namaTipe);
         return hash;
     }
@@ -55,8 +57,8 @@ public class tipe {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final tipe other = (tipe) obj;
-        if (!Objects.equals(this.idtipe, other.idtipe)) {
+        final TipeDTO other = (TipeDTO) obj;
+        if (!Objects.equals(this.idTipe, other.idTipe)) {
             return false;
         }
         if (!Objects.equals(this.namaTipe, other.namaTipe)) {

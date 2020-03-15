@@ -190,6 +190,33 @@ import java.util.logging.Logger;
     }
 
     @Override
+    public DTO findSingleByField(String field, String query) {
+        initConnection();
+        PreparedStatement ps = null;
+        DTO result = null;
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, field);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result = getDTOFromResultSet(rs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ABaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+                if(ps != null)ps.close();
+                if(connection != null)connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ABaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
     public List<DTO> findAndSortByField(String query) {
         initConnection();
         Statement statement = null;
@@ -300,4 +327,7 @@ import java.util.logging.Logger;
     public String getTruncateQuery() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+
+   
 }

@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.user.model;
 
-import com.wissensalt.sinarelektronik.masterdata.user.entity.User;
+import com.wissensalt.sinarelektronik.masterdata.user.entity.UserDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -13,18 +10,18 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Fauzi
  */
-public class tabelModelUser extends AbstractTableModel{
+public class TabelModelUser extends AbstractTableModel{
 
-    private List<User> list=new ArrayList<User>();
+    private List<UserDTO> list= new ArrayList<>();
 
-    public void setList(List<User> list) {
+    public void setList(List<UserDTO> list) {
         this.list = list;
         fireTableDataChanged();
     }
     
     
 
-    public boolean add(User e) {
+    public boolean add(UserDTO e) {
         try{
             return list.add(e);
         }finally{
@@ -32,11 +29,11 @@ public class tabelModelUser extends AbstractTableModel{
         }
     }
 
-    public User get(int index) {
+    public UserDTO get(int index) {
         return list.get(index);
     }
 
-    public User set(int index, User element) {
+    public UserDTO set(int index, UserDTO element) {
         try{
             return list.set(index, element);
         }finally{
@@ -44,7 +41,7 @@ public class tabelModelUser extends AbstractTableModel{
         }
     }
 
-    public User remove(int index) {
+    public UserDTO remove(int index) {
         try{
             return list.remove(index);
         }finally{
@@ -80,7 +77,7 @@ public class tabelModelUser extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch(columnIndex){
-            case 0: return list.get(rowIndex).getIduser();
+            case 0: return list.get(rowIndex).getIdUser();
             case 1: return list.get(rowIndex).getNama();
             case 2: return list.get(rowIndex).getPassword();
             case 3: return list.get(rowIndex).getLevel();

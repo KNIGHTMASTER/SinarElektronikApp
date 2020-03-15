@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.wissensalt.sinarelektronik.masterdata.tipe.model;
 
-import com.wissensalt.sinarelektronik.masterdata.tipe.entity.tipe;
+import com.wissensalt.sinarelektronik.masterdata.tipe.entity.TipeDTO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -14,15 +9,15 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Fauzi
  */
-public class tabelModelTipe extends AbstractTableModel{
+public class TabelModelTipe extends AbstractTableModel{
     
-    private List<tipe> list = new ArrayList<tipe>();
+    private List<TipeDTO> list = new ArrayList<>();
 
-    public void setList(List<tipe> list) {
+    public void setList(List<TipeDTO> list) {
         this.list = list;
     }
 
-    public boolean add(tipe e) {
+    public boolean add(TipeDTO e) {
         try{
             return list.add(e);
         }finally{
@@ -30,11 +25,11 @@ public class tabelModelTipe extends AbstractTableModel{
         }           
     }
 
-    public tipe get(int index) {
+    public TipeDTO get(int index) {
         return list.get(index);
     }
 
-    public tipe set(int index, tipe element) {
+    public TipeDTO set(int index, TipeDTO element) {
         try{
             return list.set(index, element);
         }finally{
@@ -42,7 +37,7 @@ public class tabelModelTipe extends AbstractTableModel{
         }
     }
 
-    public tipe remove(int index) {
+    public TipeDTO remove(int index) {
         try{
             return list.remove(index);
         }finally{
@@ -74,7 +69,7 @@ public class tabelModelTipe extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch(columnIndex){
-            case 0 : return list.get(rowIndex).getIdtipe();
+            case 0 : return list.get(rowIndex).getIdTipe();
             case 1 : return list.get(rowIndex).getNamaTipe();
             default: return null;
         }

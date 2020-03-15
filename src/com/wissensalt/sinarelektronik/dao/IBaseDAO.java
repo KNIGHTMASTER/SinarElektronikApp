@@ -25,6 +25,8 @@ public interface IBaseDAO<DTO extends BaseDTO>{
     List<DTO> findByFieldLike(String field, String query);    
     DTO getDTOFromResultSet(ResultSet rs);
 
+    DTO findSingleByField(String field, String query);
+    
     List<DTO> findByField(String field, String query);
     
     List<DTO> findAndSortByField(String query);    

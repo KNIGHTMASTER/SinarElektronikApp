@@ -1,23 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.tipe.view;
 
 import com.wissensalt.sinarelektronik.config.UserLevel;
-import com.wissensalt.sinarelektronik.masterdata.tipe.controller.tipeController;
-import com.wissensalt.sinarelektronik.masterdata.tipe.database.tipeDatabase;
-import com.wissensalt.sinarelektronik.masterdata.tipe.entity.tipe;
-import com.wissensalt.sinarelektronik.masterdata.tipe.error.TipeException;
-import com.wissensalt.sinarelektronik.masterdata.tipe.model.event.tipeListener;
-import com.wissensalt.sinarelektronik.masterdata.tipe.model.tabelModelTipe;
-import com.wissensalt.sinarelektronik.masterdata.tipe.model.tipeModel;
-import com.wissensalt.sinarelektronik.masterdata.tipe.service.tipeDao;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import com.wissensalt.sinarelektronik.dao.TipeDAO;
+import com.wissensalt.sinarelektronik.dao.impl.TipeDAOImpl;
+import com.wissensalt.sinarelektronik.masterdata.tipe.controller.TipeController;
+import com.wissensalt.sinarelektronik.masterdata.tipe.entity.TipeDTO;
+import com.wissensalt.sinarelektronik.masterdata.tipe.model.TabelModelTipe;
+import com.wissensalt.sinarelektronik.masterdata.tipe.model.TipeModel;
+import com.wissensalt.sinarelektronik.masterdata.tipe.model.event.TipeListener;
+
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -25,62 +17,36 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author Fauzi
  */
-public class TipeView extends javax.swing.JPanel implements tipeListener, ListSelectionListener{
+public class TipeView extends javax.swing.JPanel implements TipeListener, ListSelectionListener{
 
     /**
      * Creates new form TipeView
      */
     
-    private tipeController controller;
+    private TipeController controller;
+    private TabelModelTipe tabelmodelTipe;
+    private TipeModel tipeModel;
+    private final TipeDAO tipeDAO;
+
     
-    private tabelModelTipe tabelmodelTipe;
-    
-    private tipeModel model;
-    
-    public TipeView() throws SQLException, TipeException {
-        tabelmodelTipe = new tabelModelTipe();
+    public TipeView() {
+        tipeDAO = new TipeDAOImpl();
+        tabelmodelTipe = new TabelModelTipe();
         
-        model = new tipeModel();
-        model.setListener(this);
+        tipeModel = new TipeModel();
+        tipeModel.setListener(this);
         
-        controller = new tipeController(model);
+        controller = new TipeController();
         
         initComponents();
         
         tabelTipe.getSelectionModel().addListSelectionListener(this);
         
         tabelTipe.setModel(tabelmodelTipe);
-        try {
-            loadId();
-        } catch (TipeException ex) {
-            Logger.getLogger(TipeView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        loadId();
         setLevel();
         txtTipe.requestFocus();
         LoadDatabase();
-
-/*    ActionListener taskPerformer = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent evt) {        
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-              @Override
-              public boolean dispatchKeyEvent(KeyEvent e) {
-                  if(e.getID() == KeyEvent.KEY_PRESSED){
-                      if(e.getKeyCode() == KeyEvent.VK_F1){
-                          tambah();
-                      }else if(e.getKeyCode() == KeyEvent.VK_F2){
-                          update();
-                      }else if(e.getKeyCode() == KeyEvent.VK_F3){
-                          delete();
-                      }
-                  }
-                return false;
-              }
-          });
-      }
-    };
-    // Timer
-    new Timer(1000, taskPerformer).start();        */
     
     }
 
@@ -113,16 +79,12 @@ public class TipeView extends javax.swing.JPanel implements tipeListener, ListSe
         }
     }    
     
-    public void loadId() throws SQLException, TipeException{
-        txtId.setText(String.valueOf(getLastId()));
+    public void loadId() {
+        txtId.setText(String.valueOf((tipeDAO.getLastIdata()+1)));
         txtTipe.setText("");
         txtTipe.requestFocus();
     }
-    
-    public int getLastId() throws SQLException, TipeException{
-        tipeDao dao=tipeDatabase.getTipeDao();
-        return dao.getLastIdata()+1;
-    }
+
     public JTextField getTxtTipe() {
         return txtTipe;
     }
@@ -159,15 +121,6 @@ public class TipeView extends javax.swing.JPanel implements tipeListener, ListSe
         jPanel2 = new javax.swing.JPanel();
         txtId = new javax.swing.JTextField();
         txtTipe = new javax.swing.JTextField();
-
-        addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                formFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                formFocusLost(evt);
-            }
-        });
         setLayout(new java.awt.BorderLayout());
 
         atas.setLayout(new java.awt.BorderLayout());
@@ -256,11 +209,6 @@ public class TipeView extends javax.swing.JPanel implements tipeListener, ListSe
         jPanel2.setLayout(new java.awt.GridLayout(2, 0));
 
         txtId.setEditable(false);
-        txtId.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtIdFocusGained(evt);
-            }
-        });
         jPanel2.add(txtId);
 
         txtTipe.addActionListener(new java.awt.event.ActionListener() {
@@ -278,83 +226,41 @@ public class TipeView extends javax.swing.JPanel implements tipeListener, ListSe
     private void delete(){
         controller.deleteTipe(this);
         controller.resetTipe(this);
-        try {
-            loadId();
-        } catch (SQLException ex) {
-            Logger.getLogger(TipeView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TipeException ex) {
-            Logger.getLogger(TipeView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        loadId();
     }
-    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
-        // TODO add your handling code here:
+    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {
         delete();
-    }//GEN-LAST:event_btDeleteActionPerformed
+    }
 
     private void update(){
         controller.updateTipe(this);
-        try {
-            loadId();
-        } catch (SQLException ex) {
-            Logger.getLogger(TipeView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TipeException ex) {
-            Logger.getLogger(TipeView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        loadId();
         txtTipe.requestFocus();        
     }            
     
-    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
-        // TODO add your handling code here:
+    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {
         update();
-    }//GEN-LAST:event_btUpdateActionPerformed
+    }
     
     public void tambah(){
         controller.insertTipe(this);
-        try {
-            loadId();
-        } catch (SQLException ex) {
-            Logger.getLogger(TipeView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TipeException ex) {
-            Logger.getLogger(TipeView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            loadId();
-        } catch (SQLException ex) {
-            Logger.getLogger(TipeView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TipeException ex) {
-            Logger.getLogger(TipeView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        loadId();
         txtTipe.setText("");
         txtTipe.requestFocus();                
     }
-    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahActionPerformed
-        // TODO add your handling code here:        
+    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {
         tambah();
-    }//GEN-LAST:event_btTambahActionPerformed
+    }
 
-    private void txtIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusGained
-
-    }//GEN-LAST:event_txtIdFocusGained
-
-    private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_formFocusLost
-
-    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-
-    }//GEN-LAST:event_formFocusGained
-
-    private void txtTipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipeActionPerformed
-        // TODO add your handling code here:
+    private void txtTipeActionPerformed(java.awt.event.ActionEvent evt) {
         tambah();        
-    }//GEN-LAST:event_txtTipeActionPerformed
+    }
 
-    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
-        // TODO add your handling code here:
+    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {
         controller.resetTipe(this);
-    }//GEN-LAST:event_btResetActionPerformed
+    }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JPanel atas;
     private javax.swing.JPanel bawah;
     private javax.swing.JButton btDelete;
@@ -370,23 +276,22 @@ public class TipeView extends javax.swing.JPanel implements tipeListener, ListSe
     private javax.swing.JTable tabelTipe;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtTipe;
-    // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onChange(tipeModel model) {
-        txtId.setText(model.getIdtipe());
+    public void onChange(TipeModel model) {
+        txtId.setText(model.getIdTipe());
         txtTipe.setText(model.getNamaTipe());
     }
 
     @Override
-    public void onInsert(tipe tipe) {
-        tabelmodelTipe.add(tipe);
+    public void onInsert(TipeDTO dto) {
+        tabelmodelTipe.add(dto);
     }
 
     @Override
-    public void onUpdate(tipe tipe) {
+    public void onUpdate(TipeDTO dto) {
         int index = tabelTipe.getSelectedRow();
-        tabelmodelTipe.set(index, tipe);
+        tabelmodelTipe.set(index, dto);
     }
 
     @Override
@@ -397,17 +302,12 @@ public class TipeView extends javax.swing.JPanel implements tipeListener, ListSe
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        try {
-            tipe model = tabelmodelTipe.get(tabelTipe.getSelectedRow());
-            txtId.setText(model.getIdtipe());
-            txtTipe.setText(model.getNamaTipe());
-        } catch (IndexOutOfBoundsException exception) {
-            //JOptionPane.showMessageDialog(null, "Error pada overriding value Changed dengan pesan "+e);
-        }
+        TipeDTO model = tabelmodelTipe.get(tabelTipe.getSelectedRow());
+        txtId.setText(model.getIdTipe());
+        txtTipe.setText(model.getNamaTipe());
     }
 
-    public void LoadDatabase() throws SQLException, SQLException, TipeException {
-        tipeDao  dao = tipeDatabase.getTipeDao();
-        tabelmodelTipe.setList(dao.selectAllTipe());
+    private void LoadDatabase() {
+        tabelmodelTipe.setList(tipeDAO.selectAllTipe());
     }
 }

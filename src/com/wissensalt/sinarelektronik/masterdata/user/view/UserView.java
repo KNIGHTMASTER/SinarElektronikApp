@@ -1,21 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.user.view;
 
-import com.wissensalt.sinarelektronik.masterdata.user.controller.usercontroller;
-import com.wissensalt.sinarelektronik.masterdata.user.database.userdatabase;
-import com.wissensalt.sinarelektronik.masterdata.user.entity.User;
-import com.wissensalt.sinarelektronik.masterdata.user.error.userException;
-import com.wissensalt.sinarelektronik.masterdata.user.model.event.userListener;
-import com.wissensalt.sinarelektronik.masterdata.user.model.tabelModelUser;
-import com.wissensalt.sinarelektronik.masterdata.user.model.usermodel;
-import com.wissensalt.sinarelektronik.masterdata.user.service.userDao;
+import com.wissensalt.sinarelektronik.dao.impl.UserDAOImpl;
+import com.wissensalt.sinarelektronik.masterdata.user.controller.UserController;
+import com.wissensalt.sinarelektronik.masterdata.user.entity.UserDTO;
+import com.wissensalt.sinarelektronik.masterdata.user.model.event.UserListener;
+import com.wissensalt.sinarelektronik.masterdata.user.model.TabelModelUser;
+import com.wissensalt.sinarelektronik.masterdata.user.model.UserModel;
+import com.wissensalt.sinarelektronik.dao.UserDAO;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
@@ -28,66 +21,26 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author Fauzi
  */
-public class userView extends javax.swing.JPanel implements userListener, ListSelectionListener{
+public class UserView extends javax.swing.JPanel implements UserListener, ListSelectionListener{
 
-    /**
-     * Creates new form userView
-     */
+    private UserController controller;
+    private TabelModelUser modelUser;
+    private final UserDAO userDAO;
     
-    private usercontroller controller;
-    
-    private usermodel model;
-    
-    private tabelModelUser modelUser;
-    
-    //private User user;
-    
-    public userView() throws SQLException {
-        
+    public UserView() throws SQLException {
+        userDAO = new UserDAOImpl();
+        modelUser = new TabelModelUser();
 
-    /*ActionListener taskPerformer = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent evt) {        
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-              @Override
-              public boolean dispatchKeyEvent(KeyEvent e) {
-                  if(e.getID() == KeyEvent.KEY_PRESSED){
-                      if(e.getKeyCode() == KeyEvent.VK_F1){
-                          tambah();
-                      }else if(e.getKeyCode() == KeyEvent.VK_F2){
-                          update();
-                      }else if(e.getKeyCode() == KeyEvent.VK_F3){
-                          delete();
-                      }
-                  }
-                return false;
-              }
-          });
-      }
-    };
-    // Timer
-    new Timer(1000, taskPerformer).start();*/
+        UserModel userModel = new UserModel();
+        userModel.setListener(this);
         
-        
-        modelUser = new tabelModelUser();
-        
-        model=new usermodel();
-        model.setListener(this);
-        
-        controller=new usercontroller(model);
-        
-        
+        controller=new UserController();
         initComponents();
         
         tabelUser.getSelectionModel().addListSelectionListener(this);
         tabelUser.setModel(modelUser);
-        
-        try {
-            loadDatabase();
-            loadId();
-        } catch (userException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        }                                                           
+
+        loadDatabase();
         setLoadAwal();
     }
 
@@ -439,103 +392,55 @@ public class userView extends javax.swing.JPanel implements userListener, ListSe
         add(panelBawah, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCariActionPerformed
-        try {
-            try {
-                // TODO add your handling code here:
-                controller.searchUser(this, this);
-            } catch (SQLException ex) {
-                Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (userException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btCariActionPerformed
+    private void btCariActionPerformed(java.awt.event.ActionEvent evt) {
+        controller.searchUser(this, this);
+    }
 
     private void tambah(){
-        try {
-            // TODO add your handling code here:
-            controller.insertUser(this);            
-            controller.resetUser();
-        } catch (SQLException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        controller.insertUser(this);
+        controller.resetUser();
     }
     
-    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahActionPerformed
+    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {
         tambah();
-    }//GEN-LAST:event_btTambahActionPerformed
+    }
 
     private void update(){
-        try {
-            // TODO add your handling code here:
-            controller.updateUser(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        controller.updateUser(this);
         controller.resetUser();        
     }
     
-    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
+    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {
         update();
-    }//GEN-LAST:event_btUpdateActionPerformed
+    }
 
     private void delete(){
-        try {
-            // TODO add your handling code here:
-            controller.deleteUser(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            loadId();
-        } catch (SQLException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (userException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        controller.deleteUser(this);
         controller.resetUser();        
     }
     
     private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
         delete();
-    }//GEN-LAST:event_btDeleteActionPerformed
+    }
 
     private void reset(){
         controller.resetUser();
     }
     
     private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
-        // TODO add your handling code here:
         reset();
     }//GEN-LAST:event_btResetActionPerformed
 
     private void cmbUrutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrutActionPerformed
-        try {
-            // TODO add your handling code here:
-            controller.sortUser(this);
-        } catch (userException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_cmbUrutActionPerformed
+        controller.sortUser(this);
+    }
 
     private void txtNamaUSerFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNamaUSerFocusGained
-        try {
-            // TODO add your handling code here:
-            loadId();
-        } catch (SQLException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (userException ex) {
-            Logger.getLogger(userView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_txtNamaUSerFocusGained
+    }
 
     private void txtNamaUSerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNamaUSerActionPerformed
-        // TODO add your handling code here:
         txtPassword.requestFocus();
-    }//GEN-LAST:event_txtNamaUSerActionPerformed
+    }
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
         // TODO add your handling code here:        
@@ -549,7 +454,7 @@ public class userView extends javax.swing.JPanel implements userListener, ListSe
     private void txtCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariActionPerformed
         // TODO add your handling code here:
         btCari.doClick();
-    }//GEN-LAST:event_txtCariActionPerformed
+    }
 
     
     
@@ -592,27 +497,24 @@ public class userView extends javax.swing.JPanel implements userListener, ListSe
     private javax.swing.JTextArea txtKet;
     private javax.swing.JTextField txtNamaUSer;
     private javax.swing.JPasswordField txtPassword;
-    // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onChange(usermodel model) {
+    public void onChange(UserModel model) {
         txtIdUser.setText(model.getIdUser());
         txtNamaUSer.setText(model.getNama());
         txtKet.setText(model.getKeterangan());
         txtPassword.setText(model.getPassword());
-        //cmbLevel.setSelectedItem(model.getLevel());
-    
     }
 
     @Override
-    public void onInsert(User user) {
-        modelUser.add(user);
+    public void onInsert(UserDTO userDTO) {
+        modelUser.add(userDTO);
     }
 
     @Override
-    public void onUpdate(User user) {
+    public void onUpdate(UserDTO userDTO) {
         int index=tabelUser.getSelectedRow();
-        modelUser.set(index, user);
+        modelUser.set(index, userDTO);
     }
 
     @Override
@@ -633,24 +535,16 @@ public class userView extends javax.swing.JPanel implements userListener, ListSe
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        try{
-            User user=modelUser.get(tabelUser.getSelectedRow());
-            txtIdUser.setText(user.getIduser());
-            txtNamaUSer.setText(user.getNama());
-            txtPassword.setText(user.getPassword());
-            cmbLevel.setSelectedItem(user.getLevel());
-            txtKet.setText(user.getKeterangan());
-        }catch(IndexOutOfBoundsException exception){
+        UserDTO userDTO =modelUser.get(tabelUser.getSelectedRow());
+        txtIdUser.setText(userDTO.getIdUser());
+        txtNamaUSer.setText(userDTO.getNama());
+        txtPassword.setText(userDTO.getPassword());
+        cmbLevel.setSelectedItem(userDTO.getLevel());
+        txtKet.setText(userDTO.getKeterangan());
+    }
+    
+    private void loadDatabase() {
+        modelUser.setList(userDAO.selectAllUser());
+    }
 
-        }
-    }
-    
-    public void loadDatabase() throws userException, SQLException{
-        userDao dao=userdatabase.getUserDao();
-        modelUser.setList(dao.selectAllUser());
-    }
-    
-    public void loadId() throws SQLException, userException{
-        userDao dao=userdatabase.getUserDao();        
-    }
 }

@@ -2,7 +2,7 @@ package com.wissensalt.sinarelektronik.retur.barangbesar.view;
 
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.controller.BarangBesarController;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.controller.BarangTokoController;
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.entity.barang;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.entity.BarangTokoDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.TabelModelBarangToko;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.event.BarangTokoListener;
 import com.wissensalt.sinarelektronik.dao.BarangTokoDAO;
@@ -21,6 +21,7 @@ import com.wissensalt.sinarelektronik.config.ActiveUser;
 import com.wissensalt.sinarelektronik.config.HostName;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.error.BarangException;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.BarangTokoModel;
 import com.wissensalt.sinarelektronik.swinglib.AutoComplete.DefaultModelAutoComplete;
 import com.wissensalt.sinarelektronik.swinglib.AutoComplete.TextFieldAutoComplete;
 import java.awt.KeyEventDispatcher;
@@ -80,7 +81,7 @@ public class JIFReturViewBarangTokoBesar extends javax.swing.JInternalFrame impl
     
     private BarangTokoController controllerBarangToko;
     
-    private com.wissensalt.sinarelektronik.masterdata.barangtoko.model.barangModel modelBarangToko;
+    private BarangTokoModel modelBarangToko;
     
     public JIFReturViewBarangTokoBesar() {
         tabelmodelBarang = new TabelModelBarangBesar();

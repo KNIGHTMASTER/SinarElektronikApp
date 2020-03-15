@@ -27,7 +27,7 @@ public class JIFUserView extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         try {
-            userView1 = new com.wissensalt.sinarelektronik.masterdata.user.view.userView();
+            userView1 = new UserView();
         } catch (java.sql.SQLException e1) {
             e1.printStackTrace();
         }
@@ -49,6 +49,6 @@ public class JIFUserView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.wissensalt.sinarelektronik.masterdata.user.view.userView userView1;
+    private UserView userView1;
     // End of variables declaration//GEN-END:variables
 }
