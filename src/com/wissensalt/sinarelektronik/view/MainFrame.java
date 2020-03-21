@@ -20,7 +20,7 @@ import com.wissensalt.sinarelektronik.masterdata.stokreminder.view.JIFReminderVi
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.view.JIFBarangView;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.view.JIFHistoryBarang;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.view.JIFUpdateGlobalBK;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.stokreminder.view.JIFReminderView2;
+import com.wissensalt.sinarelektronik.masterdata.barangbesar.reminderbarangbesar.view.JIFReminderView2;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.view.JIFBarangBesar;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.view.JIFHistoryBarangBesar;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.view.JIFUpdateGlobalBB;

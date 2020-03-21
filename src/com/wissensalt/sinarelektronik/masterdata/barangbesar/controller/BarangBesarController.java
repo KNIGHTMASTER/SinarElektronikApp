@@ -11,7 +11,6 @@ import com.wissensalt.sinarelektronik.retur.barangbesar.view.ProsesRetur;
 import com.wissensalt.sinarelektronik.transfer.barangbesar.view.JIFTransferBB;
 import com.wissensalt.sinarelektronik.inventory.barangbesar.view.JIFInventoryBB;
 import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.error.BarangException;
 
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -57,104 +56,104 @@ public class BarangBesarController {
         }
     }
   
-    public void cari(BarangBesarView view, BarangBesarView v) throws SQLException, BarangException{
+    public void cari(BarangBesarView view, BarangBesarView v) throws SQLException{
         findByField(v.getCmbCari().getSelectedItem().toString(), view.getTxtKataKunci().getText());
     }      
     
-    public void cariProsesReturBB(ProsesRetur view, ProsesRetur v) throws SQLException, BarangException{
+    public void cariProsesReturBB(ProsesRetur view, ProsesRetur v) throws SQLException{
         findByField(v.getCmbCari1().getSelectedItem().toString(), view.getTxtKataKunci1().getText());
     }                    
     
-    public void cari4(JIFReturViewBarangTokoBesar view, JIFReturViewBarangTokoBesar v) throws SQLException, BarangException{
+    public void cari4(JIFReturViewBarangTokoBesar view, JIFReturViewBarangTokoBesar v) throws SQLException{
         findByField(v.getCmbCari1().getSelectedItem().toString(), view.getTxtKataKunci1().getText());
     }            
     
-    public void cari6(JIFInventoryBB view, JIFInventoryBB v) throws SQLException, BarangException{
+    public void cari6(JIFInventoryBB view, JIFInventoryBB v) throws SQLException{
         findByField(v.getCmbCari1().getSelectedItem().toString(), view.getTxtKataKunci1().getText());
     }            
     
-    public void sort(BarangBesarView view) throws SQLException, BarangException{
+    public void sort(BarangBesarView view) throws SQLException{
         sortBarangByField(view.getCmbUrut().getSelectedItem().toString());
     }        
     
-    public void sortProsesRetur(ProsesRetur view) throws SQLException, BarangException{        
+    public void sortProsesRetur(ProsesRetur view) throws SQLException{        
         sortBarangByField(view.getCmbUrut1().getSelectedItem().toString());
     }            
     
-    public void sort2(BarangBesarView view) throws SQLException, BarangException {
+    public void sort2(BarangBesarView view) throws SQLException {
         sortBarangByField(view.getCmbUrut().getSelectedItem().toString());
     }         
     
-    public void sort(JIFKasirView2 view) throws SQLException, BarangException {
+    public void sort(JIFKasirView2 view) throws SQLException {
         sortBarangByField(view.getCmbUrut1().getSelectedItem().toString());
     }    
     
-    public void sortBBKBB(JIFBarangBesarBonusKaryawanBBView view) throws SQLException, BarangException{
+    public void sortBBKBB(JIFBarangBesarBonusKaryawanBBView view) throws SQLException{
         sortBarangByField(view.getCmbUrut1().getSelectedItem().toString());
     }        
     
-    public void sort(JIFTransferBB view) throws SQLException, BarangException{
+    public void sort(JIFTransferBB view) throws SQLException{
         sortBarangByField(view.getCmbUrut1().getSelectedItem().toString());
     } 
     
-    public void sort(JIFReturViewBarangTokoBesar view) throws SQLException, BarangException{
+    public void sort(JIFReturViewBarangTokoBesar view) throws SQLException{
         sortBarangByField(view.getCmbUrut1().getSelectedItem().toString());
     }        
        
-    public void sort6(JIFInventoryBB view) throws SQLException, BarangException{                
+    public void sort6(JIFInventoryBB view) throws SQLException{                
         sortBarangByField(view.getCmbUrut1().getSelectedItem().toString());
     }            
     
     
-    public void cari(JIFKasirView2 view, JIFKasirView2 v) throws SQLException, BarangException{
+    public void cari(JIFKasirView2 view, JIFKasirView2 v) throws SQLException{
         findByField(v.getCmbCari1().getSelectedItem().toString(), view.getTxtKataKunci1().getText());
     }               
     
-    public void cariBBKBGudang(JIFBarangBesarBonusKaryawanBBView view, JIFBarangBesarBonusKaryawanBBView v) throws SQLException, BarangException{
+    public void cariBBKBGudang(JIFBarangBesarBonusKaryawanBBView view, JIFBarangBesarBonusKaryawanBBView v) throws SQLException{
         findByField(v.getCmbCari1().getSelectedItem().toString(), view.getTxtKataKunci1().getText());
     }                   
     
-    public void cari(JIFTransferBB view, JIFTransferBB v) throws SQLException, BarangException{
+    public void cari(JIFTransferBB view, JIFTransferBB v) throws SQLException{
         findByField(v.getCmbCari1().getSelectedItem().toString(), view.getTxtKataKunci1().getText());
     }                   
 
-    private void findById(String kataKunci) throws BarangException, SQLException {
+    private void findById(String kataKunci) throws SQLException {
         model.findBarangByField(barangBesarDAO.getBarangbyId(kataKunci));
     }
     
-    private void findByNama(String kataKunci) throws BarangException, SQLException {
+    private void findByNama(String kataKunci) throws SQLException {
         model.findBarangByField(barangBesarDAO.getBarangbyNama(kataKunci));
     }
     
-    private void findByTipe(String kataKunci) throws BarangException, SQLException {
+    private void findByTipe(String kataKunci) throws SQLException {
         model.findBarangByField(barangBesarDAO.getBarangbyTipe(kataKunci));
     }
     
-    private void findByMerek(String kataKunci) throws BarangException, SQLException {
+    private void findByMerek(String kataKunci) throws SQLException {
         model.findBarangByField(barangBesarDAO.getBarangbyMerek(kataKunci));
     }
     
-    private void findByHarga(String kataKunci) throws BarangException, SQLException {
+    private void findByHarga(String kataKunci) throws SQLException {
         model.findBarangByField(barangBesarDAO.getBarangbyHarga(kataKunci));
     }
     
-    private void findByStock(String kataKunci) throws BarangException, SQLException {
+    private void findByStock(String kataKunci) throws SQLException {
         model.findBarangByField(barangBesarDAO.getBarangbyStok(kataKunci));
     }
     
-    private void findByStockMinimum(String kataKunci) throws BarangException, SQLException {
+    private void findByStockMinimum(String kataKunci) throws SQLException {
         model.findBarangByField(barangBesarDAO.getBarangbyStokMin(kataKunci));
     }
     
-    private void findBySupplier(String kataKunci) throws BarangException, SQLException {
+    private void findBySupplier(String kataKunci) throws SQLException {
         model.findBarangByField(barangBesarDAO.getBarangbySupplier(kataKunci));
     }
     
-    private void findByKeterangan(String kataKunci) throws BarangException, SQLException {
+    private void findByKeterangan(String kataKunci) throws SQLException {
         model.findBarangByField(barangBesarDAO.getBarangbyKeterangan(kataKunci));
     }
     
-    private void findByField(String berdasarkan, String kataKunci) throws BarangException, SQLException {
+    private void findByField(String berdasarkan, String kataKunci) throws SQLException {
         switch(berdasarkan){
             case "id barangkecil" : findById(kataKunci);break;
             case "nama barangkecil" : findByNama(kataKunci);break;
@@ -169,7 +168,7 @@ public class BarangBesarController {
         }  
     }
     
-    private void sortBarangByField(String berdasarkan) throws BarangException, SQLException {
+    private void sortBarangByField(String berdasarkan) throws SQLException {
         switch(berdasarkan){
             case "id barangkecil" : model.sortByField(barangBesarDAO.sortBarangbyId());break;
             case "nama barangkecil" : model.sortByField(barangBesarDAO.sortBarangbyNama());break;

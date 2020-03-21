@@ -1,6 +1,6 @@
 package com.wissensalt.sinarelektronik.dao;
 
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.entity.BarangTokoDTO;
+import com.wissensalt.sinarelektronik.dto.BarangTokoDTO;
 
 import java.util.List;
 
@@ -50,6 +50,9 @@ public interface BarangTokoDAO extends IBaseDAO<BarangTokoDTO> {
     
     List<BarangTokoDTO> selectAllBarang();
     
-    int getBarangLastId();    
+    int getBarangLastId();
 
+    void updateBarangTokoWithoutImage(BarangTokoDTO barangTokoDTO);
+    
+    void updateBarangTokoWithmage(BarangTokoDTO barangTokoDTO, String pathGambar); 
 }

@@ -1,6 +1,6 @@
 package com.wissensalt.sinarelektronik.masterdata.barangtoko.model;
 
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.entity.BarangTokoDTO;
+import com.wissensalt.sinarelektronik.dto.BarangTokoDTO;
 
 import java.util.ArrayList;
 import java.util.List;

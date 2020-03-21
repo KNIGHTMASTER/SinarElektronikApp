@@ -3,8 +3,6 @@ package com.wissensalt.sinarelektronik.dao.impl;
 import com.wissensalt.sinarelektronik.dao.ABaseDAO;
 import com.wissensalt.sinarelektronik.dao.BarangBesarDAO;
 import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.error.BarangException;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
@@ -82,7 +80,7 @@ public class BarangBesarDAOImpl extends ABaseDAO<BarangBesarDTO> implements Bara
     }
 
     @Override
-    public List<BarangBesarDTO> getBarangbyId(String id) throws BarangException {
+    public List<BarangBesarDTO> getBarangbyId(String id)  {
         return findByFieldLike(id, GET_BY_ID);
     }
     
@@ -113,102 +111,102 @@ public class BarangBesarDAOImpl extends ABaseDAO<BarangBesarDTO> implements Bara
     }   
 
     @Override
-    public List<BarangBesarDTO> getBarangbyNama(String nama) throws BarangException {
+    public List<BarangBesarDTO> getBarangbyNama(String nama)  {
         return findByFieldLike(nama, GET_BY_NAMA);
     }
 
     @Override
-    public List<BarangBesarDTO> getBarangbyTipe(String tipe) throws BarangException {
+    public List<BarangBesarDTO> getBarangbyTipe(String tipe)  {
         return findByFieldLike(tipe, GET_BY_TIPE);
     }
 
     @Override
-    public List<BarangBesarDTO> getBarangbyMerek(String merek) throws BarangException {
+    public List<BarangBesarDTO> getBarangbyMerek(String merek)  {
         return findByFieldLike(merek, GET_BY_MEREK);
     }
 
     @Override
-    public List<BarangBesarDTO> getBarangbyHarga(String harga) throws BarangException {
+    public List<BarangBesarDTO> getBarangbyHarga(String harga)  {
         return findByFieldLike(harga, GET_BY_ECERAN);
     }
 
     @Override
-    public List<BarangBesarDTO> getBarangbyStok(String stok) throws BarangException {
+    public List<BarangBesarDTO> getBarangbyStok(String stok)  {
         return findByFieldLike(stok, GET_BY_STOK);
     }
 
     @Override
-    public List<BarangBesarDTO> getBarangbyStokMin(String stokMin) throws BarangException {
+    public List<BarangBesarDTO> getBarangbyStokMin(String stokMin)  {
         return findByFieldLike(stokMin, GET_BY_STOK_MIN);
     }
 
     @Override
-    public List<BarangBesarDTO> getBarangbySupplier(String supplier) throws BarangException {
+    public List<BarangBesarDTO> getBarangbySupplier(String supplier)  {
         return findByFieldLike(supplier, GET_BY_SUPPLIER);
     }
 
     @Override
-    public List<BarangBesarDTO> getBarangbyKeterangan(String keterangan) throws BarangException {
+    public List<BarangBesarDTO> getBarangbyKeterangan(String keterangan)  {
         return findByFieldLike(keterangan, GET_BY_KETERANGAN);
     }
 
     @Override
-    public List<BarangBesarDTO> sortBarangbyId() throws BarangException {
+    public List<BarangBesarDTO> sortBarangbyId()  {
         return findAndSortByField(SORT_BY_ID);
     }
 
     @Override
-    public List<BarangBesarDTO> sortBarangbyBarcode() throws BarangException {
+    public List<BarangBesarDTO> sortBarangbyBarcode()  {
         return findAndSortByField(SORT_BY_BARCODE);
     }
 
     @Override
-    public List<BarangBesarDTO> sortBarangbyNama() throws BarangException {
+    public List<BarangBesarDTO> sortBarangbyNama()  {
         return findAndSortByField(SORT_BY_NAMA);
     }
 
     @Override
-    public List<BarangBesarDTO> sortBarangbyTipe() throws BarangException {
+    public List<BarangBesarDTO> sortBarangbyTipe()  {
         return findAndSortByField(SORT_BY_TIPE);
     }
 
     @Override
-    public List<BarangBesarDTO> sortBarangbyMerek() throws BarangException {
+    public List<BarangBesarDTO> sortBarangbyMerek()  {
         return findAndSortByField(SORT_BY_MEREK);
     }
 
     @Override
-    public List<BarangBesarDTO> sortBarangbyHarga() throws BarangException {
+    public List<BarangBesarDTO> sortBarangbyHarga()  {
         return findAndSortByField(SORT_BY_ECERAN);
     }
 
     @Override
-    public List<BarangBesarDTO> sortBarangbyStok() throws BarangException {
+    public List<BarangBesarDTO> sortBarangbyStok()  {
         return findAndSortByField(SORT_BY_STOK);
     }
 
     @Override
-    public List<BarangBesarDTO> sortBarangbyStokMin() throws BarangException {
+    public List<BarangBesarDTO> sortBarangbyStokMin()  {
         return findAndSortByField(SORT_BY_STOK_MIN);
     }
 
     @Override
-    public List<BarangBesarDTO> sortBarangbySupplier() throws BarangException {
+    public List<BarangBesarDTO> sortBarangbySupplier()  {
         return findAndSortByField(SORT_BY_SUPPLIER);
     }
 
     @Override
-    public List<BarangBesarDTO> sortBarangbyKeterangan() throws BarangException {
+    public List<BarangBesarDTO> sortBarangbyKeterangan()  {
         return findAndSortByField(SORT_BY_KETERANGAN);
     }
 
     @Override
-    public List<BarangBesarDTO> selectAllBarang() throws BarangException {
+    public List<BarangBesarDTO> selectAllBarang()  {
         return findAndSortByField(SELECT_ALL);
     }
 
     @Override
-    public int getBarangLastId() throws BarangException {
+    public int getBarangLastId()  {
         return findLastIdByField("total", GET_LAST_ID);
     }    
 }

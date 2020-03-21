@@ -18,13 +18,36 @@ import java.util.logging.Logger;
 
     protected Connection connection;
     
-    private void initConnection() {
+    public void initConnection() {
         try {
             connection = GenericConnection.getConnection();
         } catch (SQLException ex) {
             Logger.getLogger(ABaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }   
+
+    @Override
+    public Connection getConnection() {
+        if (connection == null) {
+            initConnection();
+        }
+        
+        return connection;
+    }    
+
+    @Override
+    public ResultSet selectSingleField(String query) {
+        ResultSet rs = null;
+        try {
+            initConnection();
+            rs = connection.createStatement().executeQuery(query);                       
+        } catch (SQLException ex) {
+            Logger.getLogger(ABaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return rs;
     }
+    
     
     @Override
     public void insert(DTO dto) {
@@ -67,7 +90,7 @@ import java.util.logging.Logger;
             } catch (SQLException ex) {
                 Logger.getLogger(ABaseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
-            JOptionPane.showMessageDialog(null, "Update barangkecil besar gagal karena "+exception, "Perhatian", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Update gagal karena "+exception, "Perhatian", JOptionPane.WARNING_MESSAGE);
         }finally{
             try {
                 connection.setAutoCommit(true);

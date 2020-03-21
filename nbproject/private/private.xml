@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/moka/Workspace/Tripoin/SinarElektronikApp/src/com/wissensalt/sinarelektronik/masterdata/barangtoko/view/BarangTokoView.java</file>
+            <file>file:/Users/moka/Workspace/Tripoin/SinarElektronikApp/src/com/wissensalt/sinarelektronik/masterdata/barangbesar/view/BarangBesarView.java</file>
+            <file>file:/Users/moka/Workspace/Tripoin/SinarElektronikApp/src/com/wissensalt/sinarelektronik/masterdata/barangtoko/model/BarangTokoModel.java</file>
+            <file>file:/Users/moka/Workspace/Tripoin/SinarElektronikApp/src/com/wissensalt/sinarelektronik/masterdata/satuan/view/SatuanView.java</file>
+            <file>file:/Users/moka/Workspace/Tripoin/SinarElektronikApp/src/com/wissensalt/sinarelektronik/masterdata/barangkecil/view/BarangKecilView.java</file>
+            <file>file:/Users/moka/Workspace/Tripoin/SinarElektronikApp/src/com/wissensalt/sinarelektronik/retur/barangbesar/view/JIFReturViewBarangTokoBesar.java</file>
+            <file>file:/Users/moka/Workspace/Tripoin/SinarElektronikApp/src/com/wissensalt/sinarelektronik/masterdata/satuan/controller/SatuanController.java</file>
+        </group>
     </open-files>
 </project-private>

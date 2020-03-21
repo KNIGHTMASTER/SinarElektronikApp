@@ -1,112 +1,85 @@
-package com.wissensalt.sinarelektronik.masterdata.barangtoko.view;
+package com.wissensalt.sinarelektronik.masterdata.barangtoko.reminderbarangtoko.view;
 
-import com.wissensalt.sinarelektronik.config.UserLevel;
-import com.wissensalt.sinarelektronik.dao.BarangTokoDAO;
-import com.wissensalt.sinarelektronik.dao.MerekDAO;
-import com.wissensalt.sinarelektronik.dao.NamaBarangDAO;
-import com.wissensalt.sinarelektronik.dao.SupplierDAO;
-import com.wissensalt.sinarelektronik.dao.TipeDAO;
-import com.wissensalt.sinarelektronik.dao.impl.BarangTokoDAOImpl;
-import com.wissensalt.sinarelektronik.dao.impl.MerekDAOImpl;
-import com.wissensalt.sinarelektronik.dao.impl.NamaBarangDAOImpl;
-import com.wissensalt.sinarelektronik.dao.impl.SupplierDAOImpl;
-import com.wissensalt.sinarelektronik.dao.impl.TipeDAOImpl;
-import com.wissensalt.sinarelektronik.dto.MerekDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.controller.BarangTokoController;
-import com.wissensalt.sinarelektronik.dto.BarangTokoDTO;
-import com.wissensalt.sinarelektronik.model.BarangTokoModel;
+import com.wissensalt.sinarelektronik.config.HostName;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.TabelModelBarangToko;
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.event.BarangTokoListener;
-import com.wissensalt.sinarelektronik.masterdata.merek.view.MerekView;
-import com.wissensalt.sinarelektronik.masterdata.namabarang.entity.NamaBarangDTO;
-import com.wissensalt.sinarelektronik.masterdata.supplier.entity.SupplierDTO;
-import com.wissensalt.sinarelektronik.masterdata.supplier.view.SupplierView;
-import com.wissensalt.sinarelektronik.masterdata.tipe.entity.TipeDTO;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.reminderbarangtoko.controller.ReminderBarangTokoController;
+import com.wissensalt.sinarelektronik.model.BarangTokoReminderModel;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.reminderbarangtoko.model.event.ReminderListener;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.view.*;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.view.tambahBarangKecilView;
 
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.channels.FileChannel;
-import java.sql.*;
-import java.util.List;
 
 /**
  *
  * @author Fauzi
  */
-public class BarangTokoView extends javax.swing.JPanel implements BarangTokoListener, ListSelectionListener{
+public class ReminderView extends javax.swing.JPanel implements ReminderListener, ListSelectionListener{
 
     /**
-     * Creates new form BarangBesarView
+     * Creates new form ReminderView
      */
+    
+    ReminderBarangTokoController controller;
+    
+    TabelModelBarangToko tabelmodelbarang;
+    
+    BarangTokoReminderModel model;
+    
+    HostName ip = new HostName();
+    
+    ReminderDatabase database = new ReminderDatabase();
+        
+    public ReminderView() {
 
-    private BarangTokoController controller;
-    private TabelModelBarangToko tabelmodelbarangToko;
-    private BarangTokoModel barangTokoModel;
-    private final BarangTokoDAO barangTokoDAO;
-    private final NamaBarangDAO namaBarangDAO;
-    private final MerekDAO merekDAO;
-    private final SupplierDAO supplierDAO;
-    private final TipeDAO tipeDAO;
-
-    public BarangTokoView() {
-        tipeDAO = new TipeDAOImpl();
-        barangTokoDAO = new BarangTokoDAOImpl();
-        namaBarangDAO = new NamaBarangDAOImpl();
-        merekDAO = new MerekDAOImpl();
-        supplierDAO = new SupplierDAOImpl();
-        tabelmodelbarangToko = new TabelModelBarangToko();
-        barangTokoModel.setListener(this);
-
-        controller = new BarangTokoController();
-        controller.setModel(barangTokoModel);
-
+        tabelmodelbarang = new TabelModelBarangToko();
+        
+        model=new BarangTokoReminderModel();
+        model.setListener(this);
+        
+        controller = new ReminderBarangTokoController();
+        controller.setModel(model);        
+        
         initComponents();
 
         tabelBarang.getSelectionModel().addListSelectionListener(this);
-        tabelBarang.setModel(tabelmodelbarangToko);
+        tabelBarang.setModel(tabelmodelbarang);
+        koneksi();
         loadDatabase();
         loadNamaBarang();
         loadTipe();
         loadMerek();
-        loadSupplier();
+        loadSupplier();                
         setIdBarang();
-    }
-
-    public void setLevel(){
-        UserLevel userLevel = new UserLevel();
-        String levelAktif = userLevel.getUserLevelActive();
-        switch(levelAktif){
-            case "Pemilik Toko":
-                btTambah1.setEnabled(true);
-                btHapus.setEnabled(true);
-                btReset.setEnabled(true);
-                btUpdate.setEnabled(true);
-                break;
-            case "Administrator":
-                btTambah1.setEnabled(true);
-                btHapus.setEnabled(true);
-                btReset.setEnabled(true);
-                btUpdate.setEnabled(true);
-                break;
-            case "Karyawan":
-                btTambah1.setEnabled(true);
-                btHapus.setEnabled(false);
-                btReset.setEnabled(false);
-                btUpdate.setEnabled(false);
-                break;
-            default:;
-        }
-    }
-
-    private void setIdBarang(){
-        String idBarang = cmbMerek.getSelectedItem().toString()+cmbTipe.getSelectedItem().toString()+"-"+cmbNamaBarang.getSelectedItem().toString();
-        txtIdBarang.setText(idBarang);
-    }
+    }    
 
     private void hideUnusableButton(){
         jButton1.setVisible(false);
@@ -121,36 +94,96 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         jButton10.setVisible(false);
         jButton11.setVisible(false);
     }
+    
+    public void loadTipe(){
+        Statement s = null;
+        try {
+            s = conn.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ResultSet rs=s.executeQuery("SELECT namaTipe FROM tipe");
+            while (rs.next()) {
+                cmbTipe.addItem(rs.getString("namaTipe"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }
+    
+    public void loadMerek(){
+        Statement s = null;
+        try {
+            s = conn.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ResultSet rs=s.executeQuery("SELECT namamerek FROM merek");
+            while (rs.next()) {
+                cmbMerek.addItem(rs.getString("namamerek"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }    
+    
+    public void loadSupplier(){
+        Statement s = null;
+        try {
+            s = conn.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ResultSet rs=s.executeQuery("SELECT nama FROM supplier");
+            while (rs.next()) {
+                cmbSupplier.addItem(rs.getString("nama"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }    
+
 
     public void loadNamaBarang(){
-        List<NamaBarangDTO> namaBarangDTOS = namaBarangDAO.selectAllNamaBarang();
-        for (NamaBarangDTO namaBarangDTO : namaBarangDTOS) {
-            cmbNamaBarang.addItem(namaBarangDTO.getNamabarang());
-        }
-    }
-
-    public void loadTipe(){
-        for (TipeDTO tipeDTO : tipeDAO.selectAllTipe()) {
-            cmbTipe.addItem(tipeDTO.getNamaTipe());
-        }
-    }
-
-    private void loadMerek(){
-        for (MerekDTO merekDTO : merekDAO.selectAllMerek()) {
-            cmbMerek.addItem(merekDTO.getNamaMerek());
-        }
-    }
-
-
-    public void loadSupplier(){
-        for (SupplierDTO supplier : supplierDAO.selectAllSupplier()) {
-            cmbSupplier.addItem(supplier.getNama());
-        }
-    }
-
+        Statement statement=null;
+        try{
+            statement=conn.createStatement();            
+            ResultSet rs=statement.executeQuery("SELECT namabarang FROM namabarang ORDER BY namabarang");
+            while (rs.next()) {
+                cmbNamaBarang.addItem(rs.getString("namabarang"));
+            }
+        }catch(SQLException e)         {
+            JOptionPane.showMessageDialog(null, "tidak bisa me-load data nama barangkecil");
+        }finally{
+            if(statement!=null){
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }      
+    }  
+    
+   
     public void loadDatabase(){
-        tabelmodelbarangToko.setList(barangTokoDAO.selectAllBarang());
+        try {
+            ReminderBarangTokoDAO dao=database.getReminderDao();
+            try {
+                tabelmodelbarang.setList(dao.selectAllBarang());
+            } catch (BarangException ex) {
+                Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
+    
+//generate getter and setter
 
     public JComboBox getCmbCari() {
         return cmbCari;
@@ -183,7 +216,7 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     public void setTxtKataKunci(JTextField txtKataKunci) {
         this.txtKataKunci = txtKataKunci;
     }
-
+       
 
     final Toolkit toolkit = Toolkit.getDefaultToolkit();
     final Dimension screenSize = toolkit.getScreenSize();
@@ -193,6 +226,7 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         dialogUpdate = new javax.swing.JDialog();
@@ -261,14 +295,11 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         dialogPreview = new javax.swing.JDialog();
         lblPreview = new javax.swing.JLabel();
         dialogTambahTipe = new javax.swing.JDialog();
-        tipeView2 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
         dialogTambahMerek = new javax.swing.JDialog();
-        merekView21 = new MerekView();
         dialogTambahSupplier = new javax.swing.JDialog();
-        supplierView1 = new SupplierView();
         dialogTambahSatuan = new javax.swing.JDialog();
-        satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
         dialogTambah = new javax.swing.JDialog();
+        tambahBarangView1 = new tambahBarangKecilView();
         buttonGroup1 = new javax.swing.ButtonGroup();
         dialogTambahNamaBarang = new javax.swing.JDialog();
         namaBarangView1 = new com.wissensalt.sinarelektronik.masterdata.namabarang.view.NamaBarangView();
@@ -293,12 +324,11 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         bottom = new javax.swing.JPanel();
         PanewlBottom2 = new javax.swing.JPanel();
         btUpdate = new javax.swing.JButton();
-        btHapus = new javax.swing.JButton();
         btPreview = new javax.swing.JButton();
 
         dialogUpdate.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogUpdate.setTitle("Update Barang");
-        dialogUpdate.setMinimumSize(new java.awt.Dimension(700, 610));
+        dialogUpdate.setMinimumSize(new java.awt.Dimension(580, 584));
 
         panelAtas.setLayout(new java.awt.BorderLayout());
 
@@ -499,7 +529,6 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
 
         panelRB.setLayout(new java.awt.GridLayout(1, 2));
 
-        buttonGroup1.add(rbYa);
         rbYa.setText("Ya");
         rbYa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -508,7 +537,6 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         });
         panelRB.add(rbYa);
 
-        buttonGroup1.add(rbTidak);
         rbTidak.setText("Tidak");
         rbTidak.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -646,23 +674,18 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
 
         dialogTambahTipe.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogTambahTipe.setTitle("Tambah Tipe Barang");
-        dialogTambahTipe.getContentPane().add(tipeView2, java.awt.BorderLayout.CENTER);
 
         dialogTambahMerek.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogTambahMerek.setTitle("Tambah Merek Barang");
-        dialogTambahMerek.getContentPane().add(merekView21, java.awt.BorderLayout.CENTER);
 
         dialogTambahSupplier.setTitle("Tambah Supplier");
-        dialogTambahSupplier.setMinimumSize(new java.awt.Dimension(900, 700));
-        dialogTambahSupplier.getContentPane().add(supplierView1, java.awt.BorderLayout.CENTER);
 
         dialogTambahSatuan.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogTambahSatuan.setTitle("Tambah Satuan");
-        dialogTambahSatuan.getContentPane().add(satuanView1, java.awt.BorderLayout.CENTER);
 
         dialogTambah.setTitle("Tambah Barang");
+        dialogTambah.getContentPane().add(tambahBarangView1, java.awt.BorderLayout.LINE_END);
 
-        dialogTambahNamaBarang.setTitle("Tambah Nama Barang");
         dialogTambahNamaBarang.getContentPane().add(namaBarangView1, java.awt.BorderLayout.CENTER);
 
         setLayout(new java.awt.BorderLayout());
@@ -706,16 +729,16 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         javax.swing.GroupLayout atasLayout = new javax.swing.GroupLayout(atas);
         atas.setLayout(atasLayout);
         atasLayout.setHorizontalGroup(
-                atasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(atasLayout.createSequentialGroup()
-                                .addComponent(txtKataKunci, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btCari, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+            atasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(atasLayout.createSequentialGroup()
+                .addComponent(txtKataKunci, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btCari, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         atasLayout.setVerticalGroup(
-                atasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtKataKunci)
-                        .addComponent(btCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            atasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtKataKunci)
+            .addComponent(btCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         kanan.add(atas);
@@ -723,7 +746,12 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         tengah.setOpaque(false);
         tengah.setLayout(new java.awt.BorderLayout());
 
-        cmbCari.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "id barangkecil", "nama barangkecil", "tipe", "MerekDTO", "harga", "stok", "stok minimum", "supplier" }));        
+        cmbCari.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "id barangkecil", "id barcode", "nama barangkecil", "tipe", "MerekDTO", "harga", "satuan", "stok", "stok minimum", "supplier", "keterangan" }));
+        cmbCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCariActionPerformed(evt);
+            }
+        });
         tengah.add(cmbCari, java.awt.BorderLayout.CENTER);
 
         kanan.add(tengah);
@@ -731,7 +759,7 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         bawah.setOpaque(false);
         bawah.setLayout(new java.awt.BorderLayout());
 
-        cmbUrut.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "id barangkecil", "nama barangkecil", "tipe", "MerekDTO", "harga", "stok", "stok minimum", "supplier" }));
+        cmbUrut.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "id barangkecil", "id barcode", "nama barangkecil", "tipe", "MerekDTO", "harga", "satuan", "stok", "stok minimum", "supplier", "keterangan" }));
         cmbUrut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbUrutActionPerformed(evt);
@@ -754,16 +782,24 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         tabelBarang.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null}
-                },
-                new String [] {
-                        "Title 1", "Title 2", "Title 3", "Title 4"
-                }
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
         ));
+        tabelBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tabelBarangMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tabelBarangMouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelBarang);
 
         panelTengah.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -785,15 +821,6 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         });
         PanewlBottom2.add(btUpdate);
 
-        btHapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/hapus.png"))); // NOI18N
-        btHapus.setMnemonic('H');
-        btHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btHapusActionPerformed(evt);
-            }
-        });
-        PanewlBottom2.add(btHapus);
-
         btPreview.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/preview.png"))); // NOI18N
         btPreview.setMnemonic('P');
         btPreview.addActionListener(new java.awt.event.ActionListener() {
@@ -808,55 +835,13 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         add(bottom, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btTambahMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahMerekActionPerformed
-        // TODO add your handling code here:
-        int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) /5;
-        dialogTambahMerek.setLocation(x, y);
-        dialogTambahMerek.setSize(320, 400);
-        dialogTambahMerek.setModal(true);
-        dialogTambahMerek.show();
-    }//GEN-LAST:event_btTambahMerekActionPerformed
-
-    private void btTambahItipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahItipeActionPerformed
-        // TODO add your handling code here:
-        int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) /5;
-        dialogTambahTipe.setModal(true);
-        dialogTambahTipe.setLocation(x, y);
-        dialogTambahTipe.setSize(320, 400);
-        dialogTambahTipe.show();
-    }//GEN-LAST:event_btTambahItipeActionPerformed
-
-    private void btTambahSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahSupplierActionPerformed
-        // TODO add your handling code here:
-        int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) /8;
-        dialogTambahSupplier.setLocation(x, y);
-        dialogTambahSupplier.setSize(700, 580);
-        dialogTambahSupplier.setModal(true);
-        dialogTambahSupplier.show();
-    }//GEN-LAST:event_btTambahSupplierActionPerformed
-
-    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
-        // TODO add your handling code here:
-        /*controller.resetTambahBarang();
-        try {
-            resetManual();
-        } catch (SQLException ex) {
-            Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (barangException ex) {
-            Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-    }//GEN-LAST:event_btResetActionPerformed
-
-
+    
     public void copyFile(){
         File file=new File(pathGambar);
-        /*File dir=new File("dir");        
+        File dir=new File("dir");        
             if(!dir.exists()){
                 dir.mkdir();
-            }            */
+            }            
         File directory = new File("");
         String target=directory.getAbsolutePath()+"\\src\\SinarElektronikApp\\imageresource";
         //memberi alamat gambar pada database sesuai dengan data yang telah dipindah ke user directory
@@ -872,7 +857,7 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, ex);
             }
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {            
             JOptionPane.showMessageDialog(null, ex);
         }finally{
             if(in!=null){
@@ -889,72 +874,120 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
                     JOptionPane.showMessageDialog(null, ex);
                 }
             }
-        }
+        }                            
     }
-
-
-    private void updateBarang(){
-        BarangTokoDTO barangTokoDTO = new BarangTokoDTO();
-        barangTokoDTO.setIdBarang(txtIdBarang.getText());
-        barangTokoDTO.setIdBarcode(txtIdBarcode.getText());
-        barangTokoDTO.setNamaBarang(cmbNamaBarang.getSelectedItem().toString());
-        barangTokoDTO.setTipe(cmbTipe.getSelectedItem().toString());
-        barangTokoDTO.setMerek(cmbMerek.getSelectedItem().toString());
-        barangTokoDTO.setModal(Integer.parseInt(txtHargaModal.getText()));
-        barangTokoDTO.setGrosir(Integer.parseInt(txtHargaGrosir.getText()));
-        barangTokoDTO.setEceran(Integer.parseInt(txtHargaEceran.getText()));
-        barangTokoDTO.setStok(JsStok.getValue());
-        barangTokoDTO.setStokMin(JsstokMin.getValue());
-        barangTokoDTO.setSupplier(cmbSupplier.getSelectedItem().toString());
-        barangTokoDTO.setKeterangan(txtKet.getText());
-        String garansi = "";
-        int hari =  0, bulan = 0, tahun = 0;
-        hari =  jsHari.getValue();
-        bulan = jsBulan.getValue() * 30;
-        tahun = jsTahun.getValue() * 360;
-
-        int lamaGaransi = (hari+bulan+tahun);
-
-        if(rbTidak.isSelected()){
-            garansi = "tidak";
-            lamaGaransi = 0;
-        }else if(rbYa.isSelected()){
-            garansi = "ya";
+    
+    
+    public void updateBarangExec(){        
+        String QUERY = "update barangtoko SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe=?, merek = ?, modal=?, grosir =?, eceran = ?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, gambar = ?, garansi=?, lamagaransi=? WHERE idbarang =?";
+        String QUERY2 = "update barangtoko SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe=?, merek = ?, modal=?, grosir =?, eceran = ?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, garansi=?, lamagaransi=? WHERE idbarang = ?";
+        if(pathGambar == null || pathGambar.trim().equals("")){                        
+           try {
+                PreparedStatement ps=conn.prepareStatement(QUERY2);
+                ps.setString(1, txtIdBarang.getText());
+                ps.setString(2, txtIdBarcode.getText());
+                ps.setString(3, cmbNamaBarang.getSelectedItem().toString());
+                ps.setString(4, cmbTipe.getSelectedItem().toString());
+                ps.setString(5, cmbMerek.getSelectedItem().toString());
+                ps.setString(6, txtHargaModal.getText());
+                ps.setString(7, txtHargaGrosir.getText());
+                ps.setString(8, txtHargaEceran.getText());
+                ps.setString(9, String.valueOf(JsStok.getValue()));
+                ps.setString(10, String.valueOf(JsstokMin.getValue()));
+                ps.setString(11, cmbSupplier.getSelectedItem().toString());
+                ps.setString(12, txtKet.getText());
+                /*try {
+                    ps.setBlob(13, new FileInputStream(gambar));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+                }*/
+            
+            String garansi = "";
+            int hari =  0, bulan = 0, tahun = 0;
+            hari =  jsHari.getValue();
+            bulan = jsBulan.getValue() * 30;
+            tahun = jsTahun.getValue() * 360;
+        
+            int lamaGaransi = (hari+bulan+tahun);
+        
+            if(rbTidak.isSelected()){
+                garansi = "tidak";
+                lamaGaransi = 0;
+            }else if(rbYa.isSelected()){
+                garansi = "ya";
+            }
+                ps.setString(13, garansi);
+                ps.setString(14, String.valueOf(lamaGaransi));
+                ps.setString(15, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Update barangkecil berhasil");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Update barangkecil gagal karena = "+ex);
+            }            
+        }        
+        else if(pathGambar!=null || !(pathGambar.trim().equals(""))){
+            //ambil gambar awal
+            Blob gambarAwal =  null;  
+            byte [] data = null ;
+            try{
+                Statement s = conn.createStatement();
+                ResultSet rs = s.executeQuery("SELECT gambar from barangtoko where idbarang='"+txtIdBarang.getText()+"'");
+                if(rs.next()){
+                    gambarAwal = rs.getBlob("gambar");
+                    data = gambarAwal.getBytes(1, (int)gambarAwal.length());
+                }
+            }catch(SQLException exception){
+                
+            }        
+            //jika gambar diubah || gambfar baru diisi
+            ImageIcon iconUpdate=new ImageIcon(data);            
+           try {
+                File gambar = new File(pathGambar);
+                PreparedStatement ps=conn.prepareStatement(QUERY);
+                ps.setString(1, txtIdBarang.getText());
+                ps.setString(2, txtIdBarcode.getText());
+                ps.setString(3, cmbNamaBarang.getSelectedItem().toString());
+                ps.setString(4, cmbTipe.getSelectedItem().toString());
+                ps.setString(5, cmbMerek.getSelectedItem().toString());
+                ps.setString(6, txtHargaModal.getText());
+                ps.setString(7, txtHargaGrosir.getText());
+                ps.setString(8, txtHargaEceran.getText());       
+                ps.setString(9, String.valueOf(JsStok.getValue()));
+                ps.setString(10, String.valueOf(JsstokMin.getValue()));
+                ps.setString(11, cmbSupplier.getSelectedItem().toString());
+                ps.setString(12, txtKet.getText());
+                  try {
+                    ps.setBlob(13, new FileInputStream(gambar));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            String garansi = "";
+            int hari =  0, bulan = 0, tahun = 0;
+            hari =  jsHari.getValue();
+            bulan = jsBulan.getValue() * 30;
+            tahun = jsTahun.getValue() * 360;
+        
+            int lamaGaransi = (hari+bulan+tahun);
+        
+            if(rbTidak.isSelected()){
+                garansi = "tidak";
+                lamaGaransi = 0;
+            }else if(rbYa.isSelected()){
+                garansi = "ya";
+            }
+                ps.setString(14, garansi);
+                ps.setString(15, String.valueOf(lamaGaransi));
+                ps.setString(16, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Update barangkecil berhasil");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Update barangkecil gagal karena = "+ex);
+            }                        
         }
-        barangTokoDTO.setLamaGaransi(lamaGaransi);
-        barangTokoDTO.setGaransi(garansi);
-
-        if(pathGambar == null || pathGambar.trim().equals("")){
-            barangTokoDAO.updateBarangTokoWithoutImage(barangTokoDTO);
-        }
-        else {
-            barangTokoDAO.updateBarangTokoWithmage(barangTokoDTO, pathGambar);
-        }
-
-        btCari.doClick();
+        btCari.doClick();             
     }
-
-
-    private void btTambah1ActionPerformed(java.awt.event.ActionEvent evt) {
-        updateBarang();
-    }
-
-    private void txtHargaEceranFocusLost(java.awt.event.FocusEvent evt) {
-        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
-        int hargaEceran = Integer.valueOf(txtHargaEceran.getText());
-
-        if(!txtHargaEceran.getText().matches("[0-9]*")){
-            JOptionPane.showMessageDialog(null, "harga harus angka");
-            txtHargaEceran.setText("0");
-            txtHargaEceran.requestFocus();
-        }else if(hargaEceran<=hargaGrosir){
-            JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
-            txtHargaEceran.requestFocus();
-        }
-        setIdBarang();
-    }
-
+    
+    
     String pathGambar = "";
 
     public String getPathGambar() {
@@ -964,8 +997,58 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     public void setPathGambar(String pathGambar) {
         this.pathGambar = pathGambar;
     }
+    
+    private void txtKataKunciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKataKunciActionPerformed
+        // TODO add your handling code here:
+        btCari.doClick();
+    }//GEN-LAST:event_txtKataKunciActionPerformed
 
-    private void btTambahGambarActionPerformed(java.awt.event.ActionEvent evt) {        
+    private void btCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCariActionPerformed
+        try {
+            // TODO add your handling code here:
+     controller.cari(this, this);
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BarangException ex) {
+            java.util.logging.Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            this.setSize(getWidth(), getHeight());
+    }//GEN-LAST:event_btCariActionPerformed
+
+    private void cmbCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbCariActionPerformed
+
+    private void cmbUrutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrutActionPerformed
+        try {
+            // TODO add your handling code here:
+        controller.sort(this);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BarangException ex) {
+            Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_cmbUrutActionPerformed
+
+    private void tabelBarangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarangMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelBarangMousePressed
+
+    private void tabelBarangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarangMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelBarangMouseReleased
+
+    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
+        updateManual();
+    }//GEN-LAST:event_btUpdateActionPerformed
+
+    private void btPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPreviewActionPerformed
+        // TODO add your handling code here:
+        preview();
+    }//GEN-LAST:event_btPreviewActionPerformed
+
+    private void btTambahGambarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahGambarActionPerformed
+        // TODO add your handling code here:
         Image thumb=null;
         JFileChooser ambil=new JFileChooser();
         int ok=ambil.showOpenDialog(this);
@@ -984,208 +1067,92 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
             ImageIcon gambar=new ImageIcon(thumb);
             LblImage.setIcon(gambar);
         }
+    }//GEN-LAST:event_btTambahGambarActionPerformed
+
+     private void setIdBarang(){
+        String idBarang = cmbMerek.getSelectedItem().toString()+cmbTipe.getSelectedItem().toString()+"-"+cmbNamaBarang.getSelectedItem().toString();
+        txtIdBarang.setText(idBarang);
     }
+     
+    private void txtIdBarcodeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdBarcodeFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_txtIdBarcodeFocusGained
+    
+    
+    private void cmbNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNamaBarangActionPerformed
+        // TODO add your handling code here:
+        loadNamaBarang();
+    }//GEN-LAST:event_cmbNamaBarangActionPerformed
 
-    private void txtKataKunciActionPerformed(java.awt.event.ActionEvent evt) {
-        btCari.doClick();
-    }
+    private void cmbNamaBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbNamaBarangFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbNamaBarangFocusGained
 
-    private void btCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCariActionPerformed
-        controller.cari(this, this);
-        this.setSize(getWidth(), getHeight());
-    }
+    private void cmbNamaBarangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbNamaBarangFocusLost
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbNamaBarangFocusLost
 
-    private void cmbUrutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrutActionPerformed
-        controller.sort(this);
-    }
+    private void cmbTipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipeActionPerformed
+        // TODO add your handling code here:
+        loadTipe();
+    }//GEN-LAST:event_cmbTipeActionPerformed
 
-    private void tambah(){
-        int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) /5;
-        dialogTambah.setLocation(x, y);
-        dialogTambah.setSize(705, 610);
-        dialogTambah.setModal(true);
-        dialogTambah.show();
-        btCari.doClick();
-    }
+    private void cmbTipeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbTipeFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbTipeFocusGained
 
-    private ImageIcon iconRetrieve = null;
-    private Blob gambarRetrieve  = null;
-    private void showUpdateManual(){
-        pathGambar = "";
-        String idbarang = tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
-        String query = "SELECT * from barangtoko where idbarang = '"+idbarang+"'";
-        String idbarcode = "";
-        String namaBarang = "";
-        String tipe = "";
-        String merek = "";
-        String hargamodal = "";
-        String grosir = "";
-        String eceran = "";
-        String stok = "";
-        String stok_min = "";
-        String supplier ="";
-        String keterangan="";
-        String garansi = "";
-        String lamaGaransi = "";
+    private void cmbTipeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbTipeFocusLost
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbTipeFocusLost
 
-        byte [] dataGambarRetrieve = null ;
-        try{            
-            Statement s = barangTokoDAO.getConnection().createStatement();
-            ResultSet rs = s.executeQuery(query);
-            if(rs.next()){
-                idbarcode = rs.getString("idbarcode");
-                namaBarang = rs.getString("namabarang");
-                tipe = rs.getString("tipe");
-                merek = rs.getString("MerekDTO");
-                hargamodal = String.valueOf(rs.getInt("modal"));
-                grosir = String.valueOf(rs.getInt("grosir"));
-                eceran = String.valueOf(rs.getInt("eceran"));
-                stok = String.valueOf(rs.getInt("stok"));
-                stok_min = String.valueOf(rs.getInt("stok_minimum"));
-                supplier = rs.getString("supplier");
-                keterangan = rs.getString("keterangan");
-                garansi = rs.getString("garansi");
-                lamaGaransi = String.valueOf(rs.getInt("lamagaransi"));
-                gambarRetrieve = rs.getBlob("gambar");
-                if (gambarRetrieve != null) {
-                    dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());
-                }
-            }
-        }catch(SQLException exception){
-            JOptionPane.showMessageDialog(null, "error dalam mengambil ulang data barangkecil yang akan diupdate karena "+exception, "peringatan", JOptionPane.WARNING_MESSAGE);
-        }
-        hideUnusableButton();
-        txtIdBarang.setText(idbarang);
-        txtIdBarcode.setText(idbarcode);
-        cmbNamaBarang.setSelectedItem(namaBarang);
-        cmbTipe.setSelectedItem(tipe);
-        cmbMerek.setSelectedItem(merek);
-        txtHargaModal.setText(hargamodal);
-        txtHargaGrosir.setText(grosir);
-        txtHargaEceran.setText(eceran);
-        JsStok.setValue(Integer.valueOf(stok));
-        JsstokMin.setValue(Integer.valueOf(stok_min));
-        cmbSupplier.setSelectedItem(supplier);
-        txtKet.setText(keterangan);
+    private void cmbMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMerekActionPerformed
+        // TODO add your handling code here:
+        loadMerek();
+    }//GEN-LAST:event_cmbMerekActionPerformed
 
-        if(garansi.equals("ya")){
-            rbYa.setSelected(true);
-        }else{
-            rbTidak.setSelected(true);
-        }
+    private void cmbMerekFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbMerekFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbMerekFocusGained
 
-        int lgaransi = Integer.parseInt(lamaGaransi);
-        int year = lgaransi / 360;
-        int yearRest = lgaransi % 360;
-        int month = yearRest % 30;
-        int monthRest = yearRest / 30;
-        int day = monthRest;
+    private void cmbMerekFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbMerekFocusLost
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbMerekFocusLost
 
-        jsTahun.setValue(year);
-        jsBulan.setValue(month);
-        jsHari.setValue(day);
-
-        if (dataGambarRetrieve != null) {
-            if (dataGambarRetrieve.length > 0) {
-                iconRetrieve = new ImageIcon(dataGambarRetrieve);
-                Image img = iconRetrieve.getImage();
-                Image newImg = img.getScaledInstance(150, 150, img.SCALE_FAST);
-                iconRetrieve = new ImageIcon(newImg);
-                LblImage.setIcon(iconRetrieve);
-            }
-        }
-
-        int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) /5;
-        dialogUpdate.setSize(900, 600);
-        dialogUpdate.setLocation(x, y);
-        dialogUpdate.setModal(true);
-        dialogUpdate.show(true);
-    }
-
-    private void updateManual(){
-        if(tabelBarang.getSelectedRowCount()<1){
-            JOptionPane.showMessageDialog(null, "Pilih data terlebih dahulu");
-        }else{
-            showUpdateManual();
-        }
-    }
-
-    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
-        updateManual();
-    }
-
-    private void deleteManual(){
-        if(tabelBarang.getSelectedRowCount()<1){
-            JOptionPane.showMessageDialog(null, "Pilih data terlebih dahulu");
-        }else{
-            String id=tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
-            if(JOptionPane.showConfirmDialog(null, "Anda yakin akan menghapus barangkecil dengan id "+id+" ?") == JOptionPane.YES_OPTION){
-                barangTokoDAO.deleteByString(id);
-                btCari.doClick();
-            }
-        }
-    }
-
-
-    private void btHapusActionPerformed(java.awt.event.ActionEvent evt) {
-        deleteManual();
-    }
-
-    private void preview() {
-        byte [] data;
-        Blob gambar = null ;
-        if(tabelBarang.getSelectedRowCount()!=0){
-            String idBarang=tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
-            ResultSet rs = barangTokoDAO.selectSingleField("select gambar from barangtoko where idbarang='"+idBarang+"'");
-            try {
-                if(rs.next()){
-                    gambar = rs.getBlob("gambar");
-                }
-
-                if(gambar != null ){
-                    data = gambar.getBytes(1, (int) gambar.length());
-                    ImageIcon icon=new ImageIcon(data);
-                    Image img = icon.getImage();
-                    Image newImg = img.getScaledInstance(400, 400, img.SCALE_FAST);
-                    icon = new ImageIcon(newImg);
-                    lblPreview.setIcon(icon);
-                    dialogPreview.setLocationRelativeTo(null);
-                    dialogPreview.setSize(410, 410);
-                    dialogPreview.show(true);
-                }else{
-                    JOptionPane.showMessageDialog(null, "gambar tidak tersedia");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "pilih data terlebih dahulu");
-        }
-    }
-
-    private void btPreviewActionPerformed(java.awt.event.ActionEvent evt) {
-        preview();
-    }
-
-    private void rbYaActionPerformed(java.awt.event.ActionEvent evt) {
-        PanellamaGaransi.setVisible(true);
-    }
-
-    private void rbTidakActionPerformed(java.awt.event.ActionEvent evt) {
-        PanellamaGaransi.setVisible(false);
-    }
-
-    private void txtHargaModalActionPerformed(java.awt.event.ActionEvent evt) {
+    private void txtHargaModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaModalActionPerformed
+        // TODO add your handling code here:
         if(!txtHargaModal.getText().matches("[0-9]*")){
             JOptionPane.showMessageDialog(null, "harga harus angka");
             txtHargaModal.setText("0");
             txtHargaModal.requestFocus();
         }
-    }
+    }//GEN-LAST:event_txtHargaModalActionPerformed
 
-    private void txtHargaGrosirActionPerformed(java.awt.event.ActionEvent evt) {
+    private void txtHargaModalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaModalFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_txtHargaModalFocusGained
+
+    private void txtHargaModalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaModalFocusLost
+        // TODO add your handling code here:
+
+        if(!txtHargaModal.getText().matches("[0-9]*")){
+            JOptionPane.showMessageDialog(null, "harga harus angka");
+            txtHargaModal.setText("0");
+            txtHargaModal.requestFocus();
+        }
+
+        setIdBarang();
+    }//GEN-LAST:event_txtHargaModalFocusLost
+
+    private void txtHargaGrosirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaGrosirActionPerformed
+        // TODO add your handling code here:
         int hargaModal = Integer.valueOf(txtHargaModal.getText());
         int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
 
@@ -1198,17 +1165,12 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
             txtHargaGrosir.setText(String.valueOf((hargaModal+1)));
             txtHargaGrosir.requestFocus();
         }
-    }
+    }//GEN-LAST:event_txtHargaGrosirActionPerformed
 
-    private void txtHargaModalFocusLost(java.awt.event.FocusEvent evt) {
-        if(!txtHargaModal.getText().matches("[0-9]*")){
-            JOptionPane.showMessageDialog(null, "harga harus angka");
-            txtHargaModal.setText("0");
-            txtHargaModal.requestFocus();
-        }
-
+    private void txtHargaGrosirFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaGrosirFocusGained
+        // TODO add your handling code here:
         setIdBarang();
-    }
+    }//GEN-LAST:event_txtHargaGrosirFocusGained
 
     private void txtHargaGrosirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaGrosirFocusLost
         // TODO add your handling code here:
@@ -1243,20 +1205,52 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         }
     }//GEN-LAST:event_txtHargaEceranActionPerformed
 
-    private void cmbTipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipeActionPerformed
+    private void txtHargaEceranFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaEceranFocusGained
         // TODO add your handling code here:
-        loadTipe();
-    }//GEN-LAST:event_cmbTipeActionPerformed
+        setIdBarang();
+    }//GEN-LAST:event_txtHargaEceranFocusGained
 
-    private void cmbMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMerekActionPerformed
+    private void txtHargaEceranFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaEceranFocusLost
         // TODO add your handling code here:
-        loadMerek();
-    }//GEN-LAST:event_cmbMerekActionPerformed
+        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
+        int hargaEceran = Integer.valueOf(txtHargaEceran.getText());
+
+        if(!txtHargaEceran.getText().matches("[0-9]*")){
+            JOptionPane.showMessageDialog(null, "harga harus angka");
+            txtHargaEceran.setText("0");
+            txtHargaEceran.requestFocus();
+        }else if(hargaEceran<=hargaGrosir){
+            JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
+            txtHargaEceran.requestFocus();
+        }
+        setIdBarang();
+    }//GEN-LAST:event_txtHargaEceranFocusLost
 
     private void cmbSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSupplierActionPerformed
         // TODO add your handling code here:
         loadSupplier();
     }//GEN-LAST:event_cmbSupplierActionPerformed
+
+    private void cmbSupplierFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbSupplierFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbSupplierFocusGained
+
+    private void cmbSupplierFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbSupplierFocusLost
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbSupplierFocusLost
+
+    private void rbYaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbYaActionPerformed
+        // TODO add your handling code here:
+        PanellamaGaransi.setVisible(true);
+    }//GEN-LAST:event_rbYaActionPerformed
+
+    private void rbTidakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTidakActionPerformed
+        // TODO add your handling code here:
+        PanellamaGaransi.setVisible(false);
+    }//GEN-LAST:event_rbTidakActionPerformed
 
     private void btTambahNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahNamaBarangActionPerformed
         // TODO add your handling code here:
@@ -1268,58 +1262,256 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
         dialogTambahNamaBarang.show();
     }//GEN-LAST:event_btTambahNamaBarangActionPerformed
 
-    private void cmbNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {
-        loadNamaBarang();
-    }
+    private void btTambahItipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahItipeActionPerformed
+        // TODO add your handling code here:
+        int x = (screenSize.width - this.WIDTH) / 4;
+        int y = (screenSize.height - this.HEIGHT) /5;
+        dialogTambahTipe.setModal(true);
+        dialogTambahTipe.setLocation(x, y);
+        dialogTambahTipe.setSize(320, 400);
+        dialogTambahTipe.show();
+    }//GEN-LAST:event_btTambahItipeActionPerformed
 
-    private void txtIdBarcodeFocusGained(java.awt.event.FocusEvent evt) {
-        setIdBarang();
-    }
+    private void btTambahMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahMerekActionPerformed
+        // TODO add your handling code here:
+        int x = (screenSize.width - this.WIDTH) / 4;
+        int y = (screenSize.height - this.HEIGHT) /5;
+        dialogTambahMerek.setLocation(x, y);
+        dialogTambahMerek.setSize(320, 400);
+        dialogTambahMerek.setModal(true);
+        dialogTambahMerek.show();
+    }//GEN-LAST:event_btTambahMerekActionPerformed
 
-    private void cmbNamaBarangFocusGained(java.awt.event.FocusEvent evt) {
-        setIdBarang();
-    }
+    private void btTambahSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahSupplierActionPerformed
+        // TODO add your handling code here:
+        int x = (screenSize.width - this.WIDTH) / 4;
+        int y = (screenSize.height - this.HEIGHT) /8;
+        dialogTambahSupplier.setLocation(x, y);
+        dialogTambahSupplier.setSize(700, 580);
+        dialogTambahSupplier.setModal(true);
+        dialogTambahSupplier.show();
+    }//GEN-LAST:event_btTambahSupplierActionPerformed
 
-    private void cmbNamaBarangFocusLost(java.awt.event.FocusEvent evt) {
-        setIdBarang();
-    }
+    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
+        // TODO add your handling code here:
+        /*controller.resetTambahBarang();
+        try {
+            resetManual();
+        } catch (SQLException ex) {
+            Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (barangException ex) {
+            Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+    }//GEN-LAST:event_btResetActionPerformed
 
-    private void cmbTipeFocusGained(java.awt.event.FocusEvent evt) {
-        setIdBarang();
-    }
+    private void btTambah1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambah1ActionPerformed
+        updateBarangExec();
+    }//GEN-LAST:event_btTambah1ActionPerformed
+    Blob gambarRetrieve ;
+    ImageIcon iconRetrieve = null;
+    public void showUpdateManual(){
+        pathGambar = "";
+        String idbarang = tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
+        String query = "SELECT * from barangtoko where idbarang = '"+idbarang+"'";
+        String idbarcode = "";
+        String namaBarang = "";
+        String tipe = "";
+        String merek = "";
+        String hargamodal = "";
+        String grosir = "";
+        String eceran = "";
+        String stok = "";
+        String stok_min = "";
+        String supplier ="";
+        String keterangan="";
+        String garansi = "";
+        String lamaGaransi = "";
+        
+        byte [] dataGambarRetrieve = null ;
+        try{
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            if(rs.next()){
+                idbarcode = rs.getString("idbarcode");
+                namaBarang = rs.getString("namabarang");
+                tipe = rs.getString("tipe");
+                merek = rs.getString("MerekDTO");
+                hargamodal = String.valueOf(rs.getInt("modal"));
+                grosir = String.valueOf(rs.getInt("grosir"));
+                eceran = String.valueOf(rs.getInt("eceran"));
+                stok = String.valueOf(rs.getInt("stok"));
+                stok_min = String.valueOf(rs.getInt("stok_minimum"));
+                supplier = rs.getString("supplier");
+                keterangan = rs.getString("keterangan");
+                garansi = rs.getString("garansi");
+                lamaGaransi = String.valueOf(rs.getInt("lamagaransi"));
+                gambarRetrieve = rs.getBlob("gambar");
+                dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());               
+            }
+        }catch(SQLException exception){
+            JOptionPane.showMessageDialog(null, "error dalam mengambil ulang data barangkecil yang akan diupdate karena "+exception, "peringatan", JOptionPane.WARNING_MESSAGE);
+       }      
+        hideUnusableButton();
+        txtIdBarang.setText(idbarang);
+        txtIdBarcode.setText(idbarcode);
+        cmbNamaBarang.setSelectedItem(namaBarang);
+        cmbTipe.setSelectedItem(tipe);
+        cmbMerek.setSelectedItem(merek);
+        txtHargaModal.setText(hargamodal);
+        txtHargaGrosir.setText(grosir);
+        txtHargaEceran.setText(eceran);        
+        JsStok.setValue(Integer.valueOf(stok));
+        JsstokMin.setValue(Integer.valueOf(stok_min));
+        cmbSupplier.setSelectedItem(supplier);
+        txtKet.setText(keterangan);
+        
+        if(garansi.equals("ya")){
+            rbYa.setSelected(true);
+        }else{
+            rbTidak.setSelected(true);
+        }
+        
+        int lgaransi = Integer.parseInt(lamaGaransi);
+        int year = lgaransi / 360;
+        int yearRest = lgaransi % 360;
+        int month = yearRest % 30;
+        int monthRest = yearRest / 30;
+        int day = monthRest;
 
-    private void cmbTipeFocusLost(java.awt.event.FocusEvent evt) {
-        setIdBarang();
+        jsTahun.setValue(year);
+        jsBulan.setValue(month);
+        jsHari.setValue(day);
+        
+        iconRetrieve=new ImageIcon(dataGambarRetrieve);
+        Image img = iconRetrieve.getImage();
+        Image newImg = img.getScaledInstance(150, 150, img.SCALE_FAST);
+        iconRetrieve = new ImageIcon(newImg);
+        LblImage.setIcon(iconRetrieve);
+        int x = (screenSize.width - this.WIDTH) / 4;
+        int y = (screenSize.height - this.HEIGHT) /5;                   
+        dialogUpdate.setSize(900, 600);
+        dialogUpdate.setLocation(x, y);
+        dialogUpdate.setModal(true);
+        dialogUpdate.show(true);
+        try {
+            controller.sort(this);
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BarangException ex) {
+            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        loadDatabase();
     }
-
-    private void cmbMerekFocusGained(java.awt.event.FocusEvent evt) {
-        setIdBarang();
+    
+    public void updateManual(){
+        if(tabelBarang.getSelectedRowCount()<1){
+            JOptionPane.showMessageDialog(null, "Pilih data terlebih dahulu");
+        }else{
+            showUpdateManual();
+        }
+    };
+    
+    
+    public String getPath(String id){        
+        String pathGambar = "";
+        String pathSQL = "SELECT pathgambar from barangtoko WHERE idbarang = '"+id+"'";
+        try{
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery(pathSQL);
+            if(rs.next()){
+                pathGambar = rs.getString("pathgambar");
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Gagal get path karena = "+e);
+        }
+        return pathGambar;
     }
-
-    private void cmbMerekFocusLost(java.awt.event.FocusEvent evt) {
-        setIdBarang();
+    
+    public void deleteManual(){        
+        if(tabelBarang.getSelectedRowCount()<1){
+            JOptionPane.showMessageDialog(null, "Pilih data terlebih dahulu");
+            return;
+        }else{
+            String id=tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();            
+            String path = getPath(id);
+            if(JOptionPane.showConfirmDialog(null, "Anda yakin akan menghapus barangkecil dengan id "+id+" ?") == JOptionPane.YES_OPTION){
+            try {
+                PreparedStatement ps=conn.prepareStatement("DELETE from barangtoko WHERE idbarang = ?");
+                ps.setString(1, id);                
+                if(path==null || path.trim().equals("")){
+                    
+                }else{
+                    //hapus image barangkecil
+                    new File(path).delete();
+                }
+                ps.executeUpdate();
+                
+                //urutkan setelah delete                                
+                try {
+                    controller.sort(this);
+                } catch (BarangException ex) {
+                    Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+            }                
+            }
+        }                
+    };
+    
+    
+    Connection conn = null;
+	
+    public void koneksi(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = "+ex);
+        }
     }
-
-    private void txtHargaModalFocusGained(java.awt.event.FocusEvent evt) {        
-        setIdBarang();
+    
+    
+    private void preview(){
+        byte [] data = null ;
+        Blob gambar = null ;
+        if(tabelBarang.getSelectedRowCount()!=0){
+            try {
+                String idBarang=tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
+                //koneksi();                
+                try{
+                    Statement s=conn.createStatement();
+                    ResultSet rs=s.executeQuery("select gambar from barangtoko where idbarang='"+idBarang+"'");
+                    if(rs.next()){
+                        gambar = rs.getBlob("gambar");
+                    }
+                }
+                catch(SQLException exception){
+                    JOptionPane.showMessageDialog(null, exception);
+                }
+                if(gambar != null ){
+                    data = gambar.getBytes(1, (int)gambar.length());
+                    ImageIcon icon=new ImageIcon(data);
+                    Image img = icon.getImage();
+                    Image newImg = img.getScaledInstance(400, 400, img.SCALE_FAST);
+                    icon = new ImageIcon(newImg);
+                    lblPreview.setIcon(icon);
+                    dialogPreview.setLocationRelativeTo(null);
+                    dialogPreview.setSize(410, 410);
+                    dialogPreview.show(true);                        
+                }else{
+                    JOptionPane.showMessageDialog(null, "gambar tidak tersedia");
+                }
+                } catch (SQLException ex) {
+                    Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        else{
+            JOptionPane.showMessageDialog(null, "pilih data terlebih dahulu");
+            return;            
+        }    
     }
-
-    private void txtHargaGrosirFocusGained(java.awt.event.FocusEvent evt) {
-        setIdBarang();
-    }
-
-    private void txtHargaEceranFocusGained(java.awt.event.FocusEvent evt) {
-        setIdBarang();
-    }
-
-    private void cmbSupplierFocusGained(java.awt.event.FocusEvent evt) {
-        setIdBarang();
-    }
-
-    private void cmbSupplierFocusLost(java.awt.event.FocusEvent evt) {
-        setIdBarang();
-    }
-   
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.components.JSpinField JsStok;
     private com.toedter.components.JSpinField JsstokMin;
     private javax.swing.JLabel LblImage;
@@ -1331,7 +1523,6 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     private javax.swing.JPanel bgUp;
     private javax.swing.JPanel bottom;
     private javax.swing.JButton btCari;
-    private javax.swing.JButton btHapus;
     private javax.swing.JButton btPreview;
     private javax.swing.JButton btReset;
     private javax.swing.JButton btTambah1;
@@ -1394,7 +1585,6 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     private javax.swing.JPanel kanan;
     private javax.swing.JPanel kiri;
     private javax.swing.JLabel lblPreview;
-    private MerekView merekView21;
     private javax.swing.JPanel middle;
     private com.wissensalt.sinarelektronik.masterdata.namabarang.view.NamaBarangView namaBarangView1;
     private javax.swing.JPanel panelAtas;
@@ -1407,11 +1597,9 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     private javax.swing.JPanel panelTombol;
     private javax.swing.JRadioButton rbTidak;
     private javax.swing.JRadioButton rbYa;
-    private com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView satuanView1;
-    private SupplierView supplierView1;
     private javax.swing.JTable tabelBarang;
+    private tambahBarangKecilView tambahBarangView1;
     private javax.swing.JPanel tengah;
-    private com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView tipeView2;
     private javax.swing.JTextField txtHargaEceran;
     private javax.swing.JTextField txtHargaGrosir;
     private javax.swing.JTextField txtHargaModal;
@@ -1420,43 +1608,50 @@ public class BarangTokoView extends javax.swing.JPanel implements BarangTokoList
     private javax.swing.JTextField txtKataKunci;
     private javax.swing.JTextArea txtKet;
     private javax.swing.JPanel up;
+    // End of variables declaration//GEN-END:variables
 
+  
     @Override
-    public void onChange(BarangTokoModel model) {
-        txtKataKunci.setText(model.getCari());
-        cmbCari.setSelectedItem(model.getCari());
-        cmbUrut.setSelectedItem(model.getCmbsort());
+    public void onInsert(barang barang) {
+        tabelmodelbarang.add(barang);
     }
 
     @Override
-    public void onInsert(BarangTokoDTO barang) {
-        tabelmodelbarangToko.add(barang);
-    }
-
-    @Override
-    public void onUpdate(BarangTokoDTO barang) {
+    public void onUpdate(barang barang) {
         int index = tabelBarang.getSelectedRow();
-        tabelmodelbarangToko.set(index, barang);
+        tabelmodelbarang.set(index, barang);
     }
 
     @Override
     public void onDelete() {
         int index = tabelBarang.getSelectedRow();
-        tabelmodelbarangToko.remove(index);
+        tabelmodelbarang.remove(index);
     }
 
     @Override
-    public void onSearchToko(List list) {
-        tabelmodelbarangToko.setList(list);
+    public void onSearch(List list) {
+        tabelmodelbarang.setList(list);
     }
 
     @Override
-    public void onSortToko(List list) {
-        tabelmodelbarangToko.setList(list);
+    public void onSort(List list) {
+        tabelmodelbarang.setList(list);
     }
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        BarangTokoDTO barang= tabelmodelbarangToko.get(tabelBarang.getSelectedRow());
+        try{
+            barang barang=tabelmodelbarang.get(tabelBarang.getSelectedRow());
+            //cmbCari.setSelectedItem(barangkecil.get);
+        }catch(IndexOutOfBoundsException ioobe){
+            
+        }
+    }
+
+    @Override
+    public void onChange(BarangTokoReminderModel model) {
+        txtKataKunci.setText(model.getCari());
+        cmbCari.setSelectedItem(model.getCari());
+        cmbUrut.setSelectedItem(model.getCmbSort());
     }
 }

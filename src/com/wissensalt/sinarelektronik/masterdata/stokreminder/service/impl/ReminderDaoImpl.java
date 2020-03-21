@@ -131,7 +131,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -251,7 +251,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }    
@@ -309,7 +309,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -371,7 +371,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -432,7 +432,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -494,7 +494,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -555,7 +555,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -617,7 +617,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -679,7 +679,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -741,7 +741,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -802,7 +802,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -864,7 +864,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -925,7 +925,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -986,7 +986,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -1048,7 +1048,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -1109,7 +1109,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -1170,7 +1170,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -1231,7 +1231,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -1292,7 +1292,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -1353,7 +1353,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -1414,7 +1414,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -1475,7 +1475,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -1536,7 +1536,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }
@@ -1580,7 +1580,7 @@ public class ReminderDaoImpl implements ReminderDao {
 //                try {
 //                    connection.close();
 //                } catch (SQLException ex) {
-//                    Logger.getLogger(ReminderDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+//                    Logger.getLogger(ReminderBarangTokoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
 //                }
 //            }
         }

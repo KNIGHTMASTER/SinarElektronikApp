@@ -1,23 +1,20 @@
 package com.wissensalt.sinarelektronik.model;
 
-import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.event.BarangBesarListener;
+import com.wissensalt.sinarelektronik.dto.BarangTokoDTO;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.event.BarangTokoListener;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
  *
  * @author Fauzi
  */
-public class BarangBesarModel extends BaseModel {
+public class BarangTokoModel extends BaseModel {
 
-    private String cari, cmbcari, cmbsort, idBarang, idBarcode, namaBarang, tipe, merek, satuan, supplier, keterangan, kategori;
+    private String cari, cmbcari, cmbsort;
+    private String idBarang, idBarcode, namaBarang, tipe, merek, satuan, supplier, keterangan, kategori;
     private int stok, stokMinimum, harga;
-    private BarangBesarListener listener ;
-
-    public BarangBesarModel() {
-    }
+    private BarangTokoListener listener ;
 
     public String getKategori() {
         return kategori;
@@ -29,11 +26,11 @@ public class BarangBesarModel extends BaseModel {
     }
     
 
-    public BarangBesarListener getListener() {
+    public BarangTokoListener getListener() {
         return listener;
     }
 
-    public void setListener(BarangBesarListener listener) {
+    public void setListener(BarangTokoListener listener) {
         this.listener = listener;
     }
         
@@ -168,15 +165,15 @@ public class BarangBesarModel extends BaseModel {
         }
     }
 
-    protected void fireOnInsert(BarangBesarDTO BarangBesarDTO){
+    protected void fireOnInsert(BarangTokoDTO barang){
         if(listener!=null){
-            listener.onInsert(BarangBesarDTO);
+            listener.onInsert(barang);
         }
     }
 
-    protected void fireOnUpdate(BarangBesarDTO BarangBesarDTO){
+    protected void fireOnUpdate(BarangTokoDTO barang){
         if(listener!=null){
-            listener.onUpdate(BarangBesarDTO);
+            listener.onUpdate(barang);
         }
     }
 
@@ -188,13 +185,13 @@ public class BarangBesarModel extends BaseModel {
 
     protected void fireOnSearch(List list){
         if(listener!=null){
-            listener.onSearch(list);
+            listener.onSearchToko(list);
         }
     }
 
     protected void fireOnSort(List list){
         if(listener!=null){
-            listener.onSort(list);
+            listener.onSortToko(list);
         }
     }
 
@@ -204,15 +201,15 @@ public class BarangBesarModel extends BaseModel {
        setCmbsort(cmbsort);
     }
 
-    public void deleteBarang() {        
+    public void deleteBarang() {
         fireOnDelete();
     }
 
-    public void findBarangByField(List list) throws SQLException {     
+    public void findByField(List list) {
         fireOnSearch(list);
     }
-    
-    public void sortByField(List list) throws SQLException {
+
+    public void sortByField(List list) {
         fireOnSort(list);
-    } 
+    }
 }

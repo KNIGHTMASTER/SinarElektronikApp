@@ -1,13 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.model;
 
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.event.TambahBarangKecilListener;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.database.TambahbarangDatabase;
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.error.TambahBarangException;
 import com.wissensalt.sinarelektronik.dao.TambahBarangKecilDAO;
 import java.io.File;
 import java.sql.SQLException;

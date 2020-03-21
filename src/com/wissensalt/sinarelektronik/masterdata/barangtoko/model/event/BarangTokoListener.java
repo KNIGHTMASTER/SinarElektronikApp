@@ -1,7 +1,7 @@
 package com.wissensalt.sinarelektronik.masterdata.barangtoko.model.event;
 
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.entity.BarangTokoDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.BarangTokoModel;
+import com.wissensalt.sinarelektronik.dto.BarangTokoDTO;
+import com.wissensalt.sinarelektronik.model.BarangTokoModel;
 
 import java.util.List;
 

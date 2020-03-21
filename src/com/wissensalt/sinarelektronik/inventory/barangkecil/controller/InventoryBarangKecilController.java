@@ -5,7 +5,7 @@ import com.wissensalt.sinarelektronik.dao.InventoryBarangKecilDAO;
 import com.wissensalt.sinarelektronik.dto.InventoryBarangKecilDTO;
 import com.wissensalt.sinarelektronik.inventory.barangkecil.view.JIFInventoryBarangKecilKecil;
 import com.wissensalt.sinarelektronik.model.InventoryBarangKecilModel;
-import com.wissensalt.sinarelektronik.inventory.barangkecil.service.InventoryBarangKecilDAOImpl;
+import com.wissensalt.sinarelektronik.dao.impl.InventoryBarangKecilDAOImpl;
 
 import javax.swing.JOptionPane;
 

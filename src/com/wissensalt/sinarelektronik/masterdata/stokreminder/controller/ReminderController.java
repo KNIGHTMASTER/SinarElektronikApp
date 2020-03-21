@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.stokreminder.controller;
 
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.error.BarangException;
 import com.wissensalt.sinarelektronik.masterdata.stokreminder.model.ReminderModel;
 import com.wissensalt.sinarelektronik.masterdata.stokreminder.view.ReminderView;
 import com.wissensalt.sinarelektronik.penjualan.barangkecil.view.Kasirview;
@@ -41,7 +36,7 @@ public class ReminderController {
         return barangKecilDTOEntity;
     }      
  
-    public void cari(ReminderView  view, ReminderView v) throws SQLException, BarangException{
+    public void cari(ReminderView  view, ReminderView v) throws SQLException {
         String kataKunci = view.getTxtKataKunci().getText();
         String berdasarkan = v.getCmbCari().getSelectedItem().toString();
         switch(berdasarkan){
@@ -61,7 +56,7 @@ public class ReminderController {
         
     }
     
-    public void cari(Kasirview view, Kasirview v) throws SQLException, BarangException{
+    public void cari(Kasirview view, Kasirview v) throws SQLException {
         String kataKunci = view.getTxtKataKunci1().getText();
         String berdasarkan = v.getCmbCari1().getSelectedItem().toString();
         switch(berdasarkan){
@@ -81,7 +76,7 @@ public class ReminderController {
         
     }    
     
-    public void sort(ReminderView view) throws SQLException, BarangException{        
+    public void sort(ReminderView view) throws SQLException {        
         String berdasarkan = view.getCmbUrut().getSelectedItem().toString();
         switch(berdasarkan){
             case "id barangkecil" : model.sortBarangbyId();break;
@@ -100,7 +95,7 @@ public class ReminderController {
     
     }
     
-    public void sort(Kasirview view) throws SQLException, BarangException{
+    public void sort(Kasirview view) throws SQLException {
         
         String berdasarkan = view.getCmbUrut1().getSelectedItem().toString();
         switch(berdasarkan){

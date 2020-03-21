@@ -3,7 +3,7 @@ package com.wissensalt.sinarelektronik.masterdata.barangtoko.controller;
 import com.wissensalt.sinarelektronik.dao.BarangTokoDAO;
 import com.wissensalt.sinarelektronik.dao.impl.BarangTokoDAOImpl;
 import com.wissensalt.sinarelektronik.inventory.barangbesar.view.JIFInventoryBB;
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.model.BarangTokoModel;
+import com.wissensalt.sinarelektronik.model.BarangTokoModel;
 import com.wissensalt.sinarelektronik.masterdata.barangtoko.view.BarangTokoView;
 import com.wissensalt.sinarelektronik.masterdata.itemforbonus.barangbesar.view.JIFBarangBesarBonusKaryawanBBView;
 import com.wissensalt.sinarelektronik.penjualan.barangbesar.view.JIFKasirView2;

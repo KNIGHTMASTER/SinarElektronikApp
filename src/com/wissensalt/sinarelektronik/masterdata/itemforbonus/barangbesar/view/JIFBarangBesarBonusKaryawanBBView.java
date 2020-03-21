@@ -2,13 +2,13 @@ package com.wissensalt.sinarelektronik.masterdata.itemforbonus.barangbesar.view;
 import com.wissensalt.sinarelektronik.config.HostName;
 import com.wissensalt.sinarelektronik.config.UserLevel;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.controller.BarangBesarController;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.database.barangDatabase;
 import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.error.BarangException;
 import com.wissensalt.sinarelektronik.model.BarangBesarModel;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.event.BarangBesarListener;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
 import com.wissensalt.sinarelektronik.dao.BarangBesarDAO;
+import com.wissensalt.sinarelektronik.dao.impl.BarangBesarDAOImpl;
 import com.wissensalt.sinarelektronik.masterdata.itemforbonus.barangbesar.controller.BarangBonusKaryawanBBController;
 import com.wissensalt.sinarelektronik.masterdata.itemforbonus.barangbesar.database.BarangBonusKaryawanBBDatabase;
 import com.wissensalt.sinarelektronik.masterdata.itemforbonus.barangbesar.entity.BarangBonusKaryawanBB;
@@ -36,31 +36,17 @@ import javax.swing.event.ListSelectionListener;
  */
 public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFrame implements BarangBonusKaryawanBBListener, ListSelectionListener, BarangBesarListener {
 
-    /**
-     * Creates new form JIFTipeView
-     */
-    
     private BarangBonusKaryawanBBController controller;
-    
     private tabelModelBarangBonusKaryawanBB tabelMbbkbk;
-    
     private BarangBonusKaryawanBBModel model;
-    
     private  TabelModelBarangBesar tabelmodelBarangBesar ;
-    
     private BarangBesarController controllerBarang;
-    
     private BarangBesarModel modelBarang;
-
     private String sumberBarang = "barangbesar";
-    
-    /*private com.wissensalt.sinarelektronik.masterdata.barangtoko.model.TabelModelBarangBesar TabelmodelBarangToko;
-    
-    private com.wissensalt.sinarelektronik.masterdata.barangtoko.controller.BarangBesarController controllerBarangToko;
-    
-    private com.wissensalt.sinarelektronik.masterdata.barangtoko.model.BarangBesarModel modelBarangToko;    */
+    private final BarangBesarDAO barangBesarDAO;
     
     public JIFBarangBesarBonusKaryawanBBView() {
+        barangBesarDAO = new BarangBesarDAOImpl();
             try {
                 initComponents();
 
@@ -93,10 +79,8 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
                 tabelTipe.setModel(tabelMbbkbk);
                 setLevel();        
             try {
-                LoadDatabase();
-            } catch (SQLException ex) {
-                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (BarangBonusKaryawanBBException ex) {
+                loadDatabase();
+            } catch (SQLException | BarangBonusKaryawanBBException ex) {
                 Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }
             
@@ -269,12 +253,7 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
         tengah2.setOpaque(false);
         tengah2.setLayout(new java.awt.BorderLayout());
 
-        cmbCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "id barangkecil", "id barcode", "nama barangkecil", "tipe", "MerekDTO", "harga", "satuan", "stok", "stok minimum", "supplier", "keterangan" }));
-        cmbCari1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbCari1ActionPerformed(evt);
-            }
-        });
+        cmbCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "id barangkecil", "id barcode", "nama barangkecil", "tipe", "MerekDTO", "harga", "satuan", "stok", "stok minimum", "supplier", "keterangan" }));        
         tengah2.add(cmbCari1, java.awt.BorderLayout.CENTER);
 
         kanan1.add(tengah2);
@@ -313,25 +292,14 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tabelBarang1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelBarang1MouseClicked(evt);
-            }
+        tabelBarang1.addMouseListener(new java.awt.event.MouseAdapter() {            
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tabelBarang1MousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tabelBarang1MouseReleased(evt);
             }
-        });
-        tabelBarang1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tabelBarang1KeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tabelBarang1KeyTyped(evt);
-            }
-        });
+        });        
         jScrollPane3.setViewportView(tabelBarang1);
 
         panelGradUser4.add(jScrollPane3, java.awt.BorderLayout.CENTER);
@@ -443,17 +411,7 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
 
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        txtKodeBarang.setEditable(false);
-        txtKodeBarang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtKodeBarangActionPerformed(evt);
-            }
-        });
-        txtKodeBarang.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtKodeBarangFocusGained(evt);
-            }
-        });
+        txtKodeBarang.setEditable(false);        
         jPanel3.add(txtKodeBarang, java.awt.BorderLayout.CENTER);
 
         btCari.setText("...");
@@ -487,7 +445,7 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
         getAccessibleContext().setAccessibleName("Manajemen  Barang Bonus");
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     public JTextField getTxtKodeBarang() {
         return txtKodeBarang;
@@ -532,13 +490,11 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
         controller.insertTipe(this);
     }
     
-    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahActionPerformed
-        // TODO add your handling code here:
+    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {
         tambah();
-    }//GEN-LAST:event_btTambahActionPerformed
+    }
 
-    static HostName ip1 = new HostName();
-    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
+    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {
         if(tabelTipe.getSelectedRowCount()<=0){
             JOptionPane.showMessageDialog(null, "Pilih data terlebih dahulu", "peringatan", JOptionPane.WARNING_MESSAGE);
         }else if(JOptionPane.showConfirmDialog(null, "Apakah anda yakin akan menghapus ?") == JOptionPane.YES_OPTION){
@@ -560,24 +516,21 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
                         Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
                     }            
                 
-                        LoadDatabase();
+                        loadDatabase();
                         txtKodeBarang.setText("");
                         txtMerekBarang.setText("");
                         txtNamaBarang.setText("");
                         txtTipeBarang.setText("");
                         this.setSize(this.getWidth(), this.getHeight());
-            } catch (SQLException ex) {
-                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
-            }catch (BarangBonusKaryawanBBException ex) {
+            } catch (SQLException | BarangBonusKaryawanBBException ex) {
                 Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_btDeleteActionPerformed
+    }
 
-    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
-        // TODO add your handling code here:
+    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {
         controller.resetTipe(this);
-    }//GEN-LAST:event_btResetActionPerformed
+    }
 
     private void cariBarang(){
         txtKodeBarang.setText("");
@@ -591,28 +544,17 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
         DialogCariBarang.setLocationRelativeTo(null);        
     }
     
-    private void txtNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNamaBarangActionPerformed
-        // TODO add your handling code here:
+    private void txtNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {
         tambah();
-    }//GEN-LAST:event_txtNamaBarangActionPerformed
-
-    private void txtKodeBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKodeBarangActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtKodeBarangActionPerformed
-
-    private void txtKodeBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtKodeBarangFocusGained
-       
-    }//GEN-LAST:event_txtKodeBarangFocusGained
-
-    private void btCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCariActionPerformed
-        // TODO add your handling code here:
+    }
+    
+    private void btCariActionPerformed(java.awt.event.ActionEvent evt) {        
         cariBarang();
-    }//GEN-LAST:event_btCariActionPerformed
+    }
 
-    private void txtKataKunci1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKataKunci1ActionPerformed
-        // TODO add your handling code here:
+    private void txtKataKunci1ActionPerformed(java.awt.event.ActionEvent evt) {
         btCari1.doClick();
-    }//GEN-LAST:event_txtKataKunci1ActionPerformed
+    }
 
     private void btCari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCari1ActionPerformed
         if(sumberBarang.equals("barangtoko")){/*
@@ -626,36 +568,26 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
                 Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }*/
         }else if(sumberBarang.equals("barangbesar")){
-            try {
-                // TODO add your handling code here:
+            try {                
             controllerBarang.cariBBKBGudang(this, this);
             this.setSize(getWidth(), getHeight());
             tabelBarang1.requestFocus();
-            } catch (SQLException ex) {
-                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (BarangException ex) {
+            } catch (SQLException | BarangException ex) {
                 Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_btCari1ActionPerformed
+    }
 
-    private void btSetCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSetCariActionPerformed
-        // TODO add your handling code here:
+    private void btSetCariActionPerformed(java.awt.event.ActionEvent evt) {
         txtKataKunci1.selectAll();
         txtKataKunci1.requestFocus();
-    }//GEN-LAST:event_btSetCariActionPerformed
-
-    private void cmbCari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCari1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbCari1ActionPerformed
-
+    }
+    
     private void cmbUrut1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrut1ActionPerformed
         if(sumberBarang.equals("barangbesar")){
             try {
                 controllerBarang.sortBBKBB(this);
-            } catch (SQLException ex) {
-                Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (BarangException ex) {
+            } catch (SQLException | BarangException ex) {
                 Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else if(sumberBarang.equals("barangtoko")){
@@ -667,39 +599,21 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
                 Logger.getLogger(JIFBarangBesarBonusKaryawanBBView.class.getName()).log(Level.SEVERE, null, ex);
             }*/
         }
-    }//GEN-LAST:event_cmbUrut1ActionPerformed
+    }
 
-    private void tabelBarang1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarang1MouseClicked
-        // TODO add your handling code here:
-        //JOptionPane.showMessageDialog(null, "isi tabel = "+tabelBarang1.getValueAt(tabelBarang1.getSelectedRow(), 0).toString());
-    }//GEN-LAST:event_tabelBarang1MouseClicked
-
-    private void tabelBarang1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarang1MousePressed
-        // TODO add your handling code here:
-        if(evt.isPopupTrigger()){
-            popUpTabel.show(evt.getComponent(), evt.getX(), evt.getY());
-        }//JOptionPane.showMessageDialog(null, "isi tabel = "+tabelBarang1.getValueAt(tabelBarang1.getSelectedRow(), 0).toString());
-    }//GEN-LAST:event_tabelBarang1MousePressed
-
-    private void tabelBarang1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarang1MouseReleased
-        // TODO add your handling code here:
-        //JOptionPane.showMessageDialog(null, "isi tabel = "+tabelBarang1.getValueAt(tabelBarang1.getSelectedRow(), 0).toString());
+    private void tabelBarang1MousePressed(java.awt.event.MouseEvent evt) {
         if(evt.isPopupTrigger()){
             popUpTabel.show(evt.getComponent(), evt.getX(), evt.getY());
         }
-    }//GEN-LAST:event_tabelBarang1MouseReleased
+    }
 
-    private void tabelBarang1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelBarang1KeyPressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_tabelBarang1KeyPressed
-
-    private void tabelBarang1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tabelBarang1KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tabelBarang1KeyTyped
-
-    private void pilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pilihActionPerformed
-        // TODO add your handling code here:
+    private void tabelBarang1MouseReleased(java.awt.event.MouseEvent evt) {
+        if(evt.isPopupTrigger()){
+            popUpTabel.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }
+    
+    private void pilihActionPerformed(java.awt.event.ActionEvent evt) {        
         if(tabelBarang1.getSelectedRowCount()==1){
             String data=tabelBarang1.getValueAt(tabelBarang1.getSelectedRow(), 0).toString();
             txtKodeBarang.setText(data);
@@ -709,9 +623,8 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
             //txtKodeBarang.requestFocus();
             DialogCariBarang.dispose();
         }        
-    }//GEN-LAST:event_pilihActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    }
+    
     private javax.swing.JDialog DialogCariBarang;
     private javax.swing.JPanel atas;
     private javax.swing.JPanel atas2;
@@ -785,26 +698,20 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
         txtMerekBarang.setText(model.getMerek());
     }
     
-    public void LoadDatabase() throws SQLException, SQLException, BarangBonusKaryawanBBException {
+    public void loadDatabase() throws SQLException, SQLException, BarangBonusKaryawanBBException {
         BarangBonusKaryawanBBDao  dao = BarangBonusKaryawanBBDatabase.getTipeDao();
         tabelMbbkbk.setList(dao.selectAllTipe());
     }        
     
     public void loadDatabaseCariBarang() throws SQLException, BarangException{
-        BarangBesarDAO dao = barangDatabase.getBarangDao();
-        tabelmodelBarangBesar.setList(dao.selectAllBarang());
+        tabelmodelBarangBesar.setList(barangBesarDAO.selectAllBarang());
     }        
 
     @Override
     public void onChange(BarangBesarModel model) {
         txtKataKunci1.setText(modelBarang.getCari());
     }
-
-    @Override
-    public void onInsert(BarangBesarDTO BarangBesarDTO) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+  
     @Override
     public void onUpdate(BarangBesarDTO BarangBesarDTO) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

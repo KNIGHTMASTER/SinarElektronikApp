@@ -16,7 +16,6 @@ import com.wissensalt.sinarelektronik.inventory.barangbesar.model.Event.Inventor
 import com.wissensalt.sinarelektronik.model.InventoryBarangBesarModel;
 import com.wissensalt.sinarelektronik.inventory.barangbesar.model.TabelModelInventoryBarangBesar;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.controller.BarangBesarController;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.error.BarangException;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
 import com.wissensalt.sinarelektronik.swinglib.AutoComplete.DefaultModelAutoComplete;
 import com.wissensalt.sinarelektronik.swinglib.AutoComplete.TextFieldAutoComplete;
@@ -82,14 +81,7 @@ public class JIFInventoryBB extends javax.swing.JInternalFrame implements Barang
         tabelProsesInventory.setModel(tabelModelInventoryBarangBesar);
         
         tabelBarang1.setModel(tabelmodelBarangBesar);
-        try {
-            loadDatabaseCariBarang();
-        } catch (SQLException ex) {
-            Logger.getLogger(JIFInventoryBB.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BarangException ex) {
-            Logger.getLogger(JIFInventoryBB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        loadDatabaseCariBarang();
         
        setTxtkodeAuto(); 
         
@@ -841,7 +833,7 @@ public void inisiasiDataAwal(){
         // TODO add your handling code here:
     }//GEN-LAST:event_txtnamabarangActionPerformed
 
-    public void loadDatabaseCariBarang() throws SQLException, BarangException{
+    public void loadDatabaseCariBarang() {
         tabelmodelBarangBesar.setList(barangBesarDAO.selectAllBarang());
     }    
         
@@ -979,7 +971,7 @@ public void inisiasiDataAwal(){
         try {
             controllerBarang.cari6(this, this);
             this.setSize(getWidth(), getHeight());
-        } catch (SQLException | BarangException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(JIFInventoryBB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btCari1ActionPerformed
@@ -991,7 +983,7 @@ public void inisiasiDataAwal(){
     private void cmbUrut1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrut1ActionPerformed
         try {
             controllerBarang.sort6(this);
-        } catch (SQLException | BarangException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(JIFInventoryBB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cmbUrut1ActionPerformed

@@ -1976,31 +1976,15 @@ public class JIFKasirView2 extends javax.swing.JInternalFrame implements penjual
 
     private void txtTambahanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTambahanActionPerformed
         // TODO add your handling code here:
-        if(iha.cek(txtTambahan) == false){
+        if(!iha.cek(txtTambahan)){
             JOptionPane.showMessageDialog(null, "Tambahan harus angka");
-            return;
         }else if(txtTambahan.getText().trim().equals("") || txtTambahan.getText()==null){
             txtTambahan.setText("0");
         }else{
             btGo.doClick();
         }
-    }//GEN-LAST:event_txtTambahanActionPerformed
+    }
 
-    private void txtTambahanFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTambahanFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTambahanFocusGained
-
-    private void txtTambahanFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTambahanFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTambahanFocusLost
-
-    private void txtJumlahBarangBawahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJumlahBarangBawahActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtJumlahBarangBawahActionPerformed
-
-    private void txtSubTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSubTotalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSubTotalActionPerformed
     private int getAllTotal(){
         int hasil=0;
         koneksi();

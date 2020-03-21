@@ -2,7 +2,6 @@ package com.wissensalt.sinarelektronik.retur.barangbesar.view;
 
 import com.wissensalt.sinarelektronik.config.HostName;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.controller.BarangBesarController;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.error.BarangException;
 import com.wissensalt.sinarelektronik.model.BarangBesarModel;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.event.BarangBesarListener;

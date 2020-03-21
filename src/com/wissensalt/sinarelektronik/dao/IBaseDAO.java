@@ -1,6 +1,7 @@
 package com.wissensalt.sinarelektronik.dao;
 
 import com.wissensalt.sinarelektronik.dto.BaseDTO;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
@@ -25,6 +26,12 @@ public interface IBaseDAO<DTO extends BaseDTO>{
     List<DTO> findByFieldLike(String field, String query);    
     DTO getDTOFromResultSet(ResultSet rs);
 
+    /**
+     * 
+     * @param field Field/ Keyword to Search
+     * @param query Query for Searching
+     * @return 
+     */
     DTO findSingleByField(String field, String query);
     
     List<DTO> findByField(String field, String query);
@@ -41,4 +48,8 @@ public interface IBaseDAO<DTO extends BaseDTO>{
     
     void truncate();    
     String getTruncateQuery();
+    
+    ResultSet selectSingleField(String query);
+    
+    Connection getConnection();     
 }

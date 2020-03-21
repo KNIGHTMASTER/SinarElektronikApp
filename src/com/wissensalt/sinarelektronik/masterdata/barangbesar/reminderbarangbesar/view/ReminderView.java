@@ -1,17 +1,21 @@
-package com.wissensalt.sinarelektronik.masterdata.barangbesar.view;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.wissensalt.sinarelektronik.masterdata.barangbesar.reminderbarangbesar.view;
 
 import com.wissensalt.sinarelektronik.config.HostName;
 import com.wissensalt.sinarelektronik.config.UserLevel;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.controller.BarangBesarController;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.dialog.DialogUpdateBulk;
 import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
-import com.wissensalt.sinarelektronik.masterdata.supplier.view.SupplierView;
-import com.wissensalt.sinarelektronik.model.BarangBesarModel;
+import com.wissensalt.sinarelektronik.masterdata.barangbesar.error.BarangException;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.event.BarangBesarListener;
-import com.wissensalt.sinarelektronik.dao.BarangBesarDAO;
-import com.wissensalt.sinarelektronik.dao.impl.BarangBesarDAOImpl;
-import com.wissensalt.sinarelektronik.masterdata.merek.view.MerekView;
+import com.wissensalt.sinarelektronik.masterdata.barangbesar.reminderbarangbesar.controller.ReminderBarangBesarController;
+import com.wissensalt.sinarelektronik.masterdata.barangbesar.reminderbarangbesar.database.ReminderDatabase;
+import com.wissensalt.sinarelektronik.masterdata.barangbesar.reminderbarangbesar.model.ReminderModel;
+import com.wissensalt.sinarelektronik.masterdata.barangbesar.reminderbarangbesar.model.event.ReminderListener;
+import com.wissensalt.sinarelektronik.dao.ReminderBarangBesarDAO;
+import com.wissensalt.sinarelektronik.masterdata.barangbesar.view.*;
+import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.view.tambahBarangKecilView;
 
 import java.awt.Dimension;
 import java.awt.Image;
@@ -30,7 +34,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,24 +51,32 @@ import javax.swing.event.ListSelectionListener;
  *
  * @author Fauzi
  */
-public class BarangBesarView extends javax.swing.JPanel implements BarangBesarListener, ListSelectionListener {
-    private BarangBesarController controller;
-    private TabelModelBarangBesar tabelmodelbarang;
-    private BarangBesarModel model;
-    private final BarangBesarDAO barangBesarDAO;
+public class ReminderView extends javax.swing.JPanel implements ReminderListener, ListSelectionListener{
 
+    /**
+     * Creates new form ReminderView
+     */
+    
+    ReminderBarangBesarController controller;
+    
+    TabelModelBarangBesar tabelmodelbarang;
+    
+    ReminderModel model;
+    
     HostName ip = new HostName();
+    
+    ReminderDatabase database = new ReminderDatabase();
+        
+    public ReminderView() {
 
-    public BarangBesarView() {
-        barangBesarDAO = new BarangBesarDAOImpl();
         tabelmodelbarang = new TabelModelBarangBesar();
-
-        model = new BarangBesarModel();
+        
+        model=new ReminderModel();
         model.setListener(this);
-
-        controller = new BarangBesarController();
-        controller.setModel(model);
-
+        
+        controller = new ReminderBarangBesarController();
+        controller.setModel(model);        
+        
         initComponents();
 
         tabelBarang.getSelectionModel().addListSelectionListener(this);
@@ -75,43 +86,31 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         loadNamaBarang();
         loadTipe();
         loadMerek();
-        loadSupplier();
+        loadSupplier();                
         setIdBarang();
         setLevel();
-    }
+    }    
 
-    public void setLevel() {
+    public void setLevel(){
         UserLevel userLevel = new UserLevel();
         String levelAktif = userLevel.getUserLevelActive();
-        switch (levelAktif) {
+        switch(levelAktif){
             case "Pemilik Toko":
-                btTambah.setEnabled(true);
-                btHapus.setEnabled(true);
-                btReset.setEnabled(true);
-                btUpdate.setEnabled(true);
+                    btReset.setEnabled(true);
+                    btUpdate.setEnabled(true);
                 break;
             case "Administrator":
-                btTambah.setEnabled(true);
-                btHapus.setEnabled(true);
-                btReset.setEnabled(true);
-                btUpdate.setEnabled(true);
+                    btReset.setEnabled(true);
+                    btUpdate.setEnabled(true);
                 break;
             case "Karyawan":
-                btTambah.setEnabled(false);
-                btHapus.setEnabled(false);
-                btReset.setEnabled(false);
-                btUpdate.setEnabled(false);
-                break;
+                    btReset.setEnabled(false);
+                    btUpdate.setEnabled(false);                
+                break;                        
             default:;
         }
-    }
-
-    private void setIdBarang() {
-        String idBarang = cmbMerek.getSelectedItem().toString() + cmbTipe.getSelectedItem().toString() + "-" + cmbNamaBarang.getSelectedItem().toString();
-        txtIdBarang.setText(idBarang);
-    }
-
-    private void hideUnusableButton() {
+    }    
+    private void hideUnusableButton(){
         jButton1.setVisible(false);
         jButton2.setVisible(false);
         jButton4.setVisible(false);
@@ -124,97 +123,97 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         jButton10.setVisible(false);
         jButton11.setVisible(false);
     }
-
-    public void loadNamaBarang() {
-        Statement statement = null;
+    
+    public void loadTipe(){
+        Statement s = null;
         try {
-            statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT namabarang FROM namabarang ORDER BY namabarang");
-            while (rs.next()) {
-                cmbNamaBarang.addItem(rs.getString("namabarang"));
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "tidak bisa me-load data nama barangkecil");
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            s = conn.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public void loadTipe() {
-        Statement statement = null;
         try {
-            statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT namaTipe FROM tipe ORDER BY namaTipe");
+            ResultSet rs=s.executeQuery("SELECT namaTipe FROM tipe");
             while (rs.next()) {
                 cmbTipe.addItem(rs.getString("namaTipe"));
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "tidak bisa me-load data tipe");
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+        }        
     }
-
-    public void loadMerek() {
-        Statement statement = null;
+    
+    public void loadMerek(){
+        Statement s = null;
         try {
-            statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT namamerek FROM merek ORDER BY namamerek");
+            s = conn.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ResultSet rs=s.executeQuery("SELECT namamerek FROM merek");
             while (rs.next()) {
                 cmbMerek.addItem(rs.getString("namamerek"));
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "tidak bisa me-load data MerekDTO");
-            e.printStackTrace();
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void loadSupplier() {
-        Statement statement = null;
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }    
+    
+    public void loadSupplier(){
+        Statement s = null;
         try {
-            statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT nama FROM supplier ORDER BY nama");
+            s = conn.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ResultSet rs=s.executeQuery("SELECT nama FROM supplier");
             while (rs.next()) {
                 cmbSupplier.addItem(rs.getString("nama"));
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "tidak bisa me-load data supplier");
-        } finally {
-            if (statement != null) {
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }    
+
+
+    public void loadNamaBarang(){
+        Statement statement=null;
+        try{
+            statement=conn.createStatement();            
+            ResultSet rs=statement.executeQuery("SELECT namabarang FROM namabarang ORDER BY namabarang");
+            while (rs.next()) {
+                cmbNamaBarang.addItem(rs.getString("namabarang"));
+            }
+        }catch(SQLException e)         {
+            JOptionPane.showMessageDialog(null, "tidak bisa me-load data nama barangkecil");
+        }finally{
+            if(statement!=null){
                 try {
                     statement.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        }      
+    }  
+    
+   
+    public void loadDatabase(){
+        try {
+            ReminderBarangBesarDAO dao=database.getReminderDao();
+            try {
+                tabelmodelbarang.setList(dao.selectAllBarang());
+            } catch (BarangException ex) {
+                Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
-
-    public void loadDatabase() {
-        tabelmodelbarang.setList(barangBesarDAO.selectAllBarang());
-    }
-
+    
 //generate getter and setter
+
     public JComboBox getCmbCari() {
         return cmbCari;
     }
@@ -246,10 +245,10 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     public void setTxtKataKunci(JTextField txtKataKunci) {
         this.txtKataKunci = txtKataKunci;
     }
+       
 
     final Toolkit toolkit = Toolkit.getDefaultToolkit();
     final Dimension screenSize = toolkit.getScreenSize();
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -325,18 +324,14 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         dialogPreview = new javax.swing.JDialog();
         lblPreview = new javax.swing.JLabel();
         dialogTambahTipe = new javax.swing.JDialog();
-        tipeView2 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
         dialogTambahMerek = new javax.swing.JDialog();
-        merekView21 = new MerekView();
         dialogTambahSupplier = new javax.swing.JDialog();
-        supplierView1 = new SupplierView();
         dialogTambahSatuan = new javax.swing.JDialog();
-        satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
+        dialogTambah = new javax.swing.JDialog();
+        tambahBarangView1 = new tambahBarangKecilView();
         buttonGroup1 = new javax.swing.ButtonGroup();
         dialogTambahNamaBarang = new javax.swing.JDialog();
         namaBarangView1 = new com.wissensalt.sinarelektronik.masterdata.namabarang.view.NamaBarangView();
-        dialogTambahBarang = new javax.swing.JDialog();
-        tambahBarangView1 = new com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.view.TambahBarangView2();
         up = new javax.swing.JPanel();
         bgUp = new javax.swing.JPanel();
         kiri = new javax.swing.JPanel();
@@ -357,14 +352,12 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         tabelBarang = new javax.swing.JTable();
         bottom = new javax.swing.JPanel();
         PanewlBottom2 = new javax.swing.JPanel();
-        btTambah = new javax.swing.JButton();
         btUpdate = new javax.swing.JButton();
-        btHapus = new javax.swing.JButton();
         btPreview = new javax.swing.JButton();
 
         dialogUpdate.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogUpdate.setTitle("Update Barang");
-        dialogUpdate.setMinimumSize(new java.awt.Dimension(700, 610));
+        dialogUpdate.setMinimumSize(new java.awt.Dimension(580, 584));
 
         panelAtas.setLayout(new java.awt.BorderLayout());
 
@@ -565,7 +558,6 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
 
         panelRB.setLayout(new java.awt.GridLayout(1, 2));
 
-        buttonGroup1.add(rbYa);
         rbYa.setText("Ya");
         rbYa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -574,7 +566,6 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         });
         panelRB.add(rbYa);
 
-        buttonGroup1.add(rbTidak);
         rbTidak.setText("Tidak");
         rbTidak.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -712,24 +703,19 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
 
         dialogTambahTipe.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogTambahTipe.setTitle("Tambah Tipe Barang");
-        dialogTambahTipe.getContentPane().add(tipeView2, java.awt.BorderLayout.CENTER);
 
         dialogTambahMerek.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogTambahMerek.setTitle("Tambah Merek Barang");
-        dialogTambahMerek.getContentPane().add(merekView21, java.awt.BorderLayout.CENTER);
 
         dialogTambahSupplier.setTitle("Tambah Supplier");
-        dialogTambahSupplier.setMinimumSize(new java.awt.Dimension(900, 700));
-        dialogTambahSupplier.getContentPane().add(supplierView1, java.awt.BorderLayout.CENTER);
 
         dialogTambahSatuan.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         dialogTambahSatuan.setTitle("Tambah Satuan");
-        dialogTambahSatuan.getContentPane().add(satuanView1, java.awt.BorderLayout.CENTER);
 
-        dialogTambahNamaBarang.setTitle("Tambah Nama Barang");
+        dialogTambah.setTitle("Tambah Barang");
+        dialogTambah.getContentPane().add(tambahBarangView1, java.awt.BorderLayout.LINE_END);
+
         dialogTambahNamaBarang.getContentPane().add(namaBarangView1, java.awt.BorderLayout.CENTER);
-
-        dialogTambahBarang.getContentPane().add(tambahBarangView1, java.awt.BorderLayout.CENTER);
 
         setLayout(new java.awt.BorderLayout());
 
@@ -774,9 +760,9 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         atasLayout.setHorizontalGroup(
             atasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(atasLayout.createSequentialGroup()
-                .addComponent(txtKataKunci, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                .addComponent(txtKataKunci, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btCari, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btCari, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         atasLayout.setVerticalGroup(
             atasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -789,7 +775,7 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         tengah.setOpaque(false);
         tengah.setLayout(new java.awt.BorderLayout());
 
-        cmbCari.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "id barangkecil", "nama barangkecil", "tipe", "MerekDTO", "harga", "stok", "stok minimum", "supplier" }));
+        cmbCari.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "id barangkecil", "id barcode", "nama barangkecil", "tipe", "MerekDTO", "harga", "satuan", "stok", "stok minimum", "supplier", "keterangan" }));
         cmbCari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbCariActionPerformed(evt);
@@ -802,7 +788,7 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         bawah.setOpaque(false);
         bawah.setLayout(new java.awt.BorderLayout());
 
-        cmbUrut.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "id barangkecil", "nama barangkecil", "tipe", "MerekDTO", "harga", "stok", "stok minimum", "supplier" }));
+        cmbUrut.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "id barangkecil", "id barcode", "nama barangkecil", "tipe", "MerekDTO", "harga", "satuan", "stok", "stok minimum", "supplier", "keterangan" }));
         cmbUrut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbUrutActionPerformed(evt);
@@ -855,15 +841,6 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
 
         PanewlBottom2.setLayout(new java.awt.GridLayout(1, 4));
 
-        btTambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/tambah2.png"))); // NOI18N
-        btTambah.setMnemonic('T');
-        btTambah.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btTambahActionPerformed(evt);
-            }
-        });
-        PanewlBottom2.add(btTambah);
-
         btUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/update2.png"))); // NOI18N
         btUpdate.setMnemonic('U');
         btUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -872,15 +849,6 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
             }
         });
         PanewlBottom2.add(btUpdate);
-
-        btHapus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/hapus.png"))); // NOI18N
-        btHapus.setMnemonic('H');
-        btHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btHapusActionPerformed(evt);
-            }
-        });
-        PanewlBottom2.add(btHapus);
 
         btPreview.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Sinarelektronikapp/imageresource/preview.png"))); // NOI18N
         btPreview.setMnemonic('P');
@@ -896,87 +864,55 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         add(bottom, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btTambahMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahMerekActionPerformed
-        // TODO add your handling code here:
-        int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) / 5;
-        dialogTambahMerek.setLocation(x, y);
-        dialogTambahMerek.setSize(320, 400);
-        dialogTambahMerek.setModal(true);
-        dialogTambahMerek.show();
-    }//GEN-LAST:event_btTambahMerekActionPerformed
-
-    private void btTambahItipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahItipeActionPerformed
-        // TODO add your handling code here:
-        int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) / 5;
-        dialogTambahTipe.setModal(true);
-        dialogTambahTipe.setLocation(x, y);
-        dialogTambahTipe.setSize(320, 400);
-        dialogTambahTipe.show();
-    }//GEN-LAST:event_btTambahItipeActionPerformed
-
-    private void btTambahSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahSupplierActionPerformed
-        // TODO add your handling code here:
-        int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) / 8;
-        dialogTambahSupplier.setLocation(x, y);
-        dialogTambahSupplier.setSize(700, 580);
-        dialogTambahSupplier.setModal(true);
-        dialogTambahSupplier.show();
-    }//GEN-LAST:event_btTambahSupplierActionPerformed
-
-    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
-        
-    }
-
-    public void copyFile() {
-        File file = new File(pathGambar);
-        /*File dir=new File("dir");        
+    
+    public void copyFile(){
+        File file=new File(pathGambar);
+        File dir=new File("dir");        
             if(!dir.exists()){
                 dir.mkdir();
-            }            */
+            }            
         File directory = new File("");
-        String target = directory.getAbsolutePath() + "\\src\\SinarElektronikApp\\imageresource";
+        String target=directory.getAbsolutePath()+"\\src\\SinarElektronikApp\\imageresource";
         //memberi alamat gambar pada database sesuai dengan data yang telah dipindah ke user directory
-        pathGambar = target + "\\" + file.getName();
-        FileChannel in = null;
-        FileChannel out = null;
+        pathGambar = target+"\\"+file.getName();
+        FileChannel in=null;
+        FileChannel out=null;
         try {
-            in = new FileInputStream(file).getChannel();
-            File outFile = new File(target, file.getName());
-            out = new FileOutputStream(outFile).getChannel();
+            in =new FileInputStream(file).getChannel();
+            File outFile =new File(target, file.getName());
+            out =new FileOutputStream(outFile).getChannel();
             try {
                 in.transferTo(0, in.size(), out);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, ex);
             }
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {            
             JOptionPane.showMessageDialog(null, ex);
-        } finally {
-            if (in != null) {
+        }finally{
+            if(in!=null){
                 try {
                     in.close();
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, ex);
                 }
             }
-            if (out != null) {
+            if(out!=null){
                 try {
                     out.close();
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, ex);
                 }
             }
-        }
+        }                            
     }
-
-    public void updateBarangExec() {
+    
+    
+    public void updateBarangExec(){        
         String QUERY = "UPDATE barangbesar SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe=?, merek = ?, modal=?, grosir =?, eceran = ?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, gambar = ?, garansi=?, lamagaransi=? WHERE idbarang =?";
         String QUERY2 = "UPDATE barangbesar SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe=?, merek = ?, modal=?, grosir =?, eceran = ?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, garansi=?, lamagaransi=? WHERE idbarang = ?";
-        if (pathGambar == null || pathGambar.trim().equals("")) {
-            try {
-                PreparedStatement ps = conn.prepareStatement(QUERY2);
+        if(pathGambar == null || pathGambar.trim().equals("")){                        
+           try {
+                PreparedStatement ps=conn.prepareStatement(QUERY2);
                 ps.setString(1, txtIdBarang.getText());
                 ps.setString(2, txtIdBarcode.getText());
                 ps.setString(3, cmbNamaBarang.getSelectedItem().toString());
@@ -994,50 +930,49 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }*/
-
-                String garansi = "";
-                int hari = 0, bulan = 0, tahun = 0;
-                hari = jsHari.getValue();
-                bulan = jsBulan.getValue() * 30;
-                tahun = jsTahun.getValue() * 360;
-
-                int lamaGaransi = (hari + bulan + tahun);
-
-                if (rbTidak.isSelected()) {
-                    garansi = "tidak";
-                    lamaGaransi = 0;
-                } else if (rbYa.isSelected()) {
-                    garansi = "ya";
-                }
+            
+            String garansi = "";
+            int hari =  0, bulan = 0, tahun = 0;
+            hari =  jsHari.getValue();
+            bulan = jsBulan.getValue() * 30;
+            tahun = jsTahun.getValue() * 360;
+        
+            int lamaGaransi = (hari+bulan+tahun);
+        
+            if(rbTidak.isSelected()){
+                garansi = "tidak";
+                lamaGaransi = 0;
+            }else if(rbYa.isSelected()){
+                garansi = "ya";
+            }
                 ps.setString(13, garansi);
                 ps.setString(14, String.valueOf(lamaGaransi));
                 ps.setString(15, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
                 ps.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Update barangkecil berhasil");
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Update barangkecil gagal karena = " + ex);
-            }
-        } else if (pathGambar != null || !(pathGambar.trim().equals(""))) {
+                JOptionPane.showMessageDialog(null, "Update barangkecil gagal karena = "+ex);
+            }            
+        }        
+        else if(pathGambar!=null || !(pathGambar.trim().equals(""))){
             //ambil gambar awal
-            Blob gambarAwal = null;
-            byte[] data = null;
-            try {
+            Blob gambarAwal =  null;  
+            byte [] data = null ;
+            try{
                 Statement s = conn.createStatement();
-                ResultSet rs = s.executeQuery("SELECT gambar from barangbesar where idbarang='" + txtIdBarang.getText() + "'");
-                if (rs.next()) {
+                ResultSet rs = s.executeQuery("SELECT gambar from barangbesar where idbarang='"+txtIdBarang.getText()+"'");
+                if(rs.next()){
                     gambarAwal = rs.getBlob("gambar");
-                    data = gambarAwal.getBytes(1, (int) gambarAwal.length());
+                    data = gambarAwal.getBytes(1, (int)gambarAwal.length());
                 }
-            } catch (SQLException exception) {
-
-            }
+            }catch(SQLException exception){
+                
+            }        
             //jika gambar diubah || gambfar baru diisi
-            if (data != null) {
-                ImageIcon iconUpdate = new ImageIcon(data);
-            }
-            try {
+            ImageIcon iconUpdate=new ImageIcon(data);            
+           try {
                 File gambar = new File(pathGambar);
-                PreparedStatement ps = conn.prepareStatement(QUERY);
+                PreparedStatement ps=conn.prepareStatement(QUERY);
                 ps.setString(1, txtIdBarang.getText());
                 ps.setString(2, txtIdBarcode.getText());
                 ps.setString(3, cmbNamaBarang.getSelectedItem().toString());
@@ -1045,64 +980,43 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
                 ps.setString(5, cmbMerek.getSelectedItem().toString());
                 ps.setString(6, txtHargaModal.getText());
                 ps.setString(7, txtHargaGrosir.getText());
-                ps.setString(8, txtHargaEceran.getText());
+                ps.setString(8, txtHargaEceran.getText());       
                 ps.setString(9, String.valueOf(JsStok.getValue()));
                 ps.setString(10, String.valueOf(JsstokMin.getValue()));
                 ps.setString(11, cmbSupplier.getSelectedItem().toString());
                 ps.setString(12, txtKet.getText());
-                try {
+                  try {
                     ps.setBlob(13, new FileInputStream(gambar));
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                String garansi = "";
-                int hari = 0, bulan = 0, tahun = 0;
-                hari = jsHari.getValue();
-                bulan = jsBulan.getValue() * 30;
-                tahun = jsTahun.getValue() * 360;
-
-                int lamaGaransi = (hari + bulan + tahun);
-
-                if (rbTidak.isSelected()) {
-                    garansi = "tidak";
-                    lamaGaransi = 0;
-                } else if (rbYa.isSelected()) {
-                    garansi = "ya";
-                }
+            String garansi = "";
+            int hari =  0, bulan = 0, tahun = 0;
+            hari =  jsHari.getValue();
+            bulan = jsBulan.getValue() * 30;
+            tahun = jsTahun.getValue() * 360;
+        
+            int lamaGaransi = (hari+bulan+tahun);
+        
+            if(rbTidak.isSelected()){
+                garansi = "tidak";
+                lamaGaransi = 0;
+            }else if(rbYa.isSelected()){
+                garansi = "ya";
+            }
                 ps.setString(14, garansi);
                 ps.setString(15, String.valueOf(lamaGaransi));
                 ps.setString(16, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
                 ps.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Update barangkecil berhasil");
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Update barangkecil gagal karena = " + ex);
-            }
+                JOptionPane.showMessageDialog(null, "Update barangkecil gagal karena = "+ex);
+            }                        
         }
-        btCari.doClick();
+        btCari.doClick();             
     }
-
-
-    private void btTambah1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambah1ActionPerformed
-        updateBarangExec();
-    }//GEN-LAST:event_btTambah1ActionPerformed
-
-    private void txtHargaEceranFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaEceranFocusLost
-        // TODO add your handling code here:        
-        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
-        int hargaEceran = Integer.valueOf(txtHargaEceran.getText());
-
-        if (!txtHargaEceran.getText().matches("[0-9]*")) {
-            JOptionPane.showMessageDialog(null, "harga harus angka");
-            txtHargaEceran.setText("0");
-            txtHargaEceran.requestFocus();
-        } else if (hargaEceran <= hargaGrosir) {
-            JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir + 1));
-            txtHargaEceran.requestFocus();
-        }
-        setIdBarang();
-    }//GEN-LAST:event_txtHargaEceranFocusLost
-
+    
+    
     String pathGambar = "";
 
     public String getPathGambar() {
@@ -1112,29 +1026,7 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     public void setPathGambar(String pathGambar) {
         this.pathGambar = pathGambar;
     }
-
-    private void btTambahGambarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahGambarActionPerformed
-        // TODO add your handling code here:
-        Image thumb = null;
-        JFileChooser ambil = new JFileChooser();
-        int ok = ambil.showOpenDialog(this);
-        if (ok == JFileChooser.APPROVE_OPTION) {
-            pathGambar = ambil.getSelectedFile().getPath();
-            File file = new File(pathGambar);
-
-            BufferedImage image = null;
-            try {
-                image = ImageIO.read(file);
-                thumb = image.getScaledInstance(150, 150, Image.SCALE_FAST);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "error karena = " + ex);
-            }
-            LblImage.setSize(new Dimension(150, 150));
-            ImageIcon gambar = new ImageIcon(thumb);
-            LblImage.setIcon(gambar);
-        }
-    }//GEN-LAST:event_btTambahGambarActionPerformed
-
+    
     private void txtKataKunciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKataKunciActionPerformed
         // TODO add your handling code here:
         btCari.doClick();
@@ -1143,24 +1035,29 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     private void btCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCariActionPerformed
         try {
             // TODO add your handling code here:
-            controller.cari(this, this);
+     controller.cari(this, this);
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BarangException ex) {
+            java.util.logging.Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setSize(getWidth(), getHeight());
+            this.setSize(getWidth(), getHeight());
     }//GEN-LAST:event_btCariActionPerformed
 
     private void cmbCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCariActionPerformed
-
+        // TODO add your handling code here:
     }//GEN-LAST:event_cmbCariActionPerformed
 
     private void cmbUrutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrutActionPerformed
         try {
-            controller.sort(this);
+            // TODO add your handling code here:
+        controller.sort(this);
         } catch (SQLException ex) {
-            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BarangException ex) {
+            Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }//GEN-LAST:event_cmbUrutActionPerformed
 
     private void tabelBarangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarangMousePressed
         // TODO add your handling code here:
@@ -1170,35 +1067,281 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         // TODO add your handling code here:
     }//GEN-LAST:event_tabelBarangMouseReleased
 
-    private void tambah() {
-        int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) / 5;
-        dialogTambahBarang.setLocation(x, y);
-        dialogTambahBarang.setSize(705, 610);
-        dialogTambahBarang.setModal(true);
-        dialogTambahBarang.show();
-        /*try {
-            controller.sort(this);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        } catch (BarangException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        }*/
-        btCari.doClick();
-    }
+    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
+        updateManual();
+    }//GEN-LAST:event_btUpdateActionPerformed
 
-    private void btTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahActionPerformed
+    private void btPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPreviewActionPerformed
         // TODO add your handling code here:
-        tambah();
-    }//GEN-LAST:event_btTambahActionPerformed
-    ImageIcon iconRetrieve = null;
-    Blob gambarRetrieve = null;
-    byte[] dataGambarRetrieve = null;
+        preview();
+    }//GEN-LAST:event_btPreviewActionPerformed
 
-    public void showUpdateManual() {
+    private void btTambahGambarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahGambarActionPerformed
+        // TODO add your handling code here:
+        Image thumb=null;
+        JFileChooser ambil=new JFileChooser();
+        int ok=ambil.showOpenDialog(this);
+        if(ok==JFileChooser.APPROVE_OPTION){
+            pathGambar = ambil.getSelectedFile().getPath();
+            File file=new File(pathGambar);
+
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(file);
+                thumb=image.getScaledInstance(150, 150, Image.SCALE_FAST);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "error karena = "+ex);
+            }
+            LblImage.setSize(new Dimension(150, 150));
+            ImageIcon gambar=new ImageIcon(thumb);
+            LblImage.setIcon(gambar);
+        }
+    }//GEN-LAST:event_btTambahGambarActionPerformed
+
+     private void setIdBarang(){
+        String idBarang = cmbMerek.getSelectedItem().toString()+cmbTipe.getSelectedItem().toString()+"-"+cmbNamaBarang.getSelectedItem().toString();
+        txtIdBarang.setText(idBarang);
+    }
+     
+    private void txtIdBarcodeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdBarcodeFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_txtIdBarcodeFocusGained
+    
+    
+    private void cmbNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNamaBarangActionPerformed
+        // TODO add your handling code here:
+        loadNamaBarang();
+    }//GEN-LAST:event_cmbNamaBarangActionPerformed
+
+    private void cmbNamaBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbNamaBarangFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbNamaBarangFocusGained
+
+    private void cmbNamaBarangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbNamaBarangFocusLost
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbNamaBarangFocusLost
+
+    private void cmbTipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipeActionPerformed
+        // TODO add your handling code here:
+        loadTipe();
+    }//GEN-LAST:event_cmbTipeActionPerformed
+
+    private void cmbTipeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbTipeFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbTipeFocusGained
+
+    private void cmbTipeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbTipeFocusLost
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbTipeFocusLost
+
+    private void cmbMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMerekActionPerformed
+        // TODO add your handling code here:
+        loadMerek();
+    }//GEN-LAST:event_cmbMerekActionPerformed
+
+    private void cmbMerekFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbMerekFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbMerekFocusGained
+
+    private void cmbMerekFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbMerekFocusLost
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbMerekFocusLost
+
+    private void txtHargaModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaModalActionPerformed
+        // TODO add your handling code here:
+        if(!txtHargaModal.getText().matches("[0-9]*")){
+            JOptionPane.showMessageDialog(null, "harga harus angka");
+            txtHargaModal.setText("0");
+            txtHargaModal.requestFocus();
+        }
+    }//GEN-LAST:event_txtHargaModalActionPerformed
+
+    private void txtHargaModalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaModalFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_txtHargaModalFocusGained
+
+    private void txtHargaModalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaModalFocusLost
+        // TODO add your handling code here:
+
+        if(!txtHargaModal.getText().matches("[0-9]*")){
+            JOptionPane.showMessageDialog(null, "harga harus angka");
+            txtHargaModal.setText("0");
+            txtHargaModal.requestFocus();
+        }
+
+        setIdBarang();
+    }//GEN-LAST:event_txtHargaModalFocusLost
+
+    private void txtHargaGrosirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaGrosirActionPerformed
+        // TODO add your handling code here:
+        int hargaModal = Integer.valueOf(txtHargaModal.getText());
+        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
+
+        if(!txtHargaGrosir.getText().matches("[0-9]*")){
+            JOptionPane.showMessageDialog(null, "harga grosir harus angka");
+            txtHargaGrosir.setText("0");
+            txtHargaGrosir.requestFocus();
+        }else if(hargaGrosir<=hargaModal){
+            JOptionPane.showMessageDialog(null, "Harga grosi harus lebih besar harga modal ");
+            txtHargaGrosir.setText(String.valueOf((hargaModal+1)));
+            txtHargaGrosir.requestFocus();
+        }
+    }//GEN-LAST:event_txtHargaGrosirActionPerformed
+
+    private void txtHargaGrosirFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaGrosirFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_txtHargaGrosirFocusGained
+
+    private void txtHargaGrosirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaGrosirFocusLost
+        // TODO add your handling code here:
+        int hargaModal = Integer.valueOf(txtHargaModal.getText());
+        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
+
+        if(!txtHargaGrosir.getText().matches("[0-9]*")){
+            JOptionPane.showMessageDialog(null, "harga grosir harus angka");
+            txtHargaGrosir.setText("0");
+            txtHargaGrosir.requestFocus();
+        }else if(hargaGrosir<=hargaModal){
+            JOptionPane.showMessageDialog(null, "Harga grosi harus lebih besar harga modal ");
+            txtHargaGrosir.setText(String.valueOf((hargaModal+1)));
+            txtHargaGrosir.requestFocus();
+        }
+        setIdBarang();
+    }//GEN-LAST:event_txtHargaGrosirFocusLost
+
+    private void txtHargaEceranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaEceranActionPerformed
+        // TODO add your handling code here:
+        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
+        int hargaEceran = Integer.valueOf(txtHargaEceran.getText());
+
+        if(!txtHargaEceran.getText().matches("[0-9]*")){
+            JOptionPane.showMessageDialog(null, "harga harus angka");
+            txtHargaEceran.setText("0");
+            txtHargaEceran.requestFocus();
+        }else if(hargaEceran<=hargaGrosir){
+            JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
+            txtHargaEceran.requestFocus();
+        }
+    }//GEN-LAST:event_txtHargaEceranActionPerformed
+
+    private void txtHargaEceranFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaEceranFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_txtHargaEceranFocusGained
+
+    private void txtHargaEceranFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaEceranFocusLost
+        // TODO add your handling code here:
+        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
+        int hargaEceran = Integer.valueOf(txtHargaEceran.getText());
+
+        if(!txtHargaEceran.getText().matches("[0-9]*")){
+            JOptionPane.showMessageDialog(null, "harga harus angka");
+            txtHargaEceran.setText("0");
+            txtHargaEceran.requestFocus();
+        }else if(hargaEceran<=hargaGrosir){
+            JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
+            txtHargaEceran.setText(String.valueOf(hargaGrosir+1));
+            txtHargaEceran.requestFocus();
+        }
+        setIdBarang();
+    }//GEN-LAST:event_txtHargaEceranFocusLost
+
+    private void cmbSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSupplierActionPerformed
+        // TODO add your handling code here:
+        loadSupplier();
+    }//GEN-LAST:event_cmbSupplierActionPerformed
+
+    private void cmbSupplierFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbSupplierFocusGained
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbSupplierFocusGained
+
+    private void cmbSupplierFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbSupplierFocusLost
+        // TODO add your handling code here:
+        setIdBarang();
+    }//GEN-LAST:event_cmbSupplierFocusLost
+
+    private void rbYaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbYaActionPerformed
+        // TODO add your handling code here:
+        PanellamaGaransi.setVisible(true);
+    }//GEN-LAST:event_rbYaActionPerformed
+
+    private void rbTidakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTidakActionPerformed
+        // TODO add your handling code here:
+        PanellamaGaransi.setVisible(false);
+    }//GEN-LAST:event_rbTidakActionPerformed
+
+    private void btTambahNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahNamaBarangActionPerformed
+        // TODO add your handling code here:
+        int x = (screenSize.width - this.WIDTH) / 4;
+        int y = (screenSize.height - this.HEIGHT) /5;
+        dialogTambahNamaBarang.setModal(true);
+        dialogTambahNamaBarang.setLocation(x, y);
+        dialogTambahNamaBarang.setSize(650, 550);
+        dialogTambahNamaBarang.show();
+    }//GEN-LAST:event_btTambahNamaBarangActionPerformed
+
+    private void btTambahItipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahItipeActionPerformed
+        // TODO add your handling code here:
+        int x = (screenSize.width - this.WIDTH) / 4;
+        int y = (screenSize.height - this.HEIGHT) /5;
+        dialogTambahTipe.setModal(true);
+        dialogTambahTipe.setLocation(x, y);
+        dialogTambahTipe.setSize(320, 400);
+        dialogTambahTipe.show();
+    }//GEN-LAST:event_btTambahItipeActionPerformed
+
+    private void btTambahMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahMerekActionPerformed
+        // TODO add your handling code here:
+        int x = (screenSize.width - this.WIDTH) / 4;
+        int y = (screenSize.height - this.HEIGHT) /5;
+        dialogTambahMerek.setLocation(x, y);
+        dialogTambahMerek.setSize(320, 400);
+        dialogTambahMerek.setModal(true);
+        dialogTambahMerek.show();
+    }//GEN-LAST:event_btTambahMerekActionPerformed
+
+    private void btTambahSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahSupplierActionPerformed
+        // TODO add your handling code here:
+        int x = (screenSize.width - this.WIDTH) / 4;
+        int y = (screenSize.height - this.HEIGHT) /8;
+        dialogTambahSupplier.setLocation(x, y);
+        dialogTambahSupplier.setSize(700, 580);
+        dialogTambahSupplier.setModal(true);
+        dialogTambahSupplier.show();
+    }//GEN-LAST:event_btTambahSupplierActionPerformed
+
+    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
+        // TODO add your handling code here:
+        /*controller.resetTambahBarang();
+        try {
+            resetManual();
+        } catch (SQLException ex) {
+            Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (barangException ex) {
+            Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+    }//GEN-LAST:event_btResetActionPerformed
+
+    private void btTambah1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambah1ActionPerformed
+        updateBarangExec();
+    }//GEN-LAST:event_btTambah1ActionPerformed
+    Blob gambarRetrieve ;
+    ImageIcon iconRetrieve = null;
+    public void showUpdateManual(){
         pathGambar = "";
         String idbarang = tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
-        String query = "SELECT * from barangbesar where idbarang = '" + idbarang + "'";
+        String query = "SELECT * from barangbesar where idbarang = '"+idbarang+"'";
         String idbarcode = "";
         String namaBarang = "";
         String tipe = "";
@@ -1208,16 +1351,16 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         String eceran = "";
         String stok = "";
         String stok_min = "";
-        String supplier = "";
-        String keterangan = "";
+        String supplier ="";
+        String keterangan="";
         String garansi = "";
         String lamaGaransi = "";
-
-        byte[] dataGambarRetrieve = null;
-        try {
+        
+        byte [] dataGambarRetrieve = null ;
+        try{
             Statement s = conn.createStatement();
             ResultSet rs = s.executeQuery(query);
-            if (rs.next()) {
+            if(rs.next()){
                 idbarcode = rs.getString("idbarcode");
                 namaBarang = rs.getString("namabarang");
                 tipe = rs.getString("tipe");
@@ -1233,12 +1376,12 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
                 lamaGaransi = String.valueOf(rs.getInt("lamagaransi"));
                 gambarRetrieve = rs.getBlob("gambar");
                 if (gambarRetrieve != null) {
-                    dataGambarRetrieve = gambarRetrieve.getBytes(1, (int) gambarRetrieve.length());
+                    dataGambarRetrieve = gambarRetrieve.getBytes(1, (int)gambarRetrieve.length());
                 }
             }
-        } catch (SQLException exception) {
-            JOptionPane.showMessageDialog(null, "error dalam mengambil ulang data barangkecil yang akan diupdate karena " + exception, "peringatan", JOptionPane.WARNING_MESSAGE);
-        }
+        }catch(SQLException exception){
+            JOptionPane.showMessageDialog(null, "error dalam mengambil ulang data barangkecil yang akan diupdate karena "+exception, "peringatan", JOptionPane.WARNING_MESSAGE);
+       }      
         hideUnusableButton();
         txtIdBarang.setText(idbarang);
         txtIdBarcode.setText(idbarcode);
@@ -1247,18 +1390,18 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         cmbMerek.setSelectedItem(merek);
         txtHargaModal.setText(hargamodal);
         txtHargaGrosir.setText(grosir);
-        txtHargaEceran.setText(eceran);
+        txtHargaEceran.setText(eceran);        
         JsStok.setValue(Integer.valueOf(stok));
         JsstokMin.setValue(Integer.valueOf(stok_min));
         cmbSupplier.setSelectedItem(supplier);
         txtKet.setText(keterangan);
-
-        if (garansi.equals("ya")) {
+        
+        if(garansi.equals("ya")){
             rbYa.setSelected(true);
-        } else {
+        }else{
             rbTidak.setSelected(true);
         }
-
+        
         int lgaransi = Integer.parseInt(lamaGaransi);
         int year = lgaransi / 360;
         int yearRest = lgaransi % 360;
@@ -1269,310 +1412,142 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
         jsTahun.setValue(year);
         jsBulan.setValue(month);
         jsHari.setValue(day);
-
+        
         if (dataGambarRetrieve != null) {
             if (dataGambarRetrieve.length > 0) {
-                iconRetrieve = new ImageIcon(dataGambarRetrieve);
+                iconRetrieve=new ImageIcon(dataGambarRetrieve);
                 Image img = iconRetrieve.getImage();
                 Image newImg = img.getScaledInstance(150, 150, img.SCALE_FAST);
                 iconRetrieve = new ImageIcon(newImg);
                 LblImage.setIcon(iconRetrieve);
             }
+        }else {
+            LblImage.setIcon(null);
         }
         int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) / 5;
+        int y = (screenSize.height - this.HEIGHT) /5;                   
         dialogUpdate.setSize(900, 600);
         dialogUpdate.setLocation(x, y);
         dialogUpdate.setModal(true);
         dialogUpdate.show(true);
+        try {
+            controller.sort(this);
+        } catch (SQLException ex) {
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BarangException ex) {
+            Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        loadDatabase();
     }
-
-    public void updateManual() {
-        if (tabelBarang.getSelectedRowCount() < 1) {
+    
+    public void updateManual(){
+        if(tabelBarang.getSelectedRowCount()<1){
             JOptionPane.showMessageDialog(null, "Pilih data terlebih dahulu");
-        } else if (tabelBarang.getSelectedRowCount() > 1) {
-            List<String> itemsToUpdate = new ArrayList<>();
-            for (int a = 0; a < tabelBarang.getSelectedRows().length; a++) {
-                itemsToUpdate.add((String) tabelBarang.getModel().getValueAt(tabelBarang.getSelectedRows()[a], 0));
-            }
-            DialogUpdateBulk dialogUpdateBulk = new DialogUpdateBulk();
-            dialogUpdateBulk.setItemsToUpdate(itemsToUpdate);
-            int x = (screenSize.width - this.WIDTH) / 4;
-            int y = (screenSize.height - this.HEIGHT) / 5;
-            dialogUpdateBulk.show(x, y);
-        } else {
+        }else{
             showUpdateManual();
         }
-    }
-
-    ;
+    };
     
-    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
-        updateManual();
-    }//GEN-LAST:event_btUpdateActionPerformed
-
-    public void deleteManual() {
-        if (tabelBarang.getSelectedRowCount() < 1) {
+    
+    public String getPath(String id){        
+        String pathGambar = "";
+        String pathSQL = "SELECT pathgambar from barangbesar WHERE idbarang = '"+id+"'";
+        try{
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery(pathSQL);
+            if(rs.next()){
+                pathGambar = rs.getString("pathgambar");
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Gagal get path karena = "+e);
+        }
+        return pathGambar;
+    }
+    
+    public void deleteManual(){        
+        if(tabelBarang.getSelectedRowCount()<1){
             JOptionPane.showMessageDialog(null, "Pilih data terlebih dahulu");
             return;
-        } else {
-            String id = tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
-            if (JOptionPane.showConfirmDialog(null, "Anda yakin akan menghapus barangkecil dengan id " + id + " ?") == JOptionPane.YES_OPTION) {
+        }else{
+            String id=tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();            
+            String path = getPath(id);
+            if(JOptionPane.showConfirmDialog(null, "Anda yakin akan menghapus barangkecil dengan id "+id+" ?") == JOptionPane.YES_OPTION){
+            try {
+                PreparedStatement ps=conn.prepareStatement("DELETE from barangbesar WHERE idbarang = ?");
+                ps.setString(1, id);                
+                if(path==null || path.trim().equals("")){
+                    
+                }else{
+                    //hapus image barangkecil
+                    new File(path).delete();
+                }
+                ps.executeUpdate();
+                
+                //urutkan setelah delete                                
                 try {
-                    PreparedStatement ps = conn.prepareStatement("DELETE from barangbesar WHERE idbarang = ?");
-                    ps.setString(1, id);
-                    ps.executeUpdate();
-                    btCari.doClick();
-                    /*try {
                     controller.sort(this);
                 } catch (BarangException ex) {
-                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
-                } catch (SQLException ex) {
-                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } catch (SQLException ex) {
+                Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+            }                
             }
-        }
-    }
-
-    ;
+        }                
+    };
     
     
-    private void btHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHapusActionPerformed
-        // TODO add your handling code here:
-        //controller.deleteBarang(this);
-        deleteManual();
-    }//GEN-LAST:event_btHapusActionPerformed
-
     Connection conn = null;
-
-    public void koneksi() {
+	
+    public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://" + ip.getIpServer() + "/sinarelektronik?;", "root", "P@ssw0rd");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = " + ex);
+            JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = "+ex);
         }
     }
-
-    private void preview() {
-        byte[] data = null;
-        Blob gambar = null;
-        if (tabelBarang.getSelectedRowCount() != 0) {
+    
+    
+    private void preview(){
+        byte [] data = null ;
+        Blob gambar = null ;
+        if(tabelBarang.getSelectedRowCount()!=0){
             try {
-                String idBarang = tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
-                koneksi();
-                Statement s = null;
-                try {
-                    s = conn.createStatement();
-                    ResultSet rs = s.executeQuery("select gambar from barangbesar where idbarang='" + idBarang + "'");
-                    if (rs.next()) {
+                String idBarang=tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
+                //koneksi();                
+                try{
+                    Statement s=conn.createStatement();
+                    ResultSet rs=s.executeQuery("select gambar from barangbesar where idbarang='"+idBarang+"'");
+                    if(rs.next()){
                         gambar = rs.getBlob("gambar");
                     }
-                } catch (SQLException exception) {
-                    JOptionPane.showMessageDialog(null, exception);
-                } finally {
-                    if (s != null) {
-                        s.close();
-                    }
                 }
-                if (gambar != null) {
-                    data = gambar.getBytes(1, (int) gambar.length());
-                    ImageIcon icon = new ImageIcon(data);
+                catch(SQLException exception){
+                    JOptionPane.showMessageDialog(null, exception);
+                }
+                if(gambar != null ){
+                    data = gambar.getBytes(1, (int)gambar.length());
+                    ImageIcon icon=new ImageIcon(data);
                     Image img = icon.getImage();
                     Image newImg = img.getScaledInstance(400, 400, img.SCALE_FAST);
                     icon = new ImageIcon(newImg);
                     lblPreview.setIcon(icon);
                     dialogPreview.setLocationRelativeTo(null);
                     dialogPreview.setSize(410, 410);
-                    dialogPreview.show(true);
-                } else {
+                    dialogPreview.show(true);                        
+                }else{
                     JOptionPane.showMessageDialog(null, "gambar tidak tersedia");
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(BarangBesarView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        } else {
+        else{
             JOptionPane.showMessageDialog(null, "pilih data terlebih dahulu");
-            return;
-        }
+            return;            
+        }    
     }
-
-    private void btPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPreviewActionPerformed
-        // TODO add your handling code here:
-        preview();
-    }//GEN-LAST:event_btPreviewActionPerformed
-
-    private void rbYaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbYaActionPerformed
-        // TODO add your handling code here:
-        PanellamaGaransi.setVisible(true);
-    }//GEN-LAST:event_rbYaActionPerformed
-
-    private void rbTidakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTidakActionPerformed
-        // TODO add your handling code here:
-        PanellamaGaransi.setVisible(false);
-    }//GEN-LAST:event_rbTidakActionPerformed
-
-    private void txtHargaModalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaModalActionPerformed
-        // TODO add your handling code here:
-        if (!txtHargaModal.getText().matches("[0-9]*")) {
-            JOptionPane.showMessageDialog(null, "harga harus angka");
-            txtHargaModal.setText("0");
-            txtHargaModal.requestFocus();
-        }
-    }//GEN-LAST:event_txtHargaModalActionPerformed
-
-    private void txtHargaModalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaModalFocusLost
-        // TODO add your handling code here:
-
-        if (!txtHargaModal.getText().matches("[0-9]*")) {
-            JOptionPane.showMessageDialog(null, "harga harus angka");
-            txtHargaModal.setText("0");
-            txtHargaModal.requestFocus();
-        }
-
-        setIdBarang();
-    }//GEN-LAST:event_txtHargaModalFocusLost
-
-    private void txtHargaGrosirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaGrosirActionPerformed
-        // TODO add your handling code here:
-        int hargaModal = Integer.valueOf(txtHargaModal.getText());
-        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
-
-        if (!txtHargaGrosir.getText().matches("[0-9]*")) {
-            JOptionPane.showMessageDialog(null, "harga grosir harus angka");
-            txtHargaGrosir.setText("0");
-            txtHargaGrosir.requestFocus();
-        } else if (hargaGrosir <= hargaModal) {
-            JOptionPane.showMessageDialog(null, "Harga grosi harus lebih besar harga modal ");
-            txtHargaGrosir.setText(String.valueOf((hargaModal + 1)));
-            txtHargaGrosir.requestFocus();
-        }
-    }//GEN-LAST:event_txtHargaGrosirActionPerformed
-
-    private void txtHargaGrosirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaGrosirFocusLost
-        // TODO add your handling code here:
-        int hargaModal = Integer.valueOf(txtHargaModal.getText());
-        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
-
-        if (!txtHargaGrosir.getText().matches("[0-9]*")) {
-            JOptionPane.showMessageDialog(null, "harga grosir harus angka");
-            txtHargaGrosir.setText("0");
-            txtHargaGrosir.requestFocus();
-        } else if (hargaGrosir <= hargaModal) {
-            JOptionPane.showMessageDialog(null, "Harga grosi harus lebih besar harga modal ");
-            txtHargaGrosir.setText(String.valueOf((hargaModal + 1)));
-            txtHargaGrosir.requestFocus();
-        }
-        setIdBarang();
-    }//GEN-LAST:event_txtHargaGrosirFocusLost
-
-    private void txtHargaEceranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaEceranActionPerformed
-        // TODO add your handling code here:
-        int hargaGrosir = Integer.valueOf(txtHargaGrosir.getText());
-        int hargaEceran = Integer.valueOf(txtHargaEceran.getText());
-
-        if (!txtHargaEceran.getText().matches("[0-9]*")) {
-            JOptionPane.showMessageDialog(null, "harga harus angka");
-            txtHargaEceran.setText("0");
-            txtHargaEceran.requestFocus();
-        } else if (hargaEceran <= hargaGrosir) {
-            JOptionPane.showMessageDialog(null, "Harga eceran harus lebih besar dari harga grosir ");
-            txtHargaEceran.setText(String.valueOf(hargaGrosir + 1));
-            txtHargaEceran.requestFocus();
-        }
-    }//GEN-LAST:event_txtHargaEceranActionPerformed
-
-    private void cmbTipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipeActionPerformed
-        // TODO add your handling code here:
-        loadTipe();
-    }//GEN-LAST:event_cmbTipeActionPerformed
-
-    private void cmbMerekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMerekActionPerformed
-        // TODO add your handling code here:
-        loadMerek();
-    }//GEN-LAST:event_cmbMerekActionPerformed
-
-    private void cmbSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSupplierActionPerformed
-        // TODO add your handling code here:
-        loadSupplier();
-    }//GEN-LAST:event_cmbSupplierActionPerformed
-
-    private void btTambahNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambahNamaBarangActionPerformed
-        // TODO add your handling code here:
-        int x = (screenSize.width - this.WIDTH) / 4;
-        int y = (screenSize.height - this.HEIGHT) / 5;
-        dialogTambahNamaBarang.setModal(true);
-        dialogTambahNamaBarang.setLocation(x, y);
-        dialogTambahNamaBarang.setSize(650, 550);
-        dialogTambahNamaBarang.show();
-    }//GEN-LAST:event_btTambahNamaBarangActionPerformed
-
-    private void cmbNamaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNamaBarangActionPerformed
-        // TODO add your handling code here:
-        loadNamaBarang();
-    }//GEN-LAST:event_cmbNamaBarangActionPerformed
-
-    private void txtIdBarcodeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdBarcodeFocusGained
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_txtIdBarcodeFocusGained
-
-    private void cmbNamaBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbNamaBarangFocusGained
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_cmbNamaBarangFocusGained
-
-    private void cmbNamaBarangFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbNamaBarangFocusLost
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_cmbNamaBarangFocusLost
-
-    private void cmbTipeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbTipeFocusGained
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_cmbTipeFocusGained
-
-    private void cmbTipeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbTipeFocusLost
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_cmbTipeFocusLost
-
-    private void cmbMerekFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbMerekFocusGained
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_cmbMerekFocusGained
-
-    private void cmbMerekFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbMerekFocusLost
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_cmbMerekFocusLost
-
-    private void txtHargaModalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaModalFocusGained
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_txtHargaModalFocusGained
-
-    private void txtHargaGrosirFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaGrosirFocusGained
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_txtHargaGrosirFocusGained
-
-    private void txtHargaEceranFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHargaEceranFocusGained
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_txtHargaEceranFocusGained
-
-    private void cmbSupplierFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbSupplierFocusGained
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_cmbSupplierFocusGained
-
-    private void cmbSupplierFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbSupplierFocusLost
-        // TODO add your handling code here:
-        setIdBarang();
-    }//GEN-LAST:event_cmbSupplierFocusLost
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.components.JSpinField JsStok;
     private com.toedter.components.JSpinField JsstokMin;
@@ -1585,10 +1560,8 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     private javax.swing.JPanel bgUp;
     private javax.swing.JPanel bottom;
     private javax.swing.JButton btCari;
-    private javax.swing.JButton btHapus;
     private javax.swing.JButton btPreview;
     private javax.swing.JButton btReset;
-    private javax.swing.JButton btTambah;
     private javax.swing.JButton btTambah1;
     private javax.swing.JButton btTambahGambar;
     private javax.swing.JButton btTambahItipe;
@@ -1604,7 +1577,7 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     private javax.swing.JComboBox cmbTipe;
     private javax.swing.JComboBox cmbUrut;
     private javax.swing.JDialog dialogPreview;
-    private javax.swing.JDialog dialogTambahBarang;
+    private javax.swing.JDialog dialogTambah;
     private javax.swing.JDialog dialogTambahMerek;
     private javax.swing.JDialog dialogTambahNamaBarang;
     private javax.swing.JDialog dialogTambahSatuan;
@@ -1649,7 +1622,6 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     private javax.swing.JPanel kanan;
     private javax.swing.JPanel kiri;
     private javax.swing.JLabel lblPreview;
-    private MerekView merekView21;
     private javax.swing.JPanel middle;
     private com.wissensalt.sinarelektronik.masterdata.namabarang.view.NamaBarangView namaBarangView1;
     private javax.swing.JPanel panelAtas;
@@ -1662,12 +1634,9 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     private javax.swing.JPanel panelTombol;
     private javax.swing.JRadioButton rbTidak;
     private javax.swing.JRadioButton rbYa;
-    private com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView satuanView1;
-    private SupplierView supplierView1;
     private javax.swing.JTable tabelBarang;
-    private com.wissensalt.sinarelektronik.masterdata.tambahbarang.besar.view.TambahBarangView2 tambahBarangView1;
+    private tambahBarangKecilView tambahBarangView1;
     private javax.swing.JPanel tengah;
-    private com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView tipeView2;
     private javax.swing.JTextField txtHargaEceran;
     private javax.swing.JTextField txtHargaGrosir;
     private javax.swing.JTextField txtHargaModal;
@@ -1678,13 +1647,7 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
     private javax.swing.JPanel up;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void onChange(BarangBesarModel model) {
-        txtKataKunci.setText(model.getCari());
-        cmbCari.setSelectedItem(model.getCari());
-        cmbUrut.setSelectedItem(model.getCmbsort());
-    }
-
+  
     @Override
     public void onInsert(BarangBesarDTO BarangBesarDTO) {
         tabelmodelbarang.add(BarangBesarDTO);
@@ -1714,10 +1677,18 @@ public class BarangBesarView extends javax.swing.JPanel implements BarangBesarLi
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        try {
-            BarangBesarDTO BarangBesarDTO = tabelmodelbarang.get(tabelBarang.getSelectedRow());
-        } catch (IndexOutOfBoundsException ioobe) {
-
+        try{
+            BarangBesarDTO BarangBesarDTO =tabelmodelbarang.get(tabelBarang.getSelectedRow());
+            //cmbCari.setSelectedItem(barangkecil.get);
+        }catch(IndexOutOfBoundsException ioobe){
+            
         }
+    }
+
+    @Override
+    public void onChange(ReminderModel model) {
+        txtKataKunci.setText(model.getCari());
+        cmbCari.setSelectedItem(model.getCari());
+        cmbUrut.setSelectedItem(model.getCmbsort());
     }
 }

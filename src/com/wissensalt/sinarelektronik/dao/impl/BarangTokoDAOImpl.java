@@ -2,16 +2,17 @@ package com.wissensalt.sinarelektronik.dao.impl;
 
 import com.wissensalt.sinarelektronik.dao.ABaseDAO;
 import com.wissensalt.sinarelektronik.dao.BarangTokoDAO;
-import com.wissensalt.sinarelektronik.masterdata.barangtoko.entity.BarangTokoDTO;
+import com.wissensalt.sinarelektronik.dto.BarangTokoDTO;
+import com.wissensalt.sinarelektronik.masterdata.barangtoko.view.BarangTokoView;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.*;
 
 /**
  *
@@ -20,6 +21,8 @@ import java.util.logging.Logger;
 public class BarangTokoDAOImpl extends ABaseDAO<BarangTokoDTO>implements BarangTokoDAO {
 
     private final  String UPDATE_BARANG = "UPDATE barangtoko SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe = ?, merek = ?, modal = ?, grosir=?, eceran=?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, gambar=? garansi=?, lamagaransi=? WHERE idbarang = ?";
+    private final String UPDATE_BARANG_TOKO_WITH_IMAGE = "update barangtoko SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe=?, merek = ?, modal=?, grosir =?, eceran = ?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, gambar = ?, garansi=?, lamagaransi=? WHERE idbarang =?";
+    private final String UPDATE_BARANG_TOKO_WITHOUT_IMAGE = "update barangtoko SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe=?, merek = ?, modal=?, grosir =?, eceran = ?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, garansi=?, lamagaransi=? WHERE idbarang = ?";
     private final  String DELETE_BARANG = "DELETE FROM barangtoko where idbarang = ?";
     private final  String GET_BY_ID = "SELECT * FROM barangtoko where idbarang like ?";
     private final  String GET_BY_BARCODE = "SELECT * FROM barangtoko where idbarcode like ?";
@@ -57,7 +60,7 @@ public class BarangTokoDAOImpl extends ABaseDAO<BarangTokoDTO>implements BarangT
             ps.setInt(7, dto.getGrosir());
             ps.setInt(8, dto.getEceran());
             ps.setInt(9, dto.getStok());
-            ps.setInt(10, dto.getStok_min());
+            ps.setInt(10, dto.getStokMin());
             ps.setString(11, dto.getSupplier());
             ps.setString(12, dto.getKeterangan());
             try {
@@ -93,7 +96,7 @@ public class BarangTokoDAOImpl extends ABaseDAO<BarangTokoDTO>implements BarangT
             barang.setGrosir(rs.getInt("grosir"));
             barang.setEceran(rs.getInt("eceran"));
             barang.setStok(rs.getInt("stok"));
-            barang.setStok_min(rs.getInt("stok_minimum"));
+            barang.setStokMin(rs.getInt("stok_minimum"));
             barang.setSupplier(rs.getString("supplier"));
             barang.setKeterangan(rs.getString("keterangan"));
             barang.setGambarHasil(rs.getBlob("gambar"));
@@ -211,5 +214,102 @@ public class BarangTokoDAOImpl extends ABaseDAO<BarangTokoDTO>implements BarangT
     @Override
     public int getBarangLastId() {
         return findLastIdByField("total", GET_LAST_ID);
+    }
+
+    @Override
+    public void updateBarangTokoWithoutImage(BarangTokoDTO barangTokoDTO) {
+        super.initConnection();    
+        PreparedStatement ps = null;
+        try{            
+            connection.setAutoCommit(false);            
+            ps = connection.prepareStatement(UPDATE_BARANG_TOKO_WITHOUT_IMAGE);;
+            ps.setString(1, barangTokoDTO.getIdBarang());
+            ps.setString(2, barangTokoDTO.getIdBarcode());
+            ps.setString(3, barangTokoDTO.getNamaBarang());
+            ps.setString(4, barangTokoDTO.getTipe());
+            ps.setString(5, barangTokoDTO.getMerek());
+            ps.setInt(6, barangTokoDTO.getModal());
+            ps.setInt(7, barangTokoDTO.getGrosir());
+            ps.setInt(8, barangTokoDTO.getEceran());
+            ps.setInt(9, barangTokoDTO.getStok());
+            ps.setInt(10, barangTokoDTO.getStokMin());
+            ps.setString(11, barangTokoDTO.getSupplier());
+            ps.setString(12, barangTokoDTO.getKeterangan());                        
+            ps.setString(13, barangTokoDTO.getGaransi());
+            ps.setInt(14, barangTokoDTO.getLamaGaransi());
+            ps.setString(15, barangTokoDTO.getIdBarang());
+            ps.executeUpdate();
+            connection.commit();
+        }catch(SQLException exception){
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(ABaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null, "Update gagal karena "+exception, "Perhatian", JOptionPane.WARNING_MESSAGE);
+        }finally{
+            try {
+                connection.setAutoCommit(true);
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ABaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public void updateBarangTokoWithmage(BarangTokoDTO barangTokoDTO, String pathGambar) {
+        super.initConnection();
+        PreparedStatement ps = null;
+        Blob gambarAwal;
+        byte [] data = null ;
+
+//        ImageIcon iconUpdate=new ImageIcon(data);
+        try{
+            connection.setAutoCommit(false);
+            ResultSet rs = selectSingleField("select gambar from barangtoko where idbarang='"+barangTokoDTO.getIdBarang()+"'");
+            if(rs.next()){
+                gambarAwal = rs.getBlob("gambar");
+                data = gambarAwal.getBytes(1, (int)gambarAwal.length());
+            }
+            File gambar = new File(pathGambar);
+            ps = connection.prepareStatement(UPDATE_BARANG_TOKO_WITH_IMAGE);
+            ps.setString(1, barangTokoDTO.getIdBarang());
+            ps.setString(2, barangTokoDTO.getIdBarcode());
+            ps.setString(3, barangTokoDTO.getNamaBarang());
+            ps.setString(4, barangTokoDTO.getTipe());
+            ps.setString(5, barangTokoDTO.getMerek());
+            ps.setInt(6, barangTokoDTO.getModal());
+            ps.setInt(7, barangTokoDTO.getGrosir());
+            ps.setInt(8, barangTokoDTO.getEceran());
+            ps.setInt(9, barangTokoDTO.getStok());
+            ps.setInt(10, barangTokoDTO.getStokMin());
+            ps.setString(11, barangTokoDTO.getSupplier());
+            ps.setString(12, barangTokoDTO.getKeterangan());
+            ps.setBlob(13, new FileInputStream(gambar));
+            ps.setString(14, barangTokoDTO.getGaransi());
+            ps.setInt(15, barangTokoDTO.getLamaGaransi());
+            ps.setString(16, barangTokoDTO.getIdBarang());
+            ps.executeUpdate();
+            connection.commit();
+        }catch(SQLException exception){
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                Logger.getLogger(ABaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null, "Update gagal karena "+exception, "Perhatian", JOptionPane.WARNING_MESSAGE);
+        } catch (FileNotFoundException e) {
+            Logger.getLogger(BarangTokoView.class.getName()).log(Level.SEVERE, null, e);
+        } finally{
+            try {
+                connection.setAutoCommit(true);
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ABaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

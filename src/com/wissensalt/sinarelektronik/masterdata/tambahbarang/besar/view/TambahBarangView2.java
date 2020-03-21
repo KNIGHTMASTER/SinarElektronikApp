@@ -204,13 +204,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         dialogTambahTipe = new javax.swing.JDialog();
         tipeView1 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
         dialogTambahSatuan = new javax.swing.JDialog();
-        try {
-            satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.satuan.error.SatuanException e2) {
-            e2.printStackTrace();
-        }
+        satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
         dialogTambahSupplier = new javax.swing.JDialog();
         supplierView1 = new SupplierView();
         dialogTambahMerek = new javax.swing.JDialog();
