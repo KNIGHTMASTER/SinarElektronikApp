@@ -1,8 +1,8 @@
 package com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.view;
 
 import com.toedter.components.JSpinField;
-import com.wissensalt.sinarelektronik.dao.MerekDAO;
-import com.wissensalt.sinarelektronik.dao.NamaBarangDAO;
+import com.wissensalt.sinarelektronik.dao.*;
+import com.wissensalt.sinarelektronik.dao.impl.*;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.TabelModelBarangKecil;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.event.TambahBarangKecilListener;
@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,10 +30,19 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
 
     private TambahBarangController controller;
     private final NamaBarangDAO namaBarangDAO;
+    private final SupplierDAO supplierDAO;
     private final MerekDAO merekDAO;
-
+    private final BarangKecilDAO barangKecilDAO;
+    private final TipeDAO tipeDAO;
+    private final SatuanDAO satuanDAO;
 
     public tambahBarangKecilView(){
+        satuanDAO = new SatuanDAOImpl();
+        supplierDAO = new SupplierDAOImpl();
+        namaBarangDAO = new NamaBarangDAOImpl();
+        merekDAO = new MerekDAOImpl();
+        barangKecilDAO = new BarangKecilDAOImpl();
+        tipeDAO = new TipeDAOImpl();
         TambahBarangModel model = new TambahBarangModel();
         model.setListener(this);
         controller = new TambahBarangController();
@@ -42,7 +50,6 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
                 
         initComponents();
         resetManual();
-        koneksi();
         loadNamaBarang();
         loadDataMerek();
         loadDataSupplier();
@@ -89,108 +96,58 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
     }
 
     private void loadNamaBarang(){
-        Statement statement=null;
         try{
-            statement=conn.createStatement();            
-            ResultSet rs=statement.executeQuery("SELECT namabarang FROM namabarang ORDER BY namabarang");
+            ResultSet rs = namaBarangDAO.selectSingleField("SELECT namabarang FROM namabarang ORDER BY namabarang");
             while (rs.next()) {
                 cmbNamaBarang.addItem(rs.getString("namabarang"));
             }
         }catch(SQLException e)         {
             JOptionPane.showMessageDialog(null, "tidak bisa me-load data nama barangkecil");
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }        
+        }
     }
     
     private void loadDataMerek(){
-        Statement statement=null;
         try{
-            statement=conn.createStatement();            
-            ResultSet rs=statement.executeQuery("SELECT namamerek FROM merek ORDER BY namamerek");
+            ResultSet rs = merekDAO.selectSingleField("SELECT namamerek FROM merek ORDER BY namamerek");
             while (rs.next()) {
                 cmbMerek.addItem(rs.getString("namamerek"));
             }
         }catch(SQLException e)         {
             JOptionPane.showMessageDialog(null, "tidak bisa me-load data MerekDTO");
             e.printStackTrace();
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }
     
     private void loadDataTipe(){
-        Statement statement=null;
         try{
-            statement=conn.createStatement();            
-            ResultSet rs=statement.executeQuery("SELECT namaTipe FROM tipe ORDER BY namaTipe");
+            ResultSet rs = tipeDAO.selectSingleField("SELECT namaTipe FROM tipe ORDER BY namaTipe");
             while (rs.next()) {
                 cmbTipe.addItem(rs.getString("namaTipe"));
             }
         }catch(SQLException e)         {
             JOptionPane.showMessageDialog(null, "tidak bisa me-load data tipe");
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }
 
     private void loadDataSupplier(){
-        Statement statement=null;
         try{
-            statement=conn.createStatement();            
-            ResultSet rs=statement.executeQuery("SELECT nama FROM supplier ORDER BY nama");
+            ResultSet rs = supplierDAO.selectSingleField("SELECT nama FROM supplier ORDER BY nama");
             while (rs.next()) {
                 cmbSupplier.addItem(rs.getString("nama"));
             }
         }catch(SQLException e)         {
             JOptionPane.showMessageDialog(null, "tidak bisa me-load data supplier");
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }    
     
-    public void loadDataSatuan(){
-        Statement statement=null;
+    private void loadDataSatuan(){
         try{
-            statement=conn.createStatement();            
-            ResultSet rs=statement.executeQuery("SELECT namasatuan FROM satuan ORDER  BY namasatuan");
+            ResultSet rs = satuanDAO.selectSingleField("SELECT namasatuan FROM satuan ORDER  BY namasatuan");
             while (rs.next()) {
                 cmbSatuan.addItem(rs.getString("namasatuan"));
             }
         }catch(SQLException e)         {
             JOptionPane.showMessageDialog(null, "tidak bisa me-load data Satuan");
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }        
 
@@ -302,29 +259,11 @@ public class tambahBarangKecilView extends javax.swing.JPanel implements TambahB
     private void initComponents() {
 
         dialogTambahTipe = new javax.swing.JDialog();
-        try {
-            tipeView1 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.tipe.error.TipeException e2) {
-            e2.printStackTrace();
-        }
+        tipeView1 = new com.wissensalt.sinarelektronik.masterdata.tipe.view.TipeView();
         dialogTambahSatuan = new javax.swing.JDialog();
-        try {
-            satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.satuan.error.SatuanException e2) {
-            e2.printStackTrace();
-        }
+        satuanView1 = new com.wissensalt.sinarelektronik.masterdata.satuan.view.SatuanView();
         dialogTambahSupplier = new javax.swing.JDialog();
-        try {
-            supplierView1 = new SupplierView();
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
-        } catch (com.wissensalt.sinarelektronik.masterdata.supplier.error.supplierException e2) {
-            e2.printStackTrace();
-        }
+        supplierView1 = new SupplierView();
         dialogTambahMerek = new javax.swing.JDialog();
         merekView21 = new MerekView();
         buttonGroup1 = new javax.swing.ButtonGroup();

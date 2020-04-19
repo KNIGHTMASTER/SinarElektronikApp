@@ -1,10 +1,11 @@
 package com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.model;
 
+import com.wissensalt.sinarelektronik.dao.BarangKecilDAO;
+import com.wissensalt.sinarelektronik.dao.impl.BarangKecilDAOImpl;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.event.TambahBarangKecilListener;
-import com.wissensalt.sinarelektronik.dao.TambahBarangKecilDAO;
+
 import java.io.File;
-import java.sql.SQLException;
 
 /**
  *
@@ -213,31 +214,31 @@ public class TambahBarangModel {
         setSupplier("");
         setKeterangan("");        
     }
-    public void insertBarang() throws SQLException, TambahBarangException {
-        TambahBarangKecilDAO dao = TambahbarangDatabase.getBarangDao();
+    public void insertBarang() {
+        BarangKecilDAO dao = new BarangKecilDAOImpl();
 
-        BarangKecilDTO BarangKecilDTO = new BarangKecilDTO();
-        BarangKecilDTO.setIdBarang(idBarang);
-        BarangKecilDTO.setIdBarcode(idBarcode);
-        BarangKecilDTO.setNamaBarang(namaBarang);
-        BarangKecilDTO.setTipe(tipe);
-        BarangKecilDTO.setMerek(merek);
-        BarangKecilDTO.setHargamodal(hargaModal);
-        BarangKecilDTO.setGrosir(grosir);
-        BarangKecilDTO.setGrosir2(grosir2);
-        BarangKecilDTO.setEceran(eceran);
-        BarangKecilDTO.setSatuan(satuan);
-        BarangKecilDTO.setStok(stok);
-        BarangKecilDTO.setStokMinimum(stokMinimum);
-        BarangKecilDTO.setSupplier(supplier);
-        BarangKecilDTO.setKeterangan(keterangan);
+        BarangKecilDTO barangKecilDTO = new BarangKecilDTO();
+        barangKecilDTO.setIdBarang(idBarang);
+        barangKecilDTO.setIdBarcode(idBarcode);
+        barangKecilDTO.setNamaBarang(namaBarang);
+        barangKecilDTO.setTipe(tipe);
+        barangKecilDTO.setMerek(merek);
+        barangKecilDTO.setHargamodal(hargaModal);
+        barangKecilDTO.setGrosir(grosir);
+        barangKecilDTO.setGrosir2(grosir2);
+        barangKecilDTO.setEceran(eceran);
+        barangKecilDTO.setSatuan(satuan);
+        barangKecilDTO.setStok(stok);
+        barangKecilDTO.setStokMinimum(stokMinimum);
+        barangKecilDTO.setSupplier(supplier);
+        barangKecilDTO.setKeterangan(keterangan);
         if (gambar != null) {
-            BarangKecilDTO.setGambar(gambar);
+            barangKecilDTO.setGambar(gambar);
         }     
-        BarangKecilDTO.setGaransi(garansi);
-        BarangKecilDTO.setLamaGaransi(lamaGaransi);
-        BarangKecilDTO.setKategori(kategori);
-        dao.insertBarang(BarangKecilDTO);
-        fireOnInsert(BarangKecilDTO);
+        barangKecilDTO.setGaransi(garansi);
+        barangKecilDTO.setLamaGaransi(lamaGaransi);
+        barangKecilDTO.setKategori(kategori);
+        dao.insert(barangKecilDTO);
+        fireOnInsert(barangKecilDTO);
     }
 }

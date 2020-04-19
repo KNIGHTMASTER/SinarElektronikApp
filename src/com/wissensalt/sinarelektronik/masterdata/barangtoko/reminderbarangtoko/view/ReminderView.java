@@ -43,24 +43,14 @@ import javax.swing.event.ListSelectionListener;
  * @author Fauzi
  */
 public class ReminderView extends javax.swing.JPanel implements ReminderListener, ListSelectionListener{
-
-    /**
-     * Creates new form ReminderView
-     */
-    
-    ReminderBarangTokoController controller;
-    
-    TabelModelBarangToko tabelmodelbarang;
-    
-    BarangTokoReminderModel model;
-    
-    HostName ip = new HostName();
-    
-    ReminderDatabase database = new ReminderDatabase();
+    private ReminderBarangTokoController controller;
+    private TabelModelBarangToko tabelmodelbarangToko;
+    private BarangTokoReminderModel model;
+    private ReminderBarangTokoDA
         
     public ReminderView() {
 
-        tabelmodelbarang = new TabelModelBarangToko();
+        tabelmodelbarangToko = new TabelModelBarangToko();
         
         model=new BarangTokoReminderModel();
         model.setListener(this);
@@ -71,8 +61,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
         initComponents();
 
         tabelBarang.getSelectionModel().addListSelectionListener(this);
-        tabelBarang.setModel(tabelmodelbarang);
-        koneksi();
+        tabelBarang.setModel(tabelmodelbarangToko);
         loadDatabase();
         loadNamaBarang();
         loadTipe();
@@ -170,17 +159,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
     
    
     public void loadDatabase(){
-        try {
-            ReminderBarangTokoDAO dao=database.getReminderDao();
-            try {
-                tabelmodelbarang.setList(dao.selectAllBarang());
-            } catch (BarangException ex) {
-                Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        tabelmodelbarangToko.setList(dao.selectAllBarang());
     }
     
 //generate getter and setter
@@ -1460,18 +1439,6 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
     };
     
     
-    Connection conn = null;
-	
-    public void koneksi(){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = "+ex);
-        }
-    }
-    
-    
     private void preview(){
         byte [] data = null ;
         Blob gambar = null ;
@@ -1613,35 +1580,35 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
   
     @Override
     public void onInsert(barang barang) {
-        tabelmodelbarang.add(barang);
+        tabelmodelbarangToko.add(barang);
     }
 
     @Override
     public void onUpdate(barang barang) {
         int index = tabelBarang.getSelectedRow();
-        tabelmodelbarang.set(index, barang);
+        tabelmodelbarangToko.set(index, barang);
     }
 
     @Override
     public void onDelete() {
         int index = tabelBarang.getSelectedRow();
-        tabelmodelbarang.remove(index);
+        tabelmodelbarangToko.remove(index);
     }
 
     @Override
     public void onSearch(List list) {
-        tabelmodelbarang.setList(list);
+        tabelmodelbarangToko.setList(list);
     }
 
     @Override
     public void onSort(List list) {
-        tabelmodelbarang.setList(list);
+        tabelmodelbarangToko.setList(list);
     }
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
         try{
-            barang barang=tabelmodelbarang.get(tabelBarang.getSelectedRow());
+            barang barang=tabelmodelbarangToko.get(tabelBarang.getSelectedRow());
             //cmbCari.setSelectedItem(barangkecil.get);
         }catch(IndexOutOfBoundsException ioobe){
             

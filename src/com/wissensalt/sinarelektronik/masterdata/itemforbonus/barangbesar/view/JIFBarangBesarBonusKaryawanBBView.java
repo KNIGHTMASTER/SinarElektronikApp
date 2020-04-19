@@ -3,7 +3,6 @@ import com.wissensalt.sinarelektronik.config.HostName;
 import com.wissensalt.sinarelektronik.config.UserLevel;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.controller.BarangBesarController;
 import com.wissensalt.sinarelektronik.dto.BarangBesarDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangbesar.error.BarangException;
 import com.wissensalt.sinarelektronik.model.BarangBesarModel;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.event.BarangBesarListener;
 import com.wissensalt.sinarelektronik.masterdata.barangbesar.model.TabelModelBarangBesar;
@@ -499,9 +498,7 @@ public class JIFBarangBesarBonusKaryawanBBView extends javax.swing.JInternalFram
             JOptionPane.showMessageDialog(null, "Pilih data terlebih dahulu", "peringatan", JOptionPane.WARNING_MESSAGE);
         }else if(JOptionPane.showConfirmDialog(null, "Apakah anda yakin akan menghapus ?") == JOptionPane.YES_OPTION){
             try {
-                try {
-                        // TODO add your handling code here:
-                        //delete();
+                try {                    
                         Class.forName("com.mysql.jdbc.Driver");
                         String queryDelete = "Delete from barangbonuskaryawanbb where kodebarang=?";
                         try {

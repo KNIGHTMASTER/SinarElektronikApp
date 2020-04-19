@@ -260,7 +260,7 @@ public class TipeView extends javax.swing.JPanel implements TipeListener, ListSe
         controller.resetTipe(this);
     }
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel atas;
     private javax.swing.JPanel bawah;
     private javax.swing.JButton btDelete;
@@ -276,6 +276,7 @@ public class TipeView extends javax.swing.JPanel implements TipeListener, ListSe
     private javax.swing.JTable tabelTipe;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtTipe;
+    // End of variables declaration//GEN-END:variables
 
     @Override
     public void onChange(TipeModel model) {

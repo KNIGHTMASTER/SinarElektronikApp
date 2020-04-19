@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.controller;
 
-import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.error.TambahBarangException;
 import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.model.TambahBarangModel;
 import com.wissensalt.sinarelektronik.masterdata.tambahbarang.kecil.view.tambahBarangKecilView;
 
@@ -67,9 +62,9 @@ public class TambahBarangController {
         }
         if(namaBarang.trim().equals("")){
             JOptionPane.showMessageDialog(view, "Nama barangkecil masih kosong");
-        }else if(String.valueOf(eceran).trim().equals("")){
+        }else if(eceran.trim().equals("")){
             JOptionPane.showMessageDialog(view, "Harga eceran masih kosong");
-        }else if(String.valueOf(grosir).trim().equals("")){
+        }else if(grosir.trim().equals("")){
             JOptionPane.showMessageDialog(view, "Harga grosir masih kosong");
         }else if(String.valueOf(stok).trim().equals("")){
             JOptionPane.showMessageDialog(view, "Stok masih kosong");
@@ -109,15 +104,7 @@ public class TambahBarangController {
             model.setGaransi(garansi);
             model.setLamaGaransi(lamaGaransi);            
             model.setKategori(kategori);
-            try {
-                try {
-                    model.insertBarang();
-                } catch (SQLException ex) {
-                    Logger.getLogger(TambahBarangController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (TambahBarangException ex) {
-                Logger.getLogger(TambahBarangController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            model.insertBarang();
             JOptionPane.showMessageDialog(view, "barangkecil berhasil dimasukkan");
         }
     }    

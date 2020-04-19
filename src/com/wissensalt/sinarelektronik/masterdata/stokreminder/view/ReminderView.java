@@ -1,13 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wissensalt.sinarelektronik.masterdata.stokreminder.view;
 
 import com.wissensalt.sinarelektronik.config.HostName;
 import com.wissensalt.sinarelektronik.config.UserLevel;
+import com.wissensalt.sinarelektronik.dao.*;
+import com.wissensalt.sinarelektronik.dao.impl.*;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.entity.BarangKecilDTO;
-import com.wissensalt.sinarelektronik.masterdata.barangkecil.error.BarangException;
 import com.wissensalt.sinarelektronik.masterdata.barangkecil.model.TabelModelBarangKecil;
 import com.wissensalt.sinarelektronik.masterdata.stokreminder.controller.ReminderController;
 import com.wissensalt.sinarelektronik.masterdata.stokreminder.database.ReminderDatabase;
@@ -28,8 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,22 +48,21 @@ import javax.swing.event.ListSelectionListener;
  */
 public class ReminderView extends javax.swing.JPanel implements ReminderListener, ListSelectionListener{
 
-    /**
-     * Creates new form ReminderView
-     */
-    
-    ReminderController controller;
-    
-    TabelModelBarangKecil tabelmodelbarang;
-    
-    ReminderModel model;
-    
-    HostName ip = new HostName();
-    
-    ReminderDatabase database = new ReminderDatabase();
-        
-    public ReminderView() {
+    private ReminderController controller;
+    private TabelModelBarangKecil tabelmodelbarang;
+    private ReminderModel model;
+    private final NamaBarangDAO namaBarangDAO;
+    private final TipeDAO tipeDAO;
+    private final MerekDAO merekDAO;
+    private final SupplierDAO supplierDAO;
+    private final SatuanDAO satuanDAO;
 
+    public ReminderView() {
+        satuanDAO = new SatuanDAOImpl();
+        tipeDAO = new TipeDAOImpl();
+        merekDAO = new MerekDAOImpl();
+        supplierDAO = new SupplierDAOImpl();
+        namaBarangDAO =  new NamaBarangDAOImpl();
         tabelmodelbarang = new TabelModelBarangKecil();
         
         model=new ReminderModel();
@@ -81,7 +75,6 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
 
         tabelBarang.getSelectionModel().addListSelectionListener(this);
         tabelBarang.setModel(tabelmodelbarang);
-        koneksi();
         loadDatabase();
         loadNamaBarang();
         loadTipe();
@@ -128,32 +121,20 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
         jButton12.setVisible(false);
     }
     
-    public void loadTipe(){
-        Statement s = null;
+    private void loadTipe(){
         try {
-            s = conn.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            ResultSet rs=s.executeQuery("SELECT namaTipe FROM tipe");
+            ResultSet rs = tipeDAO.selectSingleField("SELECT namaTipe FROM tipe");
             while (rs.next()) {
                 cmbTipe.addItem(rs.getString("namaTipe"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
     }
     
-    public void loadMerek(){
-        Statement s = null;
+    private void loadMerek(){
         try {
-            s = conn.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            ResultSet rs=s.executeQuery("SELECT namamerek FROM merek");
+            ResultSet rs = merekDAO.selectSingleField("SELECT namamerek FROM merek");
             while (rs.next()) {
                 cmbMerek.addItem(rs.getString("namamerek"));
             }
@@ -162,15 +143,9 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
         }        
     }
     
-    public void loadSatuan(){
-        Statement s = null;
+    private void loadSatuan(){
         try {
-            s = conn.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            ResultSet rs=s.executeQuery("SELECT namasatuan FROM satuan");
+            ResultSet rs = satuanDAO.selectSingleField("SELECT namasatuan FROM satuan");
             while (rs.next()) {
                 cmbSatuan.addItem(rs.getString("namasatuan"));
             }
@@ -180,14 +155,8 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
     }
     
     public void loadSupplier(){
-        Statement s = null;
         try {
-            s = conn.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            ResultSet rs=s.executeQuery("SELECT nama FROM supplier");
+            ResultSet rs = supplierDAO.selectSingleField("SELECT nama FROM supplier");
             while (rs.next()) {
                 cmbSupplier.addItem(rs.getString("nama"));
             }
@@ -197,25 +166,15 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
     }    
 
 
-    public void loadNamaBarang(){
-        Statement statement=null;
+    private void loadNamaBarang(){
         try{
-            statement=conn.createStatement();            
-            ResultSet rs=statement.executeQuery("SELECT namabarang FROM namabarang ORDER BY namabarang");
+            ResultSet rs = namaBarangDAO.selectSingleField("SELECT namabarang FROM namabarang ORDER BY namabarang");
             while (rs.next()) {
                 cmbNamaBarang.addItem(rs.getString("namabarang"));
             }
         }catch(SQLException e)         {
             JOptionPane.showMessageDialog(null, "tidak bisa me-load data nama barangkecil");
-        }finally{
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(BarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }      
+        }
     }  
     
    
@@ -1110,22 +1069,11 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
 
     private void cmbUrutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUrutActionPerformed
         try {
-            // TODO add your handling code here:
-        controller.sort(this);
-        } catch (SQLException ex) {
-            Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BarangException ex) {
-            Logger.getLogger(ReminderView.class.getName()).log(Level.SEVERE, null, ex);
+            controller.sort(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_cmbUrutActionPerformed
-
-    private void tabelBarangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarangMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tabelBarangMousePressed
-
-    private void tabelBarangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelBarangMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tabelBarangMouseReleased
 
     private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
         updateManual();
@@ -1396,24 +1344,13 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
         dialogTambahSupplier.show();
     }//GEN-LAST:event_btTambahSupplierActionPerformed
 
-    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btResetActionPerformed
-        // TODO add your handling code here:
-        /*controller.resetTambahBarang();
-        try {
-            resetManual();
-        } catch (SQLException ex) {
-            Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (barangException ex) {
-            Logger.getLogger(tambahBarangKecilView.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-    }//GEN-LAST:event_btResetActionPerformed
-
     private void btTambah1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTambah1ActionPerformed
         updateBarangExec();
     }//GEN-LAST:event_btTambah1ActionPerformed
     Blob gambarRetrieve ;
     ImageIcon iconRetrieve = null;
-    public void showUpdateManual(){
+
+    private void showUpdateManual(){
 
         pathGambar = "";
         String idbarang = tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
@@ -1569,27 +1506,15 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
             }
         }                
     };
-    
-    
-    Connection conn = null;
-	
-    public void koneksi(){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = "+ex);
-        }
-    }
+
     
     
     private void preview(){
-        byte [] data = null ;
+        byte [] data;
         Blob gambar = null ;
         if(tabelBarang.getSelectedRowCount()!=0){
             try {
                 String idBarang=tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString();
-                //koneksi();                
                 try{
                     Statement s=conn.createStatement();
                     ResultSet rs=s.executeQuery("select gambar from barang where idbarang='"+idBarang+"'");
@@ -1619,8 +1544,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
             }
         else{
             JOptionPane.showMessageDialog(null, "pilih data terlebih dahulu");
-            return;            
-        }    
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.components.JSpinField JsStok;

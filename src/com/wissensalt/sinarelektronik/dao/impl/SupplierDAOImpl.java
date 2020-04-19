@@ -15,10 +15,8 @@ import java.util.logging.Logger;
  */
 public class SupplierDAOImpl extends ABaseDAO<SupplierDTO> implements SupplierDAO {
     
-    private final String insertSupplier = "INSERT INTO supplier (nama, alamat, kota, propinsi, kodePost, telepon, fax, bank, nomorRek, atasNama, kontakPerson, email, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
-    private final String updateSupplier = "UPDATE supplier SET nama = ?, alamat = ?, kota = ?, propinsi = ?, kodePost = ?, telepon = ?, fax = ?, nomorRek = ?, atasNama = ?, kontakPerson = ?, email = ?, note = ? WHERE idsupplier = ?";
-    
+    private final String INSERT_SUPPLIER = "INSERT INTO supplier (nama, alamat, kota, propinsi, kodePost, telepon, fax, bank, nomorRek, atasNama, kontakPerson, email, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String UPDATE_SUPPLIER = "UPDATE supplier SET nama = ?, alamat = ?, kota = ?, propinsi = ?, kodePost = ?, telepon = ?, fax = ?, nomorRek = ?, atasNama = ?, kontakPerson = ?, email = ?, note = ? WHERE idsupplier = ?";
     private final String deleteSupplier = "DELETE FROM supplier WHERE idsupplier = ?";
     
     private final String searchByid = "SELECT * FROM supplier WHERE idsupplier LIKE ?";
@@ -86,7 +84,7 @@ public class SupplierDAOImpl extends ABaseDAO<SupplierDTO> implements SupplierDA
     @Override
     public void insertDetail(SupplierDTO supplierDTO, PreparedStatement ps) {
         try {
-            ps =connection.prepareStatement(insertSupplier, ps.RETURN_GENERATED_KEYS);
+            ps =connection.prepareStatement(INSERT_SUPPLIER, ps.RETURN_GENERATED_KEYS);
             ps.setString(1, supplierDTO.getNama());
             ps.setString(2, supplierDTO.getAlamat());
             ps.setString(3, supplierDTO.getKota());
@@ -110,7 +108,7 @@ public class SupplierDAOImpl extends ABaseDAO<SupplierDTO> implements SupplierDA
     @Override
     public PreparedStatement updateDetail(SupplierDTO supplierDTO, PreparedStatement ps) {
         try {
-            ps = connection.prepareStatement(updateSupplier);
+            ps = connection.prepareStatement(UPDATE_SUPPLIER);
             ps.setString(1, supplierDTO.getNama());
             ps.setString(2, supplierDTO.getAlamat());
             ps.setString(3, supplierDTO.getKota());
