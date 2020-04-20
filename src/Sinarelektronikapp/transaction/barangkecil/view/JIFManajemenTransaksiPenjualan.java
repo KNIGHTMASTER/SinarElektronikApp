@@ -324,7 +324,7 @@ public class JIFManajemenTransaksiPenjualan extends javax.swing.JInternalFrame i
             Logger.getLogger(JIFManajemenTransaksiPenjualan.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            c = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
+            c = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
         } catch (SQLException ex) {
             Logger.getLogger(JIFManajemenTransaksiPenjualan.class.getName()).log(Level.SEVERE, null, ex);
         }

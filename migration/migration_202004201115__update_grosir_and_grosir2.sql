@@ -1,0 +1,1 @@
+update barangbesar set grosir = (modal + 10000), grosir2 = (modal + 100000), eceran = (modal + 300000);

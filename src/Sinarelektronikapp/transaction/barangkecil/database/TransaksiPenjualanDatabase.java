@@ -27,7 +27,7 @@ public class TransaksiPenjualanDatabase {
             MysqlDataSource dataSource=new MysqlDataSource();
             dataSource.setUrl("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik");
             dataSource.setUser("root");
-            dataSource.setPassword("P@ssw0rd");
+            dataSource.setPassword("5430trisin9");
             try {
                 connection=dataSource.getConnection();
             } catch (SQLException ex) {

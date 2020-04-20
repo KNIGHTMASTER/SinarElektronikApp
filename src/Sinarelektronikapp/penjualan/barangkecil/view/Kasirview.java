@@ -391,7 +391,7 @@ public final class Kasirview extends javax.swing.JPanel implements penjualanList
             Logger.getLogger(Kasirview.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
+            connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
         } catch (SQLException ex) {
             Logger.getLogger(Kasirview.class.getName()).log(Level.SEVERE, null, ex);
         }

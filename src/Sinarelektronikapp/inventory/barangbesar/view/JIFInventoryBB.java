@@ -1564,7 +1564,7 @@ public void inisiasiDataAwal(){
             Logger.getLogger(JIFInventoryBB.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
+            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
         } catch (SQLException ex) {
             Logger.getLogger(JIFInventoryBB.class.getName()).log(Level.SEVERE, null, ex);
         }

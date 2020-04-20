@@ -27,7 +27,7 @@ public class SetGrosir2BarangKecil {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
-        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/sinarelektronik?;", "root", "P@ssw0rd");
+        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/sinarelektronik?;", "root", "5430trisin9");
         Statement s = c.createStatement();
         ResultSet rs = s.executeQuery("select idbarang, grosir, eceran from barang");
         int hasil = 0;
@@ -36,7 +36,6 @@ public class SetGrosir2BarangKecil {
             hasil = (rs.getInt("grosir") + rs.getInt("eceran")) / 2;
             idbarang = rs.getString("idbarang");
             update(idbarang, hasil, c);
-            System.out.println("id " + idbarang + " sukses terupdate");
         }
 
         rs.close();

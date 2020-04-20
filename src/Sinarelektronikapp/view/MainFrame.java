@@ -184,7 +184,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void koneksi() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + ip.getIpServer() + "/sinarelektronik?;", "root", "P@ssw0rd");
+            connection = DriverManager.getConnection("jdbc:mysql://" + ip.getIpServer() + "/sinarelektronik?;", "root", "5430trisin9");
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada jaringan karena = " + ex, "Peringatan", JOptionPane.WARNING_MESSAGE);
         }
@@ -1320,6 +1320,22 @@ public class MainFrame extends javax.swing.JFrame {
         btSetupBonus.setEnabled(b);
         btReportMaster.setEnabled(b);
     }
+    
+    public void setBesarKaryawan(Boolean b) {
+        btBarangBesar.setEnabled(!b);
+        StokUlangBarangBesar.setEnabled(b);
+        btBarangToko.setEnabled(b);
+        btPenjualBB.setEnabled(b);
+        btUpdateGlobalBB.setEnabled(b);
+        btUpdateGlobalBK.setEnabled(b);
+        btPenjualBK.setEnabled(b);
+        btBarangBesarExclude.setEnabled(b);
+        btBarangKecilExclude.setEnabled(b);
+        btReportMaster.setEnabled(b);
+        btInsentifBK.setEnabled(b);
+        btSetupBonus.setEnabled(b);
+        btReportMaster.setEnabled(b);
+    }
 
     public void setTransaksiBk(Boolean b) {
         btTransaksi.setEnabled(b);
@@ -1385,14 +1401,13 @@ public class MainFrame extends javax.swing.JFrame {
                 
                 if (decryptedPassword.equals(passwordF)) {
                     Login.setText("Logout");
-                    String levelLogin = "";
-                    levelLogin = rs.getString("level");
+                    String levelLogin = rs.getString("level");
                     userLevel.setUserLevel(levelLogin);
                     userLevel.Filling();
                     setAfterLoadAwal();
                     if (applicationMode.getApplicationMode().equals("3")) {
                         callMenuBarang();
-                    } else {
+
                         switch (levelLogin) {
                             case "Pemilik Toko":
                                 setBtUser(true);
@@ -1414,16 +1429,16 @@ public class MainFrame extends javax.swing.JFrame {
                                 break;
                             case "Karyawan":
                                 setBtUpdateGlobal(false);
-                                setBtUser(false);
-                                setBesar(false);
+                                setBtUser(false);                                
+                                setBesarKaryawan(false);
                                 setTransaksiBk(false);
                                 setTransaksiBb(false);
                                 setReportBk(false);
                                 setReportBb(false);
-                                setMaintenance(false);
+                                setMaintenance(false);                                                                                      
                                 break;
-                            default:;
-                        }                        
+                            default:
+                        }  
                     }    
                     dialogLogin.dispose();
                 } else {

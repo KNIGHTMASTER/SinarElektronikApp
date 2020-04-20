@@ -16,12 +16,20 @@ import java.util.Objects;
 public class barang {
 
     String idBarang, idBarcode, namaBarang, tipe, merek, supplier, keterangan, garansi;
-    int modal, grosir, eceran, stok, stok_min, lamaGaransi;
+    int modal, grosir, grosir2, eceran, stok, stok_min, lamaGaransi;
     
     File gambar;
     
     Blob gambarHasil;
 
+    public void setGrosir2(int grosir2) {
+        this.grosir2 = grosir2;
+    }
+
+    public int getGrosir2() {
+        return grosir2;
+    }
+    
     public barang() {
     }
 

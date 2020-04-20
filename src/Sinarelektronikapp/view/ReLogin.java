@@ -151,7 +151,7 @@ public class ReLogin extends javax.swing.JFrame {
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
+            connection = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada jaringan karena = "+ex, "Peringatan", JOptionPane.WARNING_MESSAGE);
         }        
@@ -223,7 +223,7 @@ public class ReLogin extends javax.swing.JFrame {
                             break;
                         case "Karyawan":
                             mainFrame.setBtUser(false);
-                            mainFrame.setBesar(false);
+                            mainFrame.setBesarKaryawan(false);
                             mainFrame.setTransaksiBk(false);
                             mainFrame.setTransaksiBb(false);
                             mainFrame.setReportBk(false);

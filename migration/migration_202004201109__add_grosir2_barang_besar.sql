@@ -1,0 +1,1 @@
+ALTER TABLE barangbesar ADD grosir2 bigint(20);

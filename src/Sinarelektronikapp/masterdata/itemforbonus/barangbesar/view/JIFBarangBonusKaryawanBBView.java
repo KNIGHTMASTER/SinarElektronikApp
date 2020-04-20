@@ -549,7 +549,7 @@ public class JIFBarangBonusKaryawanBBView extends javax.swing.JInternalFrame imp
                         Class.forName("com.mysql.jdbc.Driver");
                         String queryDelete = "Delete from barangbonuskaryawanbb where kodebarang=?";
                         try {
-                            Connection c = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik?;", "root", "P@ssw0rd");
+                            Connection c = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik?;", "root", "5430trisin9");
                             PreparedStatement ps = c.prepareStatement(queryDelete);
                             ps.setString(1, txtKodeBarang.getText());
                             ps.executeUpdate();

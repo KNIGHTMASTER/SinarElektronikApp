@@ -34,18 +34,12 @@ public class ApplicationMode {
     
     public String getApplicationMode() {
         String result="";
-        Scanner scan = null;
-        try{
-        scan = new Scanner(new FileReader(FILE_NAME));
+        try(Scanner scan = new Scanner(new FileReader(FILE_NAME))) {
             while (scan.hasNext()) {                
                 result = scan.nextLine();
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error dalam membaca file cofiguration karena "+e);
-        }finally{
-            if (scan != null) {
-                scan.close();
-            }
         }
         if (result != null && result.length() > 0) {
             result = result.split("=")[1].trim();
@@ -62,8 +56,7 @@ public class ApplicationMode {
             bw = Files.newBufferedWriter(fileAppMode, Charset.defaultCharset());
             bw.append(DEFAULT);
             bw.flush();
-            //JOptionPane.showMessageDialog(null, "selesai mengisi fileConfig");
-        }catch(Exception e){
+        }catch(IOException e){
             JOptionPane.showMessageDialog(null, "error dalam membuat file konfigurasi User karena "+e);
         }finally{
             if(bw!=null){

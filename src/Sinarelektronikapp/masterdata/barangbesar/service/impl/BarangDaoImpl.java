@@ -33,7 +33,7 @@ public class BarangDaoImpl implements BarangDao{
         
     private Connection connection;    
 
-    final String updateBarang = "UPDATE barangbesar SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe = ?, merek = ?, modal = ?, grosir=?, eceran=?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, gambar=? garansi=?, lamagaransi=? WHERE idbarang = ?";
+    final String updateBarang = "UPDATE barangbesar SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe = ?, merek = ?, modal = ?, grosir=?, grosir2=?, eceran=?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, gambar=? garansi=?, lamagaransi=? WHERE idbarang = ?";
 
     final String deleteBarang = "DELETE FROM barangbesar where idbarang = ?";
 
@@ -94,18 +94,19 @@ public class BarangDaoImpl implements BarangDao{
             statement.setString(5, barang.getMerek());
             statement.setInt(6, barang.getModal());
             statement.setInt(7, barang.getGrosir());
-            statement.setInt(8, barang.getEceran());
-            statement.setInt(9, barang.getStok());
-            statement.setInt(10, barang.getStok_min());
-            statement.setString(11, barang.getSupplier());
-            statement.setString(12, barang.getKeterangan());            
+            statement.setInt(8, barang.getGrosir2());
+            statement.setInt(9, barang.getEceran());
+            statement.setInt(10, barang.getStok());
+            statement.setInt(11, barang.getStok_min());
+            statement.setString(12, barang.getSupplier());
+            statement.setString(13, barang.getKeterangan());            
             try {
-                statement.setBlob(13, new FileInputStream(barang.getGambar()));
+                statement.setBlob(14, new FileInputStream(barang.getGambar()));
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(BarangDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-            statement.setString(13, barang.getGaransi());
-            statement.setString(14, String.valueOf(barang.getLamaGaransi()));
+            statement.setString(15, barang.getGaransi());
+            statement.setString(16, String.valueOf(barang.getLamaGaransi()));
             statement.executeUpdate();
             connection.commit();
         }catch(SQLException exception){
@@ -114,7 +115,7 @@ public class BarangDaoImpl implements BarangDao{
             } catch (SQLException ex) {
                 
             }
-            JOptionPane.showMessageDialog(null, "Update barangkecil besar gagal karena "+exception, "Perhatian", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Update barang besar besar gagal karena "+exception, "Perhatian", JOptionPane.WARNING_MESSAGE);
         }finally{
             try {
                 connection.setAutoCommit(true);
@@ -181,6 +182,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setMerek(rs.getString("merek"));
                 barang.setModal(rs.getInt("modal"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setEceran(rs.getInt("eceran"));                
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
@@ -233,6 +235,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -285,6 +288,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -337,6 +341,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -389,6 +394,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -441,6 +447,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -493,6 +500,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -545,6 +553,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -597,6 +606,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -649,6 +659,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -701,6 +712,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -753,6 +765,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -805,6 +818,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -857,6 +871,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -909,6 +924,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -961,6 +977,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -1013,6 +1030,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -1065,6 +1083,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -1117,6 +1136,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));
@@ -1169,6 +1189,7 @@ public class BarangDaoImpl implements BarangDao{
                 barang.setModal(rs.getInt("modal"));
                 barang.setEceran(rs.getInt("eceran"));
                 barang.setGrosir(rs.getInt("grosir"));
+                barang.setGrosir2(rs.getInt("grosir2"));
                 barang.setStok(rs.getInt("stok"));
                 barang.setStok_min(rs.getInt("stok_minimum"));
                 barang.setSupplier(rs.getString("supplier"));

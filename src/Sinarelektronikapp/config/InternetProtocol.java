@@ -105,7 +105,7 @@ public class InternetProtocol {
         Connection c = null;
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            c = DriverManager.getConnection("jdbc:mysql://"+getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
+            c = DriverManager.getConnection("jdbc:mysql://"+getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
             hasil = "Sukses";
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error Testing Karena = "+e);

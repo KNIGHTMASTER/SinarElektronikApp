@@ -1512,7 +1512,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
             Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "P@ssw0rd");
+            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
         } catch (SQLException ex) {
             Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -289,6 +289,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
+        jLabelGrosir2 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -305,6 +306,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         cmbMerek = new javax.swing.JComboBox();
         txtHargaModal = new javax.swing.JTextField();
         txtHargaGrosir = new javax.swing.JTextField();
+        txtHargaGrosir2 = new javax.swing.JTextField();
         txtHargaEceran = new javax.swing.JTextField();
         JsStok = new com.toedter.components.JSpinField();
         JsstokMin = new com.toedter.components.JSpinField();
@@ -417,7 +419,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
 
         panelAtas.add(panelImage, java.awt.BorderLayout.EAST);
 
-        PanelLabelKiri.setLayout(new java.awt.GridLayout(14, 0));
+        PanelLabelKiri.setLayout(new java.awt.GridLayout(15, 0));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Id Barang :");
@@ -446,6 +448,10 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel21.setText("Harga Grosir :");
         PanelLabelKiri.add(jLabel21);
+
+        jLabelGrosir2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelGrosir2.setText("Harga Grosir 2 :");
+        PanelLabelKiri.add(jLabelGrosir2);
 
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel11.setText("Harga Eceran :");
@@ -479,7 +485,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
 
         panelMasuk.setLayout(new java.awt.BorderLayout());
 
-        panelInputTengah.setLayout(new java.awt.GridLayout(14, 0));
+        panelInputTengah.setLayout(new java.awt.GridLayout(15, 0));
 
         txtIdBarang.setEditable(false);
         panelInputTengah.add(txtIdBarang);
@@ -565,6 +571,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
             }
         });
         panelInputTengah.add(txtHargaGrosir);
+        panelInputTengah.add(txtHargaGrosir2);
 
         txtHargaEceran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1015,8 +1022,8 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
     }
 
     public void updateBarangExec() {
-        String QUERY = "UPDATE barangbesar SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe=?, merek = ?, modal=?, grosir =?, eceran = ?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, gambar = ?, garansi=?, lamagaransi=? WHERE idbarang =?";
-        String QUERY2 = "UPDATE barangbesar SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe=?, merek = ?, modal=?, grosir =?, eceran = ?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, garansi=?, lamagaransi=? WHERE idbarang = ?";
+        String QUERY = "UPDATE barangbesar SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe=?, merek = ?, modal=?, grosir =?, grosir2 =?, eceran = ?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, gambar = ?, garansi=?, lamagaransi=? WHERE idbarang =?";
+        String QUERY2 = "UPDATE barangbesar SET idbarang = ?, idbarcode = ?, namabarang = ?, tipe=?, merek = ?, modal=?, grosir =?, grosir2 =?, eceran = ?, stok = ?, stok_minimum = ?, supplier = ?, keterangan = ?, garansi=?, lamagaransi=? WHERE idbarang = ?";
         if (pathGambar == null || pathGambar.trim().equals("")) {
             try {
                 PreparedStatement ps = conn.prepareStatement(QUERY2);
@@ -1027,11 +1034,12 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 ps.setString(5, cmbMerek.getSelectedItem().toString());
                 ps.setString(6, txtHargaModal.getText());
                 ps.setString(7, txtHargaGrosir.getText());
-                ps.setString(8, txtHargaEceran.getText());
-                ps.setString(9, String.valueOf(JsStok.getValue()));
-                ps.setString(10, String.valueOf(JsstokMin.getValue()));
-                ps.setString(11, cmbSupplier.getSelectedItem().toString());
-                ps.setString(12, txtKet.getText());
+                ps.setString(8, txtHargaGrosir2.getText());
+                ps.setString(9, txtHargaEceran.getText());
+                ps.setString(10, String.valueOf(JsStok.getValue()));
+                ps.setString(11, String.valueOf(JsstokMin.getValue()));
+                ps.setString(12, cmbSupplier.getSelectedItem().toString());
+                ps.setString(13, txtKet.getText());
                 /*try {
                     ps.setBlob(13, new FileInputStream(gambar));
                 } catch (FileNotFoundException ex) {
@@ -1052,9 +1060,9 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 } else if (rbYa.isSelected()) {
                     garansi = "ya";
                 }
-                ps.setString(13, garansi);
-                ps.setString(14, String.valueOf(lamaGaransi));
-                ps.setString(15, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
+                ps.setString(14, garansi);
+                ps.setString(15, String.valueOf(lamaGaransi));
+                ps.setString(16, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
                 ps.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Update barangkecil berhasil");
             } catch (SQLException ex) {
@@ -1088,13 +1096,14 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 ps.setString(5, cmbMerek.getSelectedItem().toString());
                 ps.setString(6, txtHargaModal.getText());
                 ps.setString(7, txtHargaGrosir.getText());
-                ps.setString(8, txtHargaEceran.getText());
-                ps.setString(9, String.valueOf(JsStok.getValue()));
-                ps.setString(10, String.valueOf(JsstokMin.getValue()));
-                ps.setString(11, cmbSupplier.getSelectedItem().toString());
-                ps.setString(12, txtKet.getText());
+                ps.setString(8, txtHargaGrosir2.getText());
+                ps.setString(9, txtHargaEceran.getText());
+                ps.setString(10, String.valueOf(JsStok.getValue()));
+                ps.setString(11, String.valueOf(JsstokMin.getValue()));
+                ps.setString(12, cmbSupplier.getSelectedItem().toString());
+                ps.setString(13, txtKet.getText());
                 try {
-                    ps.setBlob(13, new FileInputStream(gambar));
+                    ps.setBlob(14, new FileInputStream(gambar));
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(BarangView.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -1112,9 +1121,9 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 } else if (rbYa.isSelected()) {
                     garansi = "ya";
                 }
-                ps.setString(14, garansi);
-                ps.setString(15, String.valueOf(lamaGaransi));
-                ps.setString(16, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
+                ps.setString(15, garansi);
+                ps.setString(16, String.valueOf(lamaGaransi));
+                ps.setString(17, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
                 ps.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Update barangkecil berhasil");
             } catch (SQLException ex) {
@@ -1251,6 +1260,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         String merek = "";
         String hargamodal = "";
         String grosir = "";
+        String grosir2 = "";
         String eceran = "";
         String stok = "";
         String stok_min = "";
@@ -1270,6 +1280,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 merek = rs.getString("merek");
                 hargamodal = String.valueOf(rs.getInt("modal"));
                 grosir = String.valueOf(rs.getInt("grosir"));
+                grosir2 = String.valueOf(rs.getInt("grosir2"));
                 eceran = String.valueOf(rs.getInt("eceran"));
                 stok = String.valueOf(rs.getInt("stok"));
                 stok_min = String.valueOf(rs.getInt("stok_minimum"));
@@ -1293,6 +1304,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         cmbMerek.setSelectedItem(merek);
         txtHargaModal.setText(hargamodal);
         txtHargaGrosir.setText(grosir);
+        txtHargaGrosir2.setText(grosir2);
         txtHargaEceran.setText(eceran);
         JsStok.setValue(Integer.valueOf(stok));
         JsstokMin.setValue(Integer.valueOf(stok_min));
@@ -1403,7 +1415,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
     public void koneksi() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://" + ip.getIpServer() + "/sinarelektronik?;", "root", "P@ssw0rd");
+            conn = DriverManager.getConnection("jdbc:mysql://" + ip.getIpServer() + "/sinarelektronik?;", "root", "5430trisin9");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = " + ex);
         }
@@ -1689,6 +1701,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabelGrosir2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1724,6 +1737,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
     private Sinarelektronikapp.masterdata.tipe.view.TipeView tipeView2;
     private javax.swing.JTextField txtHargaEceran;
     private javax.swing.JTextField txtHargaGrosir;
+    private javax.swing.JTextField txtHargaGrosir2;
     private javax.swing.JTextField txtHargaModal;
     private javax.swing.JTextField txtIdBarang;
     private javax.swing.JTextField txtIdBarcode;
