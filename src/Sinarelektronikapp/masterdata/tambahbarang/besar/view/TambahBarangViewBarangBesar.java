@@ -4,13 +4,14 @@
  */
 package Sinarelektronikapp.masterdata.tambahbarang.besar.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
 import Sinarelektronikapp.masterdata.barangbesar.model.event.tambahBarangListener;
 import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
 import Sinarelektronikapp.masterdata.tambahbarang.besar.controller.tambahBarangController;
-import Sinarelektronikapp.masterdata.tambahbarang.besar.model.tambahBarangModel;
+import Sinarelektronikapp.masterdata.tambahbarang.besar.model.TambahBarangBesarModel;
 import com.toedter.components.JSpinField;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -38,22 +39,22 @@ import javax.swing.JTextField;
  *
  * @author Fauzi
  */
-public class TambahBarangView2 extends javax.swing.JPanel implements tambahBarangListener{
+public class TambahBarangViewBarangBesar extends javax.swing.JPanel implements tambahBarangListener{
 
     /**
-     * Creates new form TambahBarangView2
+     * Creates new form TambahBarangViewBarangBesar
      */
     
     tambahBarangController controller;
     
-    tambahBarangModel model;
+    TambahBarangBesarModel model;
     
     
     static InternetProtocol ip1 = new InternetProtocol();
     
         
-    public TambahBarangView2(){        
-        model = new tambahBarangModel();
+    public TambahBarangViewBarangBesar(){
+        model = new TambahBarangBesarModel();
         model.setListener(this);
         controller = new tambahBarangController();
         controller.setModel(model);
@@ -111,7 +112,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Driver not Found");
         }        
@@ -132,7 +133,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TambahBarangViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }        
@@ -154,7 +155,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TambahBarangViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -175,7 +176,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TambahBarangViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -195,7 +196,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
                 try {
                     statement.close();
                 } catch (SQLException ex) {
-                    Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TambahBarangViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -250,7 +251,13 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         this.txtHargaGrosir = txtHargaGrosir;
     }
 
+    public JTextField getTxtHargaGrosir2() {
+        return txtHargaGrosir2;
+    }
 
+    public void setTxtHargaGrosir2(JTextField txtHargaGrosir2) {
+        this.txtHargaGrosir2 = txtHargaGrosir2;
+    }
 
     public JTextField getTxtHargaModal() {
         return txtHargaModal;
@@ -334,6 +341,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         jLabel5 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jLabelGrosir2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -350,6 +358,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         cmbMerek = new javax.swing.JComboBox();
         txtHargaModal = new javax.swing.JTextField();
         txtHargaGrosir = new javax.swing.JTextField();
+        txtHargaGrosir2 = new javax.swing.JTextField();
         txtHargaEceran = new javax.swing.JTextField();
         JsStok = new com.toedter.components.JSpinField();
         JsstokMin = new com.toedter.components.JSpinField();
@@ -413,7 +422,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
 
         atas.setLayout(new java.awt.BorderLayout());
 
-        panelLabelKiri.setLayout(new java.awt.GridLayout(14, 0));
+        panelLabelKiri.setLayout(new java.awt.GridLayout(15, 0));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Id Barang :");
@@ -442,6 +451,10 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel13.setText("Harga Grosir :");
         panelLabelKiri.add(jLabel13);
+
+        jLabelGrosir2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelGrosir2.setText("Harga Grosir 2 :");
+        panelLabelKiri.add(jLabelGrosir2);
 
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel14.setText("Harga Eceran :");
@@ -475,7 +488,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
 
         inputTengah.setLayout(new java.awt.BorderLayout());
 
-        panelIsianTengah1.setLayout(new java.awt.GridLayout(14, 0));
+        panelIsianTengah1.setLayout(new java.awt.GridLayout(15, 0));
 
         txtIdBarang.setEditable(false);
         txtIdBarang.addActionListener(new java.awt.event.ActionListener() {
@@ -566,6 +579,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
             }
         });
         panelIsianTengah1.add(txtHargaGrosir);
+        panelIsianTengah1.add(txtHargaGrosir2);
 
         txtHargaEceran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -960,7 +974,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
                 image = ImageIO.read(file); 
                 thumb=image.getScaledInstance(150, 150, Image.SCALE_FAST);
             } catch (IOException ex) {
-                Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TambahBarangViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
             }
             LblImage.setSize(new Dimension(150, 150));
             ImageIcon gambar=new ImageIcon(thumb);
@@ -1127,6 +1141,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabelGrosir2;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -1157,6 +1172,7 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
     private Sinarelektronikapp.masterdata.tipe.view.TipeView tipeView1;
     private javax.swing.JTextField txtHargaEceran;
     private javax.swing.JTextField txtHargaGrosir;
+    private javax.swing.JTextField txtHargaGrosir2;
     private javax.swing.JTextField txtHargaModal;
     private javax.swing.JTextField txtIdBarang;
     private javax.swing.JTextField txtIdBarcode;
@@ -1177,10 +1193,11 @@ public class TambahBarangView2 extends javax.swing.JPanel implements tambahBaran
     }
 
     @Override
-    public void onChange(tambahBarangModel model) {
+    public void onChange(TambahBarangBesarModel model) {
         txtIdBarang.setText(model.getIdBarang());
         txtIdBarcode.setText(model.getIdBarcode());
         txtHargaGrosir.setText(String.valueOf(model.getGrosir()));
+        txtHargaGrosir2.setText(String.valueOf(model.getGrosir2()));
         txtHargaEceran.setText(String.valueOf(model.getEceran()));        
         txtKet.setText(model.getKeterangan());
         cmbNamaBarang.setSelectedItem(model.getNamaBarang());        

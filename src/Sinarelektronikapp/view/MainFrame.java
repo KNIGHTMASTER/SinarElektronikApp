@@ -184,7 +184,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void koneksi() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + ip.getIpServer() + "/sinarelektronik?;", "root", "5430trisin9");
+            connection = DriverManager.getConnection("jdbc:mysql://" + ip.getIpServer() + "/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada jaringan karena = " + ex, "Peringatan", JOptionPane.WARNING_MESSAGE);
         }
@@ -1407,7 +1407,6 @@ public class MainFrame extends javax.swing.JFrame {
                     setAfterLoadAwal();
                     if (applicationMode.getApplicationMode().equals("3")) {
                         callMenuBarang();
-
                         switch (levelLogin) {
                             case "Pemilik Toko":
                                 setBtUser(true);

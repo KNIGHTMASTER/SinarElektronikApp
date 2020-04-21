@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.barangbesar.stokreminder.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
@@ -949,9 +950,9 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                 ps.setString(14, String.valueOf(lamaGaransi));
                 ps.setString(15, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
                 ps.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Update barangkecil berhasil");
+                JOptionPane.showMessageDialog(null, "Update barang besar berhasil");
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Update barangkecil gagal karena = "+ex);
+                JOptionPane.showMessageDialog(null, "Update barang besar gagal karena = "+ex);
             }            
         }        
         else if(pathGambar!=null || !(pathGambar.trim().equals(""))){
@@ -1008,9 +1009,9 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
                 ps.setString(15, String.valueOf(lamaGaransi));
                 ps.setString(16, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
                 ps.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Update barangkecil berhasil");
+                JOptionPane.showMessageDialog(null, "Update barang besar berhasil");
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Update barangkecil gagal karena = "+ex);
+                JOptionPane.showMessageDialog(null, "Update barang besar gagal karena = "+ex);
             }                        
         }
         btCari.doClick();             
@@ -1502,7 +1503,7 @@ public class ReminderView extends javax.swing.JPanel implements ReminderListener
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = "+ex);
         }

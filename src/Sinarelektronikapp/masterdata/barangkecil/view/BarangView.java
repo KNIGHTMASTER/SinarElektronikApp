@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.barangkecil.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.barangkecil.controller.BarangController;
@@ -108,10 +109,13 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                     btUpdate.setEnabled(true);
                 break;
             case "Karyawan":
-                    btTambah.setEnabled(false);
-                    btHapus.setEnabled(false);
-                    btReset.setEnabled(false);
-                    btUpdate.setEnabled(false);                
+                    PanewlBottom2.remove(btTambah);
+                    PanewlBottom2.remove(btHapus);
+                    PanewlBottom2.remove(btReset);
+                    PanewlBottom2.remove(btUpdate);
+                    PanewlBottom2.remove(btPreview);
+                    PanewlBottom2.revalidate();
+                    PanewlBottom2.repaint();
                 break;                        
             default:;
         }
@@ -1482,7 +1486,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = "+ex);
         }

@@ -5,6 +5,7 @@
 
 package Sinarelektronikapp.masterdata.merek.database;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.masterdata.merek.service.impl.merekDaoImpl;
 import Sinarelektronikapp.masterdata.merek.service.merekDao;
@@ -28,7 +29,7 @@ public class merekDatabase {
             MysqlDataSource dataSource = new MysqlDataSource();
             dataSource.setUrl("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik");
             dataSource.setUser("root");
-            dataSource.setPassword("5430trisin9");
+            dataSource.setPassword(AppConstant.DB_PASSWORD);
             
             connection = dataSource.getConnection();
         }

@@ -8,7 +8,7 @@ import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 import Sinarelektronikapp.masterdata.barangbesar.model.event.tambahBarangListener;
 import Sinarelektronikapp.masterdata.tambahbarang.besar.database.TambahbarangDatabase;
 import Sinarelektronikapp.masterdata.tambahbarang.besar.error.TambahBarangException;
-import Sinarelektronikapp.masterdata.tambahbarang.besar.service.TambahBarangDao;
+import Sinarelektronikapp.masterdata.tambahbarang.besar.service.TambahBarangBesarDao;
 import java.io.File;
 import java.sql.SQLException;
 
@@ -16,13 +16,21 @@ import java.sql.SQLException;
  *
  * @author Fauzi
  */
-public class tambahBarangModel {
+public class TambahBarangBesarModel {
 
     private String idBarang, idBarcode, namaBarang, tipe, merek, satuan, supplier, keterangan, garansi, kategori;
     
     private File gambar;
 
-    private int stok, stokMinimum, hargaModal, eceran, grosir, lamaGaransi;
+    private int stok, stokMinimum, hargaModal, eceran, grosir, grosir2,lamaGaransi;
+
+    public int getGrosir2() {
+        return grosir2;
+    }
+
+    public void setGrosir2(int grosir2) {
+        this.grosir2 = grosir2;
+    }
 
     public File getGambar() {
         return gambar;
@@ -211,7 +219,7 @@ public class tambahBarangModel {
         setKeterangan("");        
     }
     public void insertBarang() throws SQLException, TambahBarangException{
-        TambahBarangDao dao = TambahbarangDatabase.getBarangDao();
+        TambahBarangBesarDao dao = TambahbarangDatabase.getBarangDao();
 
         barang barang = new barang();
         barang.setIdBarang(idBarang);
@@ -221,6 +229,7 @@ public class tambahBarangModel {
         barang.setMerek(merek);
         barang.setModal(hargaModal);
         barang.setGrosir(grosir);
+        barang.setGrosir2(grosir2);
         barang.setEceran(eceran);
         barang.setStok(stok);
         barang.setStok_min(stokMinimum);

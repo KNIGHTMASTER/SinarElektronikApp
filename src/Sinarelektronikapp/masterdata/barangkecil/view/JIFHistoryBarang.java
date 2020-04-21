@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.barangkecil.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import java.awt.CardLayout;
 import java.sql.Connection;
@@ -48,7 +49,7 @@ public class JIFHistoryBarang extends javax.swing.JInternalFrame {
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = "+ex);
         }

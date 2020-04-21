@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.report.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.masterdata.report.core.Report;
 import Sinarelektronikapp.masterdata.report.core.ReportParam;
@@ -394,7 +395,7 @@ public class PriceListReport extends javax.swing.JPanel {
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = "+ex);
         }

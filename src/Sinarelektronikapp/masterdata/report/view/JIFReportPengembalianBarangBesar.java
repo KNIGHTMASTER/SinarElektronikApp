@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.report.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.masterdata.report.core.ReportParam;
 import java.sql.Connection;
@@ -35,7 +36,7 @@ public class JIFReportPengembalianBarangBesar extends javax.swing.JInternalFrame
     
     public void koneksi(){
         String url = "jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;";
-        String pass = "5430trisin9";
+        String pass = AppConstant.DB_PASSWORD;
         String user = "root";
         try {
             Class.forName("com.mysql.jdbc.Driver");

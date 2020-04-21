@@ -5,9 +5,10 @@
 
 package Sinarelektronikapp.masterdata.tambahbarang.besar.database;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
-import Sinarelektronikapp.masterdata.tambahbarang.besar.service.TambahBarangDao;
-import Sinarelektronikapp.masterdata.tambahbarang.besar.service.impl.TambahBarangDaoImpl;
+import Sinarelektronikapp.masterdata.tambahbarang.besar.service.TambahBarangBesarDao;
+import Sinarelektronikapp.masterdata.tambahbarang.besar.service.impl.TambahBarangBesarDaoImpl;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ import java.sql.SQLException;
 public class TambahbarangDatabase {
     private static Connection connection;
     
-    private static TambahBarangDao dao;
+    private static TambahBarangBesarDao dao;
         
     static InternetProtocol ip1 = new InternetProtocol();
 
@@ -28,16 +29,16 @@ public class TambahbarangDatabase {
             MysqlDataSource dataSource = new MysqlDataSource();
             dataSource.setUrl("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik");
             dataSource.setUser("root");
-            dataSource.setPassword("5430trisin9");
+            dataSource.setPassword(AppConstant.DB_PASSWORD);
             
             connection = dataSource.getConnection();
         }
         return connection;
     }
 
-    public static TambahBarangDao getBarangDao() throws SQLException{
+    public static TambahBarangBesarDao getBarangDao() throws SQLException{
         if(dao == null){
-            dao = new TambahBarangDaoImpl(getConnection());
+            dao = new TambahBarangBesarDaoImpl(getConnection());
         }
         return dao;
     }

@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.retur.barangbesar.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.util.FormatRupiah;
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.util.Waktu;
@@ -1288,7 +1289,7 @@ public class ReturView extends javax.swing.JPanel implements ReturListener, bara
             Logger.getLogger(Kasirview.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (SQLException ex) {
             Logger.getLogger(ReturView.class.getName()).log(Level.SEVERE, null, ex);
         }

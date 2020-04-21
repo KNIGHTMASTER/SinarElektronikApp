@@ -105,7 +105,6 @@ public class UserLevel {
             userLevel = AES.encrypt(getUserLevel(), AppConstant.CONFIG_PASSWORD);
             bw.append(userLevel);
             bw.flush();
-            //JOptionPane.showMessageDialog(null, "selesai mengisi fileConfig");
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "error dalam membuat file konfigurasi User karena "+e, "Perhatian", JOptionPane.ERROR_MESSAGE);
         }finally{

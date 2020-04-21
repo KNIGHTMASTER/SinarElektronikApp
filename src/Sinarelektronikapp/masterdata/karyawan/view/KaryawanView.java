@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.karyawan.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.masterdata.karyawan.Error.KaryawanException;
 import Sinarelektronikapp.masterdata.karyawan.controller.KaryawanController;
@@ -80,7 +81,7 @@ public class KaryawanView extends javax.swing.JPanel implements KaryawanListener
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            connection = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = "+ex);
         }

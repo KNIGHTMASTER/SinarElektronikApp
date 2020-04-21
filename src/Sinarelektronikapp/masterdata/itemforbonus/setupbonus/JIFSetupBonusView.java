@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.itemforbonus.setupbonus;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -48,7 +49,7 @@ public class JIFSetupBonusView extends javax.swing.JInternalFrame {
             Logger.getLogger(JIFSetupBonusView.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (SQLException ex) {
             Logger.getLogger(JIFSetupBonusView.class.getName()).log(Level.SEVERE, null, ex);
         }

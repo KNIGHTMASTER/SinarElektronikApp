@@ -1,5 +1,6 @@
 package Sinarelektronikapp.transaction.barangbesar.database;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.transaction.barangbesar.service.TransaksiPenjualanBBDao;
 import Sinarelektronikapp.transaction.barangbesar.service.TransaksiPenjualanBBDaoImpl;
 import Sinarelektronikapp.config.InternetProtocol;
@@ -25,7 +26,7 @@ public class TransaksiPenjualanBBDatabase {
             MysqlDataSource mds = new MysqlDataSource();
             mds.setURL("jdbc:mysql://"+ip.getIpServer()+":3306/sinarelektronik");
             mds.setUser("root");
-            mds.setPassword("5430trisin9");
+            mds.setPassword(AppConstant.DB_PASSWORD);
             try {
                 connection = mds.getConnection();
             } catch (SQLException ex) {

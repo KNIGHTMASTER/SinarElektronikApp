@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.supplier.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.supplier.entity.supplier;
@@ -804,7 +805,7 @@ public class supplierView extends javax.swing.JPanel implements supplierListener
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Driver not Found");
         }        

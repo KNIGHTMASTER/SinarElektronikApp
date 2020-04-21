@@ -1,5 +1,6 @@
 package Sinarelektronikapp.transaction.barangbesar.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.transaction.barangbesar.controller.TransaksiPenjualanBBController;
 import Sinarelektronikapp.transaction.barangbesar.database.TransaksiPenjualanBBDatabase;
 import Sinarelektronikapp.transaction.barangbesar.error.TransaksiPenjualanBBException;
@@ -321,7 +322,7 @@ public class JIFTransaksiPenjualanBB extends javax.swing.JInternalFrame implemen
             Logger.getLogger(JIFTransaksiPenjualanBB.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            c = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            c = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (SQLException ex) {
             Logger.getLogger(JIFTransaksiPenjualanBB.class.getName()).log(Level.SEVERE, null, ex);
         }

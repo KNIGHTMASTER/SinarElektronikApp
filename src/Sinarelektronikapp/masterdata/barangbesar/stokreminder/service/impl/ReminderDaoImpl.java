@@ -115,7 +115,7 @@ public class ReminderDaoImpl implements ReminderDao {
             } catch (SQLException ex) {
                 
             }
-            JOptionPane.showMessageDialog(null, "Update barangkecil besar gagal karena "+exception, "Perhatian", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Update barang besar gagal karena "+exception, "Perhatian", JOptionPane.WARNING_MESSAGE);
         }finally{
             try {
                 connection.setAutoCommit(true);

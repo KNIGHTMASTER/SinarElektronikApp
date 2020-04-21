@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.penjualan.barangkecil.database;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.penjualan.barangkecil.service.impl.penjualanDaoImpl;
 import Sinarelektronikapp.penjualan.barangkecil.service.penjualanDao;
@@ -29,7 +30,7 @@ public class penjualanDatabase {
             MysqlDataSource dataSource=new MysqlDataSource();
             dataSource.setUrl("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik");
             dataSource.setUser("root");
-            dataSource.setPassword("5430trisin9");
+            dataSource.setPassword(AppConstant.DB_PASSWORD);
             try {
                 connection=dataSource.getConnection();
             } catch (SQLException ex) {

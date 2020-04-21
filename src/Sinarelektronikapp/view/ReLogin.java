@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 public class ReLogin extends javax.swing.JFrame {
 
     private JPanel panelTop;
-    private JPanel panelBottom;    
+    private JPanel panelBottom;
     private JButton btLogin;
     private JButton btReset;
     private JLabel lblUserName;
@@ -45,7 +45,7 @@ public class ReLogin extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-    
+
     private void initComponents() {
         panelTop = new javax.swing.JPanel();
         panelTopLeft = new javax.swing.JPanel();
@@ -83,7 +83,7 @@ public class ReLogin extends javax.swing.JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUserNameActionPerformed(evt);
             }
-        });       
+        });
         panelTopRight.add(txtUserName);
 
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
@@ -144,42 +144,40 @@ public class ReLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPasswordActionPerformed
 
     private Connection connection;
-	
+
 
     InternetProtocol ip = new InternetProtocol();
-	
+
     public void koneksi(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            connection = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (ClassNotFoundException | SQLException ex) {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan pada jaringan karena = "+ex, "Peringatan", JOptionPane.WARNING_MESSAGE);
-        }        
+        }
     }
-    
+
     public ActiveUser activeUser = new ActiveUser();
-    
+
     public void resetLogin(){
         txtUserName.setText("");
-        txtPassword.setText("");        
+        txtPassword.setText("");
         txtUserName.requestFocus();
-    }    
-    
+    }
+
     MainFrame mainFrame ;
-    
+
     public UserLevel userLevel = new UserLevel();
-    
+
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
         koneksi();
         String userNameF = txtUserName.getText().trim();
-        String passwordF = txtPassword.getText().trim();        
-               
+        String passwordF = txtPassword.getText().trim();
 
         activeUser.setUserName(userNameF);
         activeUser.Filling();
-        Statement statement = null;
         try {
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT nama, password, level FROM user WHERE nama='" + userNameF + "'");
 
             String decryptedPassword = null;
@@ -190,7 +188,7 @@ public class ReLogin extends javax.swing.JFrame {
                 } catch (IllegalBlockSizeException | BadPaddingException ex) {
                     Logger.getLogger(ReLogin.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
                 if (decryptedPassword.equals(passwordF)) {
 
                     //insertUser(rs.getString("nama"));
@@ -198,7 +196,6 @@ public class ReLogin extends javax.swing.JFrame {
                     levelLogin = rs.getString("level");
                     userLevel.setUserLevel(levelLogin);
                     userLevel.Filling();
-                    //insertUser(rs.getString("nama"));
                     mainFrame = new MainFrame();
                     mainFrame.setVisible(true);
                     mainFrame.setAfterLoadAwal();
@@ -243,9 +240,6 @@ public class ReLogin extends javax.swing.JFrame {
         } catch (SQLException exception) {
             JOptionPane.showMessageDialog(null, "terjadi kesalahan pada " + exception);
         } finally {
-            if (statement != null) {
-                statement.close();
-            }           
             if (connection != null) {
                 connection.close();
             }
@@ -253,7 +247,7 @@ public class ReLogin extends javax.swing.JFrame {
         }
     }
 
-    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void btResetActionPerformed(java.awt.event.ActionEvent evt) {
         resetLogin();
     }
 }

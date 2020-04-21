@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package Sinarelektronikapp.masterdata.itemforbonus.barangkecil.view;
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.barangkecil.controller.BarangController;
@@ -527,7 +528,7 @@ public class JIFBarangBonusKaryawanBKView extends javax.swing.JInternalFrame imp
                 Class.forName("com.mysql.jdbc.Driver");
                 String queryDelete = "Delete from barangbonuskaryawanbk where kodebarang=?";
                 try {
-                    Connection c = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik?;", "root", "5430trisin9");
+                    Connection c = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
                     PreparedStatement ps = c.prepareStatement(queryDelete);
                     ps.setString(1, txtKodeBarang.getText());
                     ps.executeUpdate();

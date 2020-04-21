@@ -1,5 +1,6 @@
 package Sinarelektronikapp.view;
 
+import Sinarelektronikapp.AppConstant;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -32,7 +33,7 @@ public class SetGrosir2BarangBesar {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
-        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/sinarelektronik?;", "root", "5430trisin9");
+        Connection c = DriverManager.getConnection("jdbc:mysql://localhost/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         Statement s = c.createStatement();
         ResultSet rs = s.executeQuery("select idbarang, modal from barangbesar");
         int grosir2 = 0;

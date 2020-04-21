@@ -5,6 +5,7 @@
 
 package Sinarelektronikapp.masterdata.itemforbonus.barangkecil.database;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import Sinarelektronikapp.masterdata.itemforbonus.barangkecil.service.impl.BarangBonusKaryawanBKDaoImpl;
@@ -31,7 +32,7 @@ public class BarangBonusKaryawanBKDatabase {
             MysqlDataSource dataSource = new MysqlDataSource();            
             dataSource.setUrl("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik");
             dataSource.setUser("root");
-            dataSource.setPassword("5430trisin9");
+            dataSource.setPassword(AppConstant.DB_PASSWORD);
             
             connection = dataSource.getConnection();
         }

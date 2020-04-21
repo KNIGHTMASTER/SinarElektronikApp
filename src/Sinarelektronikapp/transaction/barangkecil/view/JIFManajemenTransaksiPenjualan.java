@@ -1,5 +1,6 @@
 package Sinarelektronikapp.transaction.barangkecil.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.transaction.barangkecil.controller.TransaksiPenjualanController;
 import Sinarelektronikapp.transaction.barangkecil.database.TransaksiPenjualanDatabase;
 import Sinarelektronikapp.transaction.barangkecil.error.TransaksiPenjualanException;
@@ -324,7 +325,7 @@ public class JIFManajemenTransaksiPenjualan extends javax.swing.JInternalFrame i
             Logger.getLogger(JIFManajemenTransaksiPenjualan.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            c = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            c = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (SQLException ex) {
             Logger.getLogger(JIFManajemenTransaksiPenjualan.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.penjualan.barangkecil.controller;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.penjualan.barangkecil.error.penjualanException;
 import Sinarelektronikapp.penjualan.barangkecil.model.PenjualanModel;
@@ -40,7 +41,7 @@ public class penjualanController {
         try {
             Class.forName("com.mysql.jdbc.Driver");    
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+                connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
             } catch (SQLException ex) {
                 Logger.getLogger(penjualanController.class.getName()).log(Level.SEVERE, null, ex);
             }

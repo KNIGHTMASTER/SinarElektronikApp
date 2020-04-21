@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.barangbesar.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.config.UserLevel;
 import Sinarelektronikapp.masterdata.barangbesar.controller.BarangController;
@@ -15,6 +16,8 @@ import Sinarelektronikapp.masterdata.barangbesar.model.barangModel;
 import Sinarelektronikapp.masterdata.barangbesar.model.event.barangListener;
 import Sinarelektronikapp.masterdata.barangbesar.model.tabelModelBarang;
 import Sinarelektronikapp.masterdata.barangbesar.service.BarangDao;
+import Sinarelektronikapp.masterdata.tambahbarang.besar.view.TambahBarangViewBarangBesar;
+
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -104,10 +107,13 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 btUpdate.setEnabled(true);
                 break;
             case "Karyawan":
-                btTambah.setEnabled(false);
-                btHapus.setEnabled(false);
-                btReset.setEnabled(false);
-                btUpdate.setEnabled(false);
+                PanewlBottom2.remove(btTambah);
+                PanewlBottom2.remove(btHapus);
+                PanewlBottom2.remove(btReset);
+                PanewlBottom2.remove(btUpdate);
+                PanewlBottom2.remove(btPreview);
+                PanewlBottom2.revalidate();
+                PanewlBottom2.repaint();
                 break;
             default:;
         }
@@ -373,7 +379,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         dialogTambahNamaBarang = new javax.swing.JDialog();
         namaBarangView1 = new Sinarelektronikapp.masterdata.namabarang.view.NamaBarangView();
         dialogTambahBarang = new javax.swing.JDialog();
-        tambahBarangView1 = new Sinarelektronikapp.masterdata.tambahbarang.besar.view.TambahBarangView2();
+        tambahBarangView1 = new TambahBarangViewBarangBesar();
         up = new javax.swing.JPanel();
         bgUp = new javax.swing.JPanel();
         kiri = new javax.swing.JPanel();
@@ -974,9 +980,9 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
         try {
             resetManual();
         } catch (SQLException ex) {
-            Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TambahBarangViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
         } catch (barangException ex) {
-            Logger.getLogger(TambahBarangView2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TambahBarangViewBarangBesar.class.getName()).log(Level.SEVERE, null, ex);
         }*/
     }//GEN-LAST:event_btResetActionPerformed
 
@@ -1064,9 +1070,9 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 ps.setString(15, String.valueOf(lamaGaransi));
                 ps.setString(16, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
                 ps.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Update barangkecil berhasil");
+                JOptionPane.showMessageDialog(null, "Update barang besar berhasil");
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Update barangkecil gagal karena = " + ex);
+                JOptionPane.showMessageDialog(null, "Update barang besar gagal karena = " + ex);
             }
         } else if (pathGambar != null || !(pathGambar.trim().equals(""))) {
             //ambil gambar awal
@@ -1125,9 +1131,9 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
                 ps.setString(16, String.valueOf(lamaGaransi));
                 ps.setString(17, tabelBarang.getValueAt(tabelBarang.getSelectedRow(), 0).toString());
                 ps.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Update barangkecil berhasil");
+                JOptionPane.showMessageDialog(null, "Update barang besar berhasil");
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Update barangkecil gagal karena = " + ex);
+                JOptionPane.showMessageDialog(null, "Update barang besar gagal karena = " + ex);
             }
         }
         btCari.doClick();
@@ -1415,7 +1421,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
     public void koneksi() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://" + ip.getIpServer() + "/sinarelektronik?;", "root", "5430trisin9");
+            conn = DriverManager.getConnection("jdbc:mysql://" + ip.getIpServer() + "/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error koneksi pada barangkecil view karena = " + ex);
         }
@@ -1732,7 +1738,7 @@ public class BarangView extends javax.swing.JPanel implements barangListener, Li
     private Sinarelektronikapp.masterdata.satuan.view.SatuanView satuanView1;
     private Sinarelektronikapp.masterdata.supplier.view.supplierView supplierView1;
     private javax.swing.JTable tabelBarang;
-    private Sinarelektronikapp.masterdata.tambahbarang.besar.view.TambahBarangView2 tambahBarangView1;
+    private TambahBarangViewBarangBesar tambahBarangView1;
     private javax.swing.JPanel tengah;
     private Sinarelektronikapp.masterdata.tipe.view.TipeView tipeView2;
     private javax.swing.JTextField txtHargaEceran;

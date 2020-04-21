@@ -4,8 +4,9 @@
  */
 package Sinarelektronikapp.masterdata.tambahbarang.besar.controller;
 
-import Sinarelektronikapp.masterdata.tambahbarang.besar.model.tambahBarangModel;
-import Sinarelektronikapp.masterdata.tambahbarang.besar.view.TambahBarangView2;
+import Sinarelektronikapp.masterdata.tambahbarang.besar.model.TambahBarangBesarModel;
+import Sinarelektronikapp.masterdata.tambahbarang.besar.view.TambahBarangViewBarangBesar;
+
 import java.io.File;
 import java.lang.Exception;
 import java.util.logging.Level;
@@ -17,10 +18,10 @@ import javax.swing.JOptionPane;
  * @author Fauzi
  */
 public class tambahBarangController {
-    private tambahBarangModel model;
+    private TambahBarangBesarModel model;
 
 
-    public void setModel(tambahBarangModel model) {
+    public void setModel(TambahBarangBesarModel model) {
         this.model = model;
     }
 
@@ -30,7 +31,7 @@ public class tambahBarangController {
     public void resetTambahBarang(){        
         model.resetTambahBarang();
     }
-    public void insertBarang(TambahBarangView2 view){
+    public void insertBarang(TambahBarangViewBarangBesar view){
         String idbarang = view.getTxtIdBarang().getText();
         String idbarcode = view.getTxtIdBarcode().getText();
         String namaBarang = view.getCmbNamaBarang().getSelectedItem().toString();
@@ -38,6 +39,7 @@ public class tambahBarangController {
         String merek = view.getCmbMerek().getSelectedItem().toString();
         String hargaModal = view.getTxtHargaModal().getText();
         String grosir = view.getTxtHargaGrosir().getText();
+        String grosir2 = view.getTxtHargaGrosir2().getText();
         String  eceran = view.getTxtHargaEceran().getText();
         int stok = view.getJsStok().getValue();
         int stokMinimum = view.getJsstokMin().getValue();
@@ -91,6 +93,7 @@ public class tambahBarangController {
             model.setHargaModal(Integer.parseInt(hargaModal));            
             model.setEceran(Integer.parseInt(eceran));
             model.setGrosir(Integer.parseInt(grosir));
+            model.setGrosir2(Integer.parseInt(grosir2));
             model.setStok(stok);
             model.setStokMinimum(stokMinimum);
             model.setSupplier(supplier);

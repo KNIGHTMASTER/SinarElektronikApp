@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.transfer.barangbesar.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.util.FormatRupiah;
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.transfer.barangbesar.controller.penjualanController;
@@ -489,7 +490,7 @@ public class JIFTransferBB extends javax.swing.JInternalFrame implements penjual
             Logger.getLogger(JIFTransferBB.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            connection = DriverManager.getConnection("jdbc:mysql://"+ip1.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (SQLException ex) {
             Logger.getLogger(JIFTransferBB.class.getName()).log(Level.SEVERE, null, ex);
         }

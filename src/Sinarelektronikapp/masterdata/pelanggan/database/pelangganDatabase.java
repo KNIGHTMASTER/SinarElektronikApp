@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.pelanggan.database;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.masterdata.pelanggan.service.impl.pelangganDaoImpl;
 import Sinarelektronikapp.masterdata.pelanggan.service.pelangganDao;
@@ -27,7 +28,7 @@ public class pelangganDatabase {
             MysqlDataSource dataSource=new MysqlDataSource();
             dataSource.setUrl("jdbc:mysql://"+ip1.getIpServer()+":3306/sinarelektronik");
             dataSource.setUser("root");
-            dataSource.setPassword("5430trisin9");
+            dataSource.setPassword(AppConstant.DB_PASSWORD);
             connection = dataSource.getConnection();
         }
         return connection;

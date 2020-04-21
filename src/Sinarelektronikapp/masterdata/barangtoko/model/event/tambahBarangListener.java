@@ -6,7 +6,7 @@ package Sinarelektronikapp.masterdata.barangtoko.model.event;
 
 import Sinarelektronikapp.masterdata.barangbesar.entity.barang;
 
-import Sinarelektronikapp.masterdata.tambahbarang.besar.model.tambahBarangModel;
+import Sinarelektronikapp.masterdata.tambahbarang.besar.model.TambahBarangBesarModel;
 
 /**
  *
@@ -14,7 +14,7 @@ import Sinarelektronikapp.masterdata.tambahbarang.besar.model.tambahBarangModel;
  */
 public interface tambahBarangListener {
     
-    public void onChange(tambahBarangModel model);
+    public void onChange(TambahBarangBesarModel model);
     
     public void onInsert(barang barang);
     

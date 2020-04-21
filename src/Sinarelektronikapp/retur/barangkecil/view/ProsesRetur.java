@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.retur.barangkecil.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import Sinarelektronikapp.masterdata.barangkecil.controller.BarangController;
 import Sinarelektronikapp.masterdata.barangkecil.database.barangDatabase;
@@ -148,7 +149,7 @@ public class ProsesRetur extends javax.swing.JPanel implements barangListener{
             Logger.getLogger(ProsesRetur.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (SQLException ex) {
             Logger.getLogger(ProsesRetur.class.getName()).log(Level.SEVERE, null, ex);
         }

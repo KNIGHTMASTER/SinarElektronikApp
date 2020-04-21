@@ -590,7 +590,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
       <SubComponents>
-        <Component class="Sinarelektronikapp.masterdata.tambahbarang.besar.view.TambahBarangView2" name="tambahBarangView1">
+        <Component class="Sinarelektronikapp.masterdata.tambahbarang.besar.view.TambahBarangViewBarangBesar" name="tambahBarangView1">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
               <BorderConstraints direction="Center"/>

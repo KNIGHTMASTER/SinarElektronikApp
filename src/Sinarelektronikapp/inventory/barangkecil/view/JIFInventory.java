@@ -1,5 +1,6 @@
 package Sinarelektronikapp.inventory.barangkecil.view;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.util.FormatRupiah;
 import Sinarelektronikapp.util.InputHarusAngka;
 import Sinarelektronikapp.util.Waktu;
@@ -1512,7 +1513,7 @@ public class JIFInventory extends javax.swing.JInternalFrame implements barangLi
             Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            c = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         } catch (SQLException ex) {
             Logger.getLogger(JIFInventory.class.getName()).log(Level.SEVERE, null, ex);
         }

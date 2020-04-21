@@ -4,6 +4,7 @@
  */
 package Sinarelektronikapp.masterdata.report.core;
 
+import Sinarelektronikapp.AppConstant;
 import Sinarelektronikapp.config.InternetProtocol;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -46,7 +47,7 @@ public class Report {
     public void koneksi(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", "5430trisin9");
+            conn = DriverManager.getConnection("jdbc:mysql://"+ip.getIpServer()+"/sinarelektronik?;", "root", AppConstant.DB_PASSWORD);
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "error pada koneksi report karena = "+e);
         }
