@@ -77,7 +77,7 @@ public class BarangDaoImpl implements BarangDao{
     
     final String sortByket = "SELECT * FROM barangbesar order by keterangan";
 
-    final String selectAll = "SELECT * FROM barangbesar order by namabarang";
+    final String selectAll = "SELECT * FROM barangbesar order by namabarang limit 250";
     
     final String getLastId = "SELECT COUNT(idbarang) total from barangbesar";
     
