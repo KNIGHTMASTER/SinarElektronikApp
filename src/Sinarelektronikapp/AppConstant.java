@@ -6,6 +6,6 @@ package Sinarelektronikapp;
  */
 public interface AppConstant {
 
-    String CONFIG_PASSWORD = "seAppAppConstant.DB_PASSWORD";
+    String CONFIG_PASSWORD = "seApp5430Trisin9";
     String DB_PASSWORD = "5430trisin9";
 }
